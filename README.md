@@ -13,10 +13,18 @@ idea of doing a git pull and having the same system on my PC and the laptop.
 
 ## Getting Started
 
+0. Use `nix-shell` to install git momentarily
+
+```bash
+nix-shell -p git
+```
+
 1. Clone the repository to your home directory
 
 ```bash
 git clone https://github.com/sakuexe/nixos ~/nixos
+# exit the nix shell
+exit
 ```
 
 2. Remove the `/etc/nixos` -directory
