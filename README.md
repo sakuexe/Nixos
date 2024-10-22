@@ -1,3 +1,16 @@
+# My Nixos Configuration files
+
+I became Nix-curious so I decided to try it out. There is no telling yet on how
+long I will keep at it, so we will see.
+
+NixOS is a declarative and very innovative Linux distro that allows for system
+configurations to be made using the Nix language. This way you will be able to
+build the system settings once and run them in all of your systems.
+
+The code based system management piqued my interest and here we are. I loved the
+idea of doing a git pull and having the same system on my PC and the laptop.
+
+
 ## Getting Started
 
 1. Clone the repository to your home directory
@@ -32,3 +45,12 @@ nixos-generate-configuration
 ```bash
 sudo nixos-rebuild switch
 ```
+
+
+## To-Try
+
+- [Home Manager](https://github.com/nix-community/home-manager) Home folder
+and dotfiles manager using Nix. To make software configuration declarative.
+
+- [plasma-manager](https://github.com/nix-community/plasma-manager). Home Manager
+modules for configuring the KDE Plasma settings using Nix.
