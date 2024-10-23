@@ -13,13 +13,13 @@ idea of doing a git pull and having the same system on my PC and the laptop.
 
 ## Getting Started
 
-0. Use `nix-shell` to install git momentarily
+0. Use `nix-shell` to install git momentarily, if you do not have git already
 
 ```bash
 nix-shell -p git
 ```
 
-1. Clone the repository to your home directory
+1. Clone the repository to your home directory (or wherever)
 
 ```bash
 git clone https://github.com/sakuexe/nixos ~/nixos
@@ -27,31 +27,18 @@ git clone https://github.com/sakuexe/nixos ~/nixos
 exit
 ```
 
-2. Remove the `/etc/nixos` -directory
+2. Copy the `hardware-configuration` -file
+
+This will overwrite the hardware file as well that is in there by default
 
 ```bash
-# backup the original just in case
-sudo cp -r /etc/nixos ~/nixos-backup
-# remove
-sudo rm -rf /etc/nixos
+cp /etc/nixos/hardware-configuration.nix ~/nixos
 ```
 
-3. Create a symbolic link to `/etc/nixos`
+3. Rebuild the system
 
 ```bash
-sudo ln -s ~/nixos /etc/nixos
-```
-
-4. Rebuild the `hardware-configuration`-file
-
-```bash
-nixos-generate-config
-```
-
-5. Rebuild the system
-
-```bash
-sudo nixos-rebuild switch
+sudo nixos-rebuild switch --flake ~/nixos#vm-nix
 ```
 
 
