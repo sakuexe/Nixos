@@ -45,7 +45,7 @@ sudo ln -s ~/nixos /etc/nixos
 4. Rebuild the `hardware-configuration`-file
 
 ```bash
-nixos-generate-configuration
+nixos-generate-config
 ```
 
 5. Rebuild the system
