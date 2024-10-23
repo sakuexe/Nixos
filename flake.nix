@@ -1,9 +1,8 @@
 {
-  description = "A simple NixOS flake";
+  description = "My Home Flake";
 
   inputs = {
-    # NixOS official package source, using the nixos-23.11 branch here
-    nixpkgs.url = "github:NixOS/nixpkgs/";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {
