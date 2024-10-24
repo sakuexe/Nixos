@@ -49,6 +49,12 @@
     # nvidia-smi # nvidia overview
     pciutils # lspci
     usbutils # lsusb
+
+    # neovim dependencies
+    nodejs_22
+    gcc9
+    gnumake
+    xclip
   ];
 
   # basic configuration of git, please change to your own
@@ -61,16 +67,6 @@
   # alacritty - a cross-platform, GPU-accelerated terminal emulator
   programs.alacritty = {
     enable = true;
-    # custom settings
-    settings = {
-      env.TERM = "xterm-256color";
-      font = {
-        size = 12;
-        draw_bold_text_with_bright_colors = true;
-      };
-      scrolling.multiplier = 5;
-      selection.save_to_clipboard = true;
-    };
   };
 
   programs.bash = {
@@ -88,6 +84,13 @@
       l = "ls -F --color=auto";
       vi = "nvim";
     };
+  };
+
+  # xdg.configHome == ~/.config
+  # xdg.dataHome == ~/.local/share
+  home.file."${config.xdg.configHome}" = {
+    source = ./.dotfiles;
+    recursive = true;
   };
 
   # This value determines the home Manager release that your
