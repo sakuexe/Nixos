@@ -22,7 +22,7 @@ nix-shell -p git
 1. Clone the repository to your home directory (or wherever)
 
 ```bash
-git clone https://github.com/sakuexe/nixos ~/nixos
+git clone --recurse-submodules -j8 https://github.com/sakuexe/nixos ~/nixos
 # exit the nix shell
 exit
 ```
@@ -41,6 +41,12 @@ cp /etc/nixos/hardware-configuration.nix ~/nixos
 sudo nixos-rebuild switch --flake ~/nixos#vm-nix
 ```
 
+4. If you need to do changes in the `.dotfiles`, use git checkout.
+
+```bash
+cd ~/nixos/.dotfiles
+git checkout main
+```
 
 ## To-Try
 
