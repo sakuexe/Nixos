@@ -68,7 +68,7 @@
     xclip
 
     # tmux plugins
-    vimPlugins.vim-tmux-navigator
+    tmuxPlugins.vim-tmux-navigator
     tmuxPlugins.sensible
     tmuxPlugins.yank
   ];
