@@ -99,10 +99,8 @@
     isNormalUser = true;
     description = "Saku Karttunen";
     extraGroups = [ "networkmanager" "wheel" ];
-    # user specific packages
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
+    shell = pkgs.zsh;
+    useDefaultShell = true;
   };
 
   # Define custom groups
@@ -131,12 +129,19 @@
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
 
+  # zsh
+  programs.zsh.enable = true;
+  programs.zsh.enableCompletion = true;
+  programs.zsh.syntaxHighlighting.enable = true;
+  programs.zsh.autosuggestions.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty
     git
     fastfetch
+    tmux
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

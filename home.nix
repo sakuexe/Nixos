@@ -12,6 +12,10 @@
     recursive = true;
   };
 
+  home.file.".zshenv".source = ./.dotfiles/zsh/.zshenv;
+
+  # add symlinks to .config
+
   # link the configuration file in current directory to the specified location in home directory
   # home.file.".config/i3/wallpaper.jpg".source = ./wallpaper.jpg;
 
@@ -62,6 +66,11 @@
     gcc9
     gnumake
     xclip
+
+    # tmux plugins
+    vimPlugins.vim-tmux-navigator
+    tmuxPlugins.sensible
+    tmuxPlugins.yank
   ];
 
   # basic configuration of git, please change to your own
