@@ -15,6 +15,9 @@
   boot.loader.grub.device = "/dev/vda";
   boot.loader.grub.useOSProber = true;
 
+  # Tmpfs
+  boot.tmp.useTmpfs = true;
+
   networking.hostName = "vm-nix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -41,6 +44,16 @@
     LC_PAPER = "fi_FI.UTF-8";
     LC_TELEPHONE = "fi_FI.UTF-8";
     LC_TIME = "fi_FI.UTF-8";
+  };
+
+  # Fonts
+  # https://nixos.wiki/wiki/Fonts
+  fonts.packages = with pkgs; [
+    fira-code-nerdfont
+  ];
+
+  fonts.fontconfig.defaultFonts = {
+    monospace = [ "Fira Code NF" ];
   };
 
   # Enable the X11 windowing system.
@@ -85,16 +98,31 @@
   users.users.sakuk = {
     isNormalUser = true;
     description = "Saku Karttunen";
-    extraGroups = [ "networkmanager" "wheel" "ringtails" ];
+    extraGroups = [ "networkmanager" "wheel" ];
     # user specific packages
     packages = with pkgs; [
       kdePackages.kate
     ];
   };
 
+  # Define custom groups
+  users.groups.ringtails = {};
+  users.groups.ringtails.members = [ "sakuk" ];
+
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "sakuk";
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  # Enable flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  
+  # Nix garbage collection - every week remove files older than 7d
+  nix.gc.automatic = true;
+  nix.gc.dates = "weekly";
+  nix.gc.options = "--delete-older-than 7d";
   
   # Install firefox.
   programs.firefox.enable = true;
@@ -102,13 +130,6 @@
   # Install neovim and use it as the default editor
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

@@ -5,6 +5,13 @@
   home.username = "sakuk";
   home.homeDirectory = "/home/sakuk";
 
+  # xdg.configHome == ~/.config
+  # xdg.dataHome == ~/.local/share
+  home.file."${config.xdg.configHome}" = {
+    source = ./.dotfiles;
+    recursive = true;
+  };
+
   # link the configuration file in current directory to the specified location in home directory
   # home.file.".config/i3/wallpaper.jpg".source = ./wallpaper.jpg;
 
@@ -84,13 +91,6 @@
       l = "ls -F --color=auto";
       vi = "nvim";
     };
-  };
-
-  # xdg.configHome == ~/.config
-  # xdg.dataHome == ~/.local/share
-  home.file."${config.xdg.configHome}" = {
-    source = ./.dotfiles;
-    recursive = true;
   };
 
   # This value determines the home Manager release that your
