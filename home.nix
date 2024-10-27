@@ -48,6 +48,12 @@
     tree
     glow # markdown previewer in terminal
 
+    # programming languages and etc
+    go
+    python3
+    nodejs_22
+    cargo # for now, used for nix lsp
+
     # nix related
     # it provides the command `nom` works just like `nix`
     # with more details log output
@@ -60,7 +66,6 @@
     usbutils # lsusb
 
     # neovim dependencies
-    nodejs_22
     gcc9
     gnumake
     xclip
