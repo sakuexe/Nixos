@@ -12,8 +12,6 @@
     recursive = true;
   };
 
-  home.file.".zshenv".source = ./.dotfiles/zsh/.zshenv;
-
   # add symlinks to .config
 
   # link the configuration file in current directory to the specified location in home directory
@@ -84,15 +82,16 @@
     enable = true;
   };
 
+  #home.file.".zshenv".source = ./.dotfiles/zsh/.zshenv;
+  programs.zsh.dotDir = ".config/zsh";
+
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    # TODO add your custom bashrc here
     bashrcExtra = ''
       export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
     '';
 
-    # set some aliases, feel free to add more or remove some
     shellAliases = {
       la = "ls -laFh --color=auto";
       ll = "ls -lhpg --color=auto";

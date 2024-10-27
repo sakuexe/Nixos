@@ -134,6 +134,10 @@
   programs.zsh.enableCompletion = true;
   programs.zsh.syntaxHighlighting.enable = true;
   programs.zsh.autosuggestions.enable = true;
+  programs.zsh.shellAliases = {
+    # nixos specific aliases
+    rebuild = "sudo nixos-rebuild switch --flake ~/nixos\\?submodules=1";
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
