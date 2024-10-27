@@ -12,6 +12,8 @@
     recursive = true;
   };
 
+  home.file.".zshenv".source = ./.dotfiles/zsh/.zshenv;
+
   # add symlinks to .config
 
   # link the configuration file in current directory to the specified location in home directory
@@ -73,6 +75,9 @@
     # tmux plugins
     tmuxPlugins.sensible
     tmuxPlugins.yank
+
+    # prompt (zsh/bash)
+    oh-my-posh
   ];
 
   # basic configuration of git, please change to your own
@@ -86,9 +91,6 @@
   programs.alacritty = {
     enable = true;
   };
-
-  #home.file.".zshenv".source = ./.dotfiles/zsh/.zshenv;
-  programs.zsh.dotDir = ".config/zsh";
 
   programs.bash = {
     enable = true;
