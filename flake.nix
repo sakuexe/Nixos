@@ -13,20 +13,36 @@
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+
+    # laptop
+    nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ./machines/laptop/configuration.nix
+
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+
+          home-manager.users.sakuk = import ./home.nix;
+        }
+      ];
+    };
+
+    # virtual machines
     nixosConfigurations.vm-nix = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        # Import the previous configuration.nix we used,
-        # so the old configuration file still takes effect
-        ./configuration.nix
+        ./machines/vm/configuration.nix
 
-	home-manager.nixosModules.home-manager
-	{
-	  home-manager.useGlobalPkgs = true;
-	  home-manager.useUserPackages = true;
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
 
-	  home-manager.users.sakuk = import ./home.nix;
-	}
+          home-manager.users.sakuk = import ./home.nix;
+        }
       ];
     };
   };
