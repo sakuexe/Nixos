@@ -37,14 +37,31 @@ cp /etc/nixos/hardware-configuration.nix ~/nixos
 
 3. Rebuild the system
 
-You have to use `?submodules=1` for now, until I find a way to use
-fetch my dotfiles without a git submodule
+On the first build, you need to use this long ass command. You have to choose
+which version you would like to use too.
+
+Possible versions:
+
+- Virtual Machine
+- Laptop
 
 ```bash
-sudo nixos-rebuild switch --flake ~/nixos#vm-nix?submodules=1
+# building the vm version
+sudo nixos-rebuild switch --flake ~/nixos?submodules=1#vm-nix
+# building the laptop version
+sudo nixos-rebuild switch --flake ~/nixos?submodules=1#laptop
+
+# reboot the machine afterwards
+sudo reboot
 ```
 
-4. If you need to do changes in the `.dotfiles`, use git checkout.
+After you have rebuilt and rebooted, you can just start using the `rebuild` alias.
+
+```bash
+rebuild
+```
+
+4. To be able to push changes to the `.dotfiles`, use git checkout.
 
 ```bash
 cd ~/nixos/.dotfiles
