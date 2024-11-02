@@ -111,7 +111,13 @@
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = ["qemu:///system"];
       uris = ["qemu:///system"];
-    };
+  };
+
+  # TODO: look into this more
+  # https://github.com/nix-community/plasma-manager/blob/trunk/examples/home.nix
+  programs.plasma = {
+    enable = true;
+    workspace.wallpaper = ./assets/dark_leaves_wp.jpg;
   };
 
   # This value determines the home Manager release that your

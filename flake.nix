@@ -4,17 +4,25 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       # use the follows attribute to use the same dependencies as nixpkgs
       # this way there wont be unnecessary duplications and inconsistensies
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, plasma-manager, disko, ... }@inputs: {
 
     # laptop
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
@@ -42,6 +50,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
 
           home-manager.users.sakuk = import ./home.nix;
         }

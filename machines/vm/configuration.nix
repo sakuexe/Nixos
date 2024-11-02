@@ -90,6 +90,10 @@
     #media-session.enable = true;
   };
 
+  # Guest Agent - Paravirtualization
+  services.qemuGuest.enable = true;
+  services.spice-vdagentd.enable = true;
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -133,6 +137,11 @@
   programs.zsh.shellAliases = {
     # nixos specific aliases
     rebuild = "sudo nixos-rebuild switch --flake ~/nixos\\?submodules=1";
+    # snapper
+    # https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-snapper.html#proc-snapper-restore-cmdl
+    snapperls = "sudo snapper -c home list";
+    snapperstatus = "sudo snapper -c home status $1..0";
+    recover = "sudo snapper -c home -v undochange $1..0 $2";
   };
 
   # snapper
