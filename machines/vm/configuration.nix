@@ -113,9 +113,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
   # Nix garbage collection - every week remove files older than 7d
   nix.gc.automatic = true;
   nix.gc.dates = "weekly";
@@ -143,6 +140,7 @@
   services.snapper.snapshotInterval = "hourly";
   services.snapper.cleanupInterval = "1d";
   # create the .snapshot subvolumes (snapper doesn't do this automatically)
+  # https://www.mankier.com/5/tmpfiles.d
   systemd.tmpfiles.rules = [ 
     "v /home/.snapshots 0700 root root -" 
   ];
@@ -192,6 +190,9 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  # Enable flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
