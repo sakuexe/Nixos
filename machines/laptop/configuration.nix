@@ -100,7 +100,7 @@
   users.users.sakuk = {
     isNormalUser = true;
     description = "Saku Karttunen";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
     shell = pkgs.zsh;
     useDefaultShell = true;
   };
@@ -136,6 +136,11 @@
     # nixos specific aliases
     rebuild = "sudo nixos-rebuild switch --flake ~/nixos\\?submodules=1";
   };
+
+  # virtualization
+  # https://nixos.wiki/wiki/Virt-manager
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
