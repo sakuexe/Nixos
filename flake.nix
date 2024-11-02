@@ -10,6 +10,8 @@
       # this way there wont be unnecessary duplications and inconsistensies
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
@@ -43,6 +45,8 @@
 
           home-manager.users.sakuk = import ./home.nix;
         }
+
+        inputs.disko.nixosModules.disko
       ];
     };
   };
