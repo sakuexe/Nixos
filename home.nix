@@ -111,6 +111,7 @@
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = ["qemu:///system"];
       uris = ["qemu:///system"];
+    };
   };
 
   # TODO: look into this more
