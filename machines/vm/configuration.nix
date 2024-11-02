@@ -2,11 +2,11 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, disko, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
       ./disk-config.nix
     ];
@@ -139,6 +139,7 @@
   };
 
   # snapper
+  # https://git.eisfunke.com/config/nixos/-/blob/fdb9668693f270ca6c32d2ed95b19111f31dc134/nixos/snapshots.nix
   services.snapper.snapshotInterval = "hourly";
   services.snapper.cleanupInterval = "1d";
   # create the .snapshot subvolumes (snapper doesn't do this automatically)

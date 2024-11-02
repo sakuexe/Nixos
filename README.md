@@ -10,10 +10,10 @@ build the system settings once and run them in all of your systems.
 The code based system management piqued my interest and here we are. I loved the
 idea of doing a git pull and having the same system on my PC and the laptop.
 
+For a fresh install of NixOS, follow [disko quickstart guide](https://github.com/nix-community/disko/blob/master/docs/quickstart.md)
+for easy btrfs subvolume configurations.
 
 ## Getting Started
-
-### On a ready install
 
 0. Use `nix-shell` to install git momentarily, if you do not have git already
 

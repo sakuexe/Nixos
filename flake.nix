@@ -14,7 +14,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, disko, ... }@inputs: {
 
     # laptop
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
@@ -46,7 +46,7 @@
           home-manager.users.sakuk = import ./home.nix;
         }
 
-        inputs.disko.nixosModules.disko
+        disko.nixosModules.disko
       ];
     };
   };
