@@ -138,6 +138,32 @@
     rebuild = "sudo nixos-rebuild switch --flake ~/nixos\\?submodules=1";
   };
 
+  # snapper
+  services.snapper.snapshotInterval = "hourly";
+  services.snapper.cleanupInterval = "1d";
+  # create the .snapshot subvolumes (snapper doesn't do this automatically)
+  systemd.tmpfiles.rules = [ 
+    "v /home/.snapshots 0700 root root -" 
+  ];
+  services.snapper.configs.home = {
+    SUBVOLUME = "/home";
+    TIMELINE_CREATE = true;
+    TIMELINE_CLEANUP = true;
+    # how many snapshots will be kept
+    TIMELINE_LIMIT_HOURLY = "10";
+    TIMELINE_LIMIT_DAILY = "7";
+    TIMELINE_LIMIT_WEEKLY = "2";
+    TIMELINE_LIMIT_MONTHLY = "0";
+    TIMELINE_LIMIT_YEARLY = "0";
+    BACKGROUND_COMPARISON = "yes";
+    NUMBER_CLEANUP = "no";
+    NUMBER_MIN_AGE = "1800";
+    NUMBER_LIMIT = "50";
+    NUMBER_LIMIT_IMPORTANT = "10";
+    EMPTY_PRE_POST_CLEANUP = "yes";
+    EMPTY_PRE_POST_MIN_AGE = "1800";
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
