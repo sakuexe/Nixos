@@ -17,9 +17,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, home-manager, plasma-manager, disko, ... }@inputs: {
@@ -54,8 +51,6 @@
 
           home-manager.users.sakuk = import ./home.nix;
         }
-
-        disko.nixosModules.disko
       ];
     };
   };
