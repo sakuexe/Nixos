@@ -79,11 +79,6 @@
   # Enable Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  hardware.bluetooth.settings = {
-    General = {
-      Disable = "Headset";
-    };
-  };
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -99,6 +94,13 @@
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
+  };
+  # disable hsp/hfp and a2dp mode switching (automatically using headset microphone)
+  # https://wiki.nixos.org/wiki/PipeWire
+  services.pipewire.wireplumber.extraConfig."11-bluetooth-policy" = {
+    "wireplumber.settings" = {
+      "bluetooth.autoswitch-to-headset-profile" = false;
+    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
