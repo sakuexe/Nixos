@@ -21,6 +21,23 @@
 
   outputs = { self, nixpkgs, home-manager, plasma-manager, disko, ... }@inputs: {
 
+    # desktop pc
+    nixosConfigurations.ringtail = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ./machines/desktop/configuration.nix
+
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+
+          home-manager.users.sakuk = import ./home.nix;
+        }
+      ];
+    };
+
     # laptop
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
