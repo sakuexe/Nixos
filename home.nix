@@ -81,6 +81,9 @@
 
     # prompt (zsh/bash)
     oh-my-posh
+
+    # configure keyboard
+    keymapp
   ];
 
   # basic configuration of git, please change to your own

@@ -79,6 +79,11 @@
   # Enable Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+  hardware.bluetooth.settings = {
+    General = {
+      Disable = "Headset";
+    };
+  };
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -154,6 +159,12 @@
   programs.zsh.shellAliases = {
     # nixos specific aliases
     rebuild = "sudo nixos-rebuild switch --flake ~/Nixos\\?submodules=1";
+    # snapper
+    # https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-snapper.html#proc-snapper-restore-cmdl
+    snapperls = "sudo snapper -c home list";
+    snapperstatus = "sudo snapper -c home status $(sudo snapper -c home list | awk 'NR>2 {print $1}' | tail -n 1)..0";
+    # this one does not work yet, fix it later
+    recover = "sudo snapper -c home -v undochange $(echo $1)..0 $2";
   };
 
   # snapper
