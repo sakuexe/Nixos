@@ -54,6 +54,11 @@
       options = [ "subvol=@var/log" "compress=zstd" "noatime" ];
     };
 
+  fileSystems."/home/sakuk/Storage" =
+    { device = "/dev/disk/by-uuid/6f15d52b-0caa-4564-a8cb-b04efab75935";
+      fsType = "xfs";
+    };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/8da89765-3de0-4f69-8bba-8e54af01c752"; }
     ];
