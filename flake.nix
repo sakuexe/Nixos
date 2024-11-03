@@ -19,7 +19,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, plasma-manager, disko, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, plasma-manager, ... }@inputs: {
 
     # desktop pc
     nixosConfigurations.ringtail = nixpkgs.lib.nixosSystem {

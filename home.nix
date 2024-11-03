@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # TODO please change the username & home directory to your own
@@ -9,31 +9,13 @@
   # xdg.dataHome == ~/.local/share
 
   # https://mynixos.com/options/xdg.configFile.%3Cname%3E
-  xdg.configFile = {
-    nvim = {
-      source = config.lib.file.mkOutOfStoreSymlink ./.dotfiles/nvim;
-      recursive = true;
-    };
-    tmux = {
-      source = config.lib.file.mkOutOfStoreSymlink ./.dotfiles/tmux;
-      recursive = true;
-    };
-    zsh = {
-      source = config.lib.file.mkOutOfStoreSymlink ./.dotfiles/zsh;
-      recursive = true;
-    };
-    omp = {
-      source = config.lib.file.mkOutOfStoreSymlink ./.dotfiles/omp;
-      recursive = true;
-    };
-    alacritty = {
-      source = config.lib.file.mkOutOfStoreSymlink ./.dotfiles/alacritty;
-      recursive = true;
-    };
+  home.file."${config.xdg.configHome}" = {
+    source = ./.dotfiles;
+    recursive = true;
   };
 
   # add .zshenv to home, it works as an entrypoint to zsh config
-  home.file.".zshenv".source = config.lib.file.mkOutOfStoreSymlink ./.dotfiles/zsh/.zshenv;
+  home.file.".zshenv".source = ./.dotfiles/zsh/.zshenv;
 
   # add symlinks to .config
 

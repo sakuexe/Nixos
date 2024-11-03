@@ -108,6 +108,10 @@
   users.groups.ringtails = {};
   users.groups.ringtails.members = [ "sakuk" ];
 
+  # Enable automatic login for the user.
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "sakuk";
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -145,13 +149,41 @@
   programs.zsh.autosuggestions.enable = true;
   programs.zsh.shellAliases = {
     # nixos specific aliases
-    rebuild = "sudo nixos-rebuild switch --flake ~/nixos\\?submodules=1";
+    rebuild = "sudo nixos-rebuild switch --flake ~/Nixos\\?submodules=1";
   };
 
   # virtualization
   # https://nixos.wiki/wiki/Virt-manager
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
+
+  # snapper
+  # https://git.eisfunke.com/config/nixos/-/blob/fdb9668693f270ca6c32d2ed95b19111f31dc134/nixos/snapshots.nix
+  services.snapper.snapshotInterval = "hourly";
+  services.snapper.cleanupInterval = "1d";
+  # create the .snapshot subvolumes (snapper doesn't do this automatically)
+  # https://www.mankier.com/5/tmpfiles.d
+  systemd.tmpfiles.rules = [ 
+    "v /home/.snapshots 0700 root root -" 
+  ];
+  services.snapper.configs.home = {
+    SUBVOLUME = "/home";
+    TIMELINE_CREATE = true;
+    TIMELINE_CLEANUP = true;
+    # how many snapshots will be kept
+    TIMELINE_LIMIT_HOURLY = "10";
+    TIMELINE_LIMIT_DAILY = "7";
+    TIMELINE_LIMIT_WEEKLY = "2";
+    TIMELINE_LIMIT_MONTHLY = "0";
+    TIMELINE_LIMIT_YEARLY = "0";
+    BACKGROUND_COMPARISON = "yes";
+    NUMBER_CLEANUP = "no";
+    NUMBER_MIN_AGE = "1800";
+    NUMBER_LIMIT = "50";
+    NUMBER_LIMIT_IMPORTANT = "10";
+    EMPTY_PRE_POST_CLEANUP = "yes";
+    EMPTY_PRE_POST_MIN_AGE = "1800";
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
