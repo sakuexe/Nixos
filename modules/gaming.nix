@@ -3,7 +3,9 @@
 {
   environment.systemPackages = with pkgs; [
     heroic
+    discord
     betterdiscordctl
+    space-cadet-pinball
   ];
   
   # steam

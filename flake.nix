@@ -27,6 +27,7 @@
       modules = [
         ./machines/desktop/configuration.nix
         ./modules/gaming.nix
+        ./modules/entertainment.nix
 
         home-manager.nixosModules.home-manager
         {
@@ -60,6 +61,7 @@
       system = "x86_64-linux";
       modules = [
         ./machines/vm/configuration.nix
+        ./modules/entertainment.nix
 
         home-manager.nixosModules.home-manager
         {
