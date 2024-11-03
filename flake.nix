@@ -26,6 +26,7 @@
       system = "x86_64-linux";
       modules = [
         ./machines/desktop/configuration.nix
+        ./modules/gaming.nix
 
         home-manager.nixosModules.home-manager
         {
