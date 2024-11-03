@@ -137,11 +137,6 @@
     rebuild = "sudo nixos-rebuild switch --flake ~/nixos\\?submodules=1";
   };
 
-  # virtualization
-  # https://nixos.wiki/wiki/Virt-manager
-  virtualisation.libvirtd.enable = true;
-  programs.virt-manager.enable = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [

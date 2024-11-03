@@ -28,6 +28,7 @@
         ./machines/desktop/configuration.nix
         ./modules/gaming.nix
         ./modules/entertainment.nix
+        ./modules/virtualization.nix
 
         home-manager.nixosModules.home-manager
         {
@@ -45,6 +46,7 @@
       system = "x86_64-linux";
       modules = [
         ./machines/laptop/configuration.nix
+        ./modules/virtualization.nix
 
         home-manager.nixosModules.home-manager
         {

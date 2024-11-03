@@ -156,11 +156,6 @@
     rebuild = "sudo nixos-rebuild switch --flake ~/Nixos\\?submodules=1";
   };
 
-  # virtualization
-  # https://nixos.wiki/wiki/Virt-manager
-  virtualisation.libvirtd.enable = true;
-  programs.virt-manager.enable = true;
-
   # snapper
   # https://git.eisfunke.com/config/nixos/-/blob/fdb9668693f270ca6c32d2ed95b19111f31dc134/nixos/snapshots.nix
   services.snapper.snapshotInterval = "hourly";
