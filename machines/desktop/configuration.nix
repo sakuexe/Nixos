@@ -160,7 +160,7 @@
   programs.zsh.autosuggestions.enable = true;
   programs.zsh.shellAliases = {
     # nixos specific aliases
-    rebuild = "sudo nixos-rebuild switch --flake ~/Nixos\\?submodules=1";
+    rebuild = "sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1";
     # snapper
     # https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-snapper.html#proc-snapper-restore-cmdl
     snapperls = "sudo snapper -c home list";

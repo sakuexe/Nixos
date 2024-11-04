@@ -9,9 +9,27 @@
   # xdg.dataHome == ~/.local/share
 
   # https://mynixos.com/options/xdg.configFile.%3Cname%3E
-  home.file."${config.xdg.configHome}" = {
-    source = ./.dotfiles;
-    recursive = true;
+  xdg.configFile = {
+    nvim = {
+      source = config.lib.file.mkOutOfStoreSymlink /home/sakuk/Nixos/.dotfiles/nvim;
+      recursive = true;
+    };
+    tmux = {
+      source = config.lib.file.mkOutOfStoreSymlink /home/sakuk/Nixos/.dotfiles/tmux;
+      recursive = true;
+    };
+    zsh = {
+      source = config.lib.file.mkOutOfStoreSymlink /home/sakuk/Nixos/.dotfiles/zsh;
+      recursive = true;
+    };
+    omp = {
+      source = config.lib.file.mkOutOfStoreSymlink /home/sakuk/Nixos/.dotfiles/omp;
+      recursive = true;
+    };
+    alacritty = {
+      source = config.lib.file.mkOutOfStoreSymlink /home/sakuk/Nixos/.dotfiles/alacritty;
+      recursive = true;
+    };
   };
 
   # add .zshenv to home, it works as an entrypoint to zsh config
