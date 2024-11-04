@@ -1,9 +1,13 @@
 { config, pkgs, lib, ... }:
 
+let
+  username = "sakuk";
+  dotfiles = "/home/${username}/Nixos/.dotfiles";
+in
 {
   # TODO please change the username & home directory to your own
-  home.username = "sakuk";
-  home.homeDirectory = "/home/sakuk";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
 
   # xdg.configHome == ~/.config
   # xdg.dataHome == ~/.local/share
@@ -11,23 +15,23 @@
   # https://mynixos.com/options/xdg.configFile.%3Cname%3E
   xdg.configFile = {
     nvim = {
-      source = config.lib.file.mkOutOfStoreSymlink /home/sakuk/Nixos/.dotfiles/nvim;
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/nvim";
       recursive = true;
     };
     tmux = {
-      source = config.lib.file.mkOutOfStoreSymlink /home/sakuk/Nixos/.dotfiles/tmux;
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/tmux";
       recursive = true;
     };
     zsh = {
-      source = config.lib.file.mkOutOfStoreSymlink /home/sakuk/Nixos/.dotfiles/zsh;
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/zsh";
       recursive = true;
     };
     omp = {
-      source = config.lib.file.mkOutOfStoreSymlink /home/sakuk/Nixos/.dotfiles/omp;
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/omp";
       recursive = true;
     };
     alacritty = {
-      source = config.lib.file.mkOutOfStoreSymlink /home/sakuk/Nixos/.dotfiles/alacritty;
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/alacritty";
       recursive = true;
     };
   };
