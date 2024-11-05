@@ -80,6 +80,7 @@ in
     python3
     nodejs_22
     cargo # for now, used for nix lsp
+    sqlite
 
     # nix related
     # it provides the command `nom` works just like `nix`
@@ -106,6 +107,14 @@ in
 
     # configure keyboard
     keymapp
+
+    # office suite
+    libreoffice
+
+    # video & audio, editing and playing
+    vlc
+    audacity
+    kdePackages.kdenlive
   ];
 
   # basic configuration of git, please change to your own
