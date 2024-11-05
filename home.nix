@@ -111,7 +111,8 @@ in
     # office suite
     libreoffice
 
-    # video & audio, editing and playing
+    # video & audio
+    obs-studio
     vlc
     audacity
     kdePackages.kdenlive
