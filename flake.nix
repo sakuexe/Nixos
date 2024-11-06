@@ -2,19 +2,19 @@
   description = "My Home Flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       # use the follows attribute to use the same dependencies as nixpkgs
       # this way there wont be unnecessary duplications and inconsistensies
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
       inputs.home-manager.follows = "home-manager";
     };
   };
@@ -29,6 +29,7 @@
         ./modules/gaming.nix
         ./modules/entertainment.nix
         ./modules/virtualization.nix
+        ./modules/game_development.nix
 
         home-manager.nixosModules.home-manager
         {

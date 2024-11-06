@@ -81,7 +81,6 @@ in
     nodejs_22
     cargo # for now, used for nix lsp
     sqlite
-    unityhub # currently used in a school project
 
     # nix related
     # it provides the command `nom` works just like `nix`
