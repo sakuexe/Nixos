@@ -2,27 +2,27 @@
   description = "My Home Flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       # use the follows attribute to use the same dependencies as nixpkgs
       # this way there wont be unnecessary duplications and inconsistensies
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, plasma-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, plasma-manager, ... }@inputs: {
 
-    # desktop pc
-    nixosConfigurations.ringtail = nixpkgs.lib.nixosSystem {
+    # desktop pc - using the unstable branch of nixos
+    nixosConfigurations.ringtail = nixpkgs-unstable.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         ./machines/desktop/configuration.nix
