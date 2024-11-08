@@ -29,7 +29,6 @@
         ./modules/gaming.nix
         ./modules/entertainment.nix
         ./modules/virtualization.nix
-        ./modules/game_development.nix
 
         home-manager.nixosModules.home-manager
         {

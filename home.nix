@@ -108,6 +108,9 @@ in
     # configure keyboard
     keymapp
 
+    # chromium browser
+    brave
+
     # office suite
     libreoffice
 
