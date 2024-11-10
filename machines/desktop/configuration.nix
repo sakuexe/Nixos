@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, username, description, ... }:
 
 {
   imports =
@@ -107,9 +107,9 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.sakuk = {
+  users.users."${username}" = {
     isNormalUser = true;
-    description = "Saku Karttunen";
+    description = description;
     extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
     shell = pkgs.zsh;
     useDefaultShell = true;
@@ -117,18 +117,15 @@
 
   # Define custom groups
   users.groups.ringtails = {};
-  users.groups.ringtails.members = [ "sakuk" ];
+  users.groups.ringtails.members = [ username ];
 
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "sakuk";
+  services.displayManager.autoLogin.user = username;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
   # Nix garbage collection - every week remove files older than 7d
   nix.gc.automatic = true;
   nix.gc.dates = "daily";
@@ -228,6 +225,9 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  # Enable flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, username, description, ... }:
 
 {
   imports =
@@ -97,9 +97,9 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.sakuk = {
+  users.users."${username}" = {
     isNormalUser = true;
-    description = "Saku Karttunen";
+    description = description;
     extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
     shell = pkgs.zsh;
     useDefaultShell = true;
@@ -107,7 +107,7 @@
 
   # Define custom groups
   users.groups.ringtails = {};
-  users.groups.ringtails.members = [ "sakuk" ];
+  users.groups.ringtails.members = [ username ];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

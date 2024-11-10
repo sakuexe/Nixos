@@ -23,19 +23,30 @@
 
     # desktop pc - using the unstable branch of nixos
     nixosConfigurations.ringtail = nixpkgs-unstable.lib.nixosSystem {
+
       system = "x86_64-linux";
+      specialArgs = { 
+        username = "sakuk";
+        description = "Saku Karttunen"; 
+      };
+
       modules = [
+        # my own modules
+        ./machines/desktop/configuration.nix
         ./machines/desktop/configuration.nix
         ./modules/gaming.nix
         ./modules/entertainment.nix
         ./modules/virtualization.nix
+        ./modules/keyboard.nix
 
+        # home manager
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
 
+          # add username here too
           home-manager.users.sakuk = import ./home.nix;
         }
       ];
@@ -44,15 +55,22 @@
     # laptop
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = { 
+        username = "sakuk";
+        description = "Saku Karttunen"; 
+      };
+
       modules = [
         ./machines/laptop/configuration.nix
         ./modules/virtualization.nix
+        ./modules/keyboard.nix
 
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
 
+          # add username here too
           home-manager.users.sakuk = import ./home.nix;
         }
       ];
@@ -61,6 +79,11 @@
     # virtual machines
     nixosConfigurations.vm-nix = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = { 
+        username = "sakuk";
+        description = "Saku Karttunen"; 
+      };
+
       modules = [
         ./machines/vm/configuration.nix
         ./modules/entertainment.nix
@@ -71,6 +94,7 @@
           home-manager.useUserPackages = true;
           home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
 
+          # add username here too
           home-manager.users.sakuk = import ./home.nix;
         }
       ];
