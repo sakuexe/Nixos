@@ -159,7 +159,7 @@
   programs.zsh.shellAliases = {
     # nixos specific aliases
     rebuild = "sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1";
-    nixupdate = "sudo flake update ~/Nixos/";
+    nixupdate = "sudo nix flake update ~/Nixos/";
     # snapper
     # https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-snapper.html#proc-snapper-restore-cmdl
     snapperls = "sudo snapper -c home list";
