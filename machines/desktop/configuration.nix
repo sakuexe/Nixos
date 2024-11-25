@@ -204,6 +204,8 @@
     fastfetch
     tmux
     vscode
+    blender
+    wineWowPackages.stable
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
