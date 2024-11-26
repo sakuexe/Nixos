@@ -30,8 +30,13 @@ in
       source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/omp";
       recursive = true;
     };
+    # only on desktop environents
     alacritty = {
       source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/alacritty";
+      recursive = true;
+    };
+    conky = {
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/conky";
       recursive = true;
     };
   };
@@ -116,6 +121,9 @@ in
     vlc
     audacity
     kdePackages.kdenlive
+
+    # stylizing the desktop (rising)
+    conky
   ];
 
   # basic configuration of git, please change to your own
