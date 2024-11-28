@@ -10,13 +10,16 @@
       ./hardware-configuration.nix
     ];
 
-  # Bootloader.
-  # boot.loader.systemd-boot.enable = true;
+  # Bootloader. (using grub, because it's nice and keeps the generations tidy)
   boot.loader.grub.enable = true;
   boot.loader.grub.useOSProber = true;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.device = "nodev";
   boot.loader.efi.canTouchEfiVariables = true;
+  # enable tmpfs (ram based) to be mounted to /tmp
+  # nixos rebuilds use a lot of /tmp, so machines with small amounts of RAM can run into OOM errors
+  # boot.tmp.tmpfsSize = 50%; # by default
+  boot.tmp.useTmpfs = true;
 
   networking.hostName = "ringtail"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -103,9 +106,6 @@
     };
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."${username}" = {
     isNormalUser = true;
@@ -164,7 +164,7 @@
     # https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-snapper.html#proc-snapper-restore-cmdl
     snapperls = "sudo snapper -c home list";
     snapperstatus = "sudo snapper -c home status $(sudo snapper -c home list | awk 'NR>2 {print $1}' | tail -n 1)..0";
-    # this one does not work yet, fix it later
+    # TODO: this one does not work yet, fix it later
     recover = "sudo snapper -c home -v undochange $(echo $1)..0 $2";
   };
 
