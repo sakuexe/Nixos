@@ -77,6 +77,7 @@ in
     tree
     glow # markdown previewer in terminal
     pass # password-store
+    wl-clipboard
 
     # programming languages and etc
     go
