@@ -72,13 +72,11 @@ in
     jq # A lightweight and flexible command-line JSON processor
     fzf # A command-line fuzzy finder (the best util frfr)
 
-    # networking tools
-    nmap # A utility for network discovery and security auditing
-
     # misc
     cowsay
     tree
     glow # markdown previewer in terminal
+    pass # password-store
 
     # programming languages and etc
     go
@@ -97,6 +95,9 @@ in
     # nvidia-smi # nvidia overview
     pciutils # lspci
     usbutils # lsusb
+
+    # networking tools
+    nmap # A utility for network discovery and security auditing
 
     # neovim dependencies
     gcc9
@@ -122,7 +123,7 @@ in
     audacity
     kdePackages.kdenlive
 
-    # stylizing the desktop (rising)
+    # stylizing the desktop (ricing)
     conky
   ];
 

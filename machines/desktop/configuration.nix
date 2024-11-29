@@ -146,6 +146,11 @@
   
   # Install firefox.
   programs.firefox.enable = true;
+  # enable Qt (kde) file picker in firefox instead of the GTK (gnome) one
+  programs.firefox.preferences = {
+    "widget.use-xdg-desktop-portal.file-picker" = 1;
+    "widget.use-xdg-desktop-portal.mime-handler" = 1;
+  };
 
   # Install neovim and use it as the default editor
   programs.neovim.enable = true;
@@ -210,11 +215,11 @@
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs.mtr.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
 
   # List services that you want to enable:
 
