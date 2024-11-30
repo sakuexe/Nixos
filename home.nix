@@ -38,6 +38,10 @@ in
       source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/conky";
       recursive = true;
     };
+    fastfetch = {
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/fastfetch";
+      recursive = true;
+    };
   };
 
   # add .zshenv to home, it works as an entrypoint to zsh config
