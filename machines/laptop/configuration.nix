@@ -112,14 +112,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
-  # Nix garbage collection - every week remove files older than 7d
-  nix.gc.automatic = true;
-  nix.gc.dates = "daily";
-  nix.gc.options = "--delete-older-than 7d";
-  
   # Install firefox.
   programs.firefox.enable = true;
 
@@ -164,6 +156,15 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  # Enable flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  
+  # Nix garbage collection - keep 10 generations
+  # https://nix.dev/manual/nix/2.18/command-ref/nix-env/delete-generations#generations-time
+  nix.gc.automatic = true;
+  nix.gc.dates = "daily";
+  nix.gc.options = "--delete-older-than +10";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

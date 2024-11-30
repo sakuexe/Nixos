@@ -126,11 +126,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Nix garbage collection - every week remove files older than 7d
-  nix.gc.automatic = true;
-  nix.gc.dates = "daily";
-  nix.gc.options = "--delete-older-than 7d";
-
   # OpenGL
   # hardware.opengl.enable = true; # old way
   hardware.graphics.enable = true; # new way
@@ -234,6 +229,12 @@
 
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Nix garbage collection - every day remove files older than 14d
+  nix.gc.automatic = true;
+  nix.gc.dates = "daily";
+  nix.gc.options = "--delete-older-than 14d";
+
   
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
