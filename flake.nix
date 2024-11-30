@@ -1,6 +1,5 @@
 {
   description = "My Home Flake";
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -19,16 +18,22 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, plasma-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, plasma-manager, ... }@inputs:
+  let
+    # changing these changes all the builds
+    userSettings = {
+      username = "sakuk";
+      description = "Saku Karttunen";
+      email = "saku.karttunen@gmail.com";
+    };
+  in 
+  {
 
     # desktop pc - using the unstable branch of nixos
-    nixosConfigurations.ringtail = nixpkgs-unstable.lib.nixosSystem {
+    nixosConfigurations.ringtail = nixpkgs-unstable.lib.nixosSystem rec {
 
       system = "x86_64-linux";
-      specialArgs = { 
-        username = "sakuk";
-        description = "Saku Karttunen"; 
-      };
+      specialArgs = { inherit inputs userSettings; };
 
       modules = [
         # my own modules
@@ -42,60 +47,53 @@
         # home manager
         home-manager.nixosModules.home-manager
         {
+          home-manager.extraSpecialArgs = specialArgs;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
-
-          # add username here too
-          home-manager.users.sakuk = import ./home.nix;
+          home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
         }
       ];
     };
 
     # laptop
-    nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.laptop = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
-      specialArgs = { 
-        username = "sakuk";
-        description = "Saku Karttunen"; 
-      };
+      specialArgs = { inherit inputs userSettings; };
 
       modules = [
         ./machines/laptop/configuration.nix
         ./modules/virtualization.nix
         ./modules/keyboard.nix
 
+        # home manager
         home-manager.nixosModules.home-manager
         {
+          home-manager.extraSpecialArgs = specialArgs;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-
-          # add username here too
-          home-manager.users.sakuk = import ./home.nix;
+          home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+          home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
         }
       ];
     };
 
     # virtual machines
-    nixosConfigurations.vm-nix = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.vm-nix = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
-      specialArgs = { 
-        username = "sakuk";
-        description = "Saku Karttunen"; 
-      };
+      specialArgs = { inherit inputs userSettings; };
 
       modules = [
         ./machines/vm/configuration.nix
-        ./modules/entertainment.nix
 
+        # home manager
         home-manager.nixosModules.home-manager
         {
+          home-manager.extraSpecialArgs = specialArgs;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
-
-          # add username here too
-          home-manager.users.sakuk = import ./home.nix;
+          home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
         }
       ];
     };

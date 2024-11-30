@@ -1,13 +1,12 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, userSettings, ... }:
 
 let
-  username = "sakuk";
-  dotfiles = "/home/${username}/Nixos/.dotfiles";
+  dotfiles = "/home/${userSettings.username}/Nixos/.dotfiles";
 in
 {
   # TODO please change the username & home directory to your own
-  home.username = username;
-  home.homeDirectory = "/home/${username}";
+  home.username = userSettings.username;
+  home.homeDirectory = "/home/${userSettings.username}";
 
   # xdg.configHome == ~/.config
   # xdg.dataHome == ~/.local/share
@@ -43,18 +42,6 @@ in
 
   # add .zshenv to home, it works as an entrypoint to zsh config
   home.file.".zshenv".source = ./.dotfiles/zsh/.zshenv;
-
-  # add symlinks to .config
-
-  # link the configuration file in current directory to the specified location in home directory
-  # home.file.".config/i3/wallpaper.jpg".source = ./wallpaper.jpg;
-
-  # link all files in `./scripts` to `~/.config/i3/scripts`
-  # home.file.".config/i3/scripts" = {
-  #   source = ./scripts;
-  #   recursive = true;   # link recursively
-  #   executable = true;  # make all files executable
-  # };
 
   # encode the file content in nix configuration file directly
   # home.file.".xxx".text = ''
@@ -100,15 +87,14 @@ in
     # networking tools
     nmap # A utility for network discovery and security auditing
 
-    # neovim dependencies
+    # dotfiles dependencies
+    # neovim
     gcc9
     gnumake
     xclip
-
     # tmux plugins
     tmuxPlugins.sensible
     tmuxPlugins.yank
-
     # prompt (zsh/bash)
     oh-my-posh
 
@@ -131,8 +117,8 @@ in
   # basic configuration of git, please change to your own
   programs.git = {
     enable = true;
-    userName = "Saku Karttunen";
-    userEmail = "saku.karttunen@gmail.com";
+    userName = userSettings.description;
+    userEmail = userSettings.email;
   };
 
   # alacritty - a cross-platform, GPU-accelerated terminal emulator

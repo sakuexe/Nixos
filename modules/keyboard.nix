@@ -1,10 +1,10 @@
-{ config, pkgs, lib, username, ... }:
+{ config, pkgs, lib, userSettings, ... }:
 
 {
   environment.systemPackages = [ pkgs.keymapp ];
   
   # create the plugdev group and add the user to it
-  users.groups.plugdev.members = [ username ];
+  users.groups.plugdev.members = [ userSettings.username ];
 
   # add an udev rule, so that the permissions get set accordingly
   services.udev.extraRules = ''
