@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, disko, username, description ... }:
+{ config, pkgs, disko, userSettings, ... }:
 
 {
   imports =
@@ -97,9 +97,9 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users."${username}" = {
+  users.users."${userSettings.username}" = {
     isNormalUser = true;
-    description = description;
+    description = userSettings.description;
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
     useDefaultShell = true;
@@ -107,11 +107,11 @@
 
   # Define custom groups
   users.groups.makapakas = {};
-  users.groups.makapakas.members = [ username ];
+  users.groups.makapakas.members = [ userSettings.username ];
 
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = username;
+  services.displayManager.autoLogin.user = userSettings.username;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
