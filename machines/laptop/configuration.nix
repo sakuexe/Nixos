@@ -124,9 +124,11 @@
   programs.zsh.enableCompletion = true;
   programs.zsh.syntaxHighlighting.enable = true;
   programs.zsh.autosuggestions.enable = true;
+  programs.zsh.interactiveShellInit = "fastfetch";
   programs.zsh.shellAliases = {
     # nixos specific aliases
-    rebuild = "sudo nixos-rebuild switch --flake ~/nixos\\?submodules=1";
+    rebuild = "sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1";
+    nixupdate = "nix flake update --flake ~/Nixos";
   };
 
   # List packages installed in system profile. To search, run:
@@ -136,15 +138,16 @@
     git
     fastfetch
     tmux
+    wineWowPackages.stable
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs.mtr.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
 
   # List services that you want to enable:
 

@@ -29,6 +29,8 @@
   in 
   {
 
+    # the rec keyword makes the set into a recursive set - this means that the values can reference each other
+    # https://nix.dev/manual/nix/2.17/language/constructs
     # desktop pc - using the unstable branch of nixos
     nixosConfigurations.ringtail = nixpkgs-unstable.lib.nixosSystem rec {
 

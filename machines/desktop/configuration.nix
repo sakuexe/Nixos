@@ -156,6 +156,7 @@
   programs.zsh.enableCompletion = true;
   programs.zsh.syntaxHighlighting.enable = true;
   programs.zsh.autosuggestions.enable = true;
+  programs.zsh.interactiveShellInit = "fastfetch";
   programs.zsh.shellAliases = {
     # nixos specific aliases
     rebuild = "sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1";
