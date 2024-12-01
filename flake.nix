@@ -1,14 +1,19 @@
 {
   description = "My Home Flake";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       # use the follows attribute to use the same dependencies as nixpkgs
       # this way there wont be unnecessary duplications and inconsistensies
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    home-manager-unstable = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     plasma-manager = {
@@ -18,7 +23,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, plasma-manager, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, home-manager-unstable, plasma-manager, ... }@inputs:
   let
     # changing these changes all the builds
     userSettings = {
@@ -47,7 +52,7 @@
         ./modules/keyboard.nix
 
         # home manager
-        home-manager.nixosModules.home-manager
+        home-manager-unstable.nixosModules.home-manager
         {
           home-manager.extraSpecialArgs = specialArgs;
           home-manager.useGlobalPkgs = true;
