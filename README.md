@@ -77,3 +77,16 @@ and dotfiles manager using Nix. To make software configuration declarative.
 
 - [plasma-manager](https://github.com/nix-community/plasma-manager). Home Manager
 modules for configuring the KDE Plasma settings using Nix.
+
+## Useful commands
+
+Nix flake examples: [NixOS/templates - Github](https://github.com/NixOS/templates)
+
+[Novice Nix: Flake Templates - Akshav @ oppi.li](https://oppi.li/posts/novice_nix:_flake_templates/)
+
+```bash
+# get a template
+nix flake init --template templates#full
+# more information
+nix flake init --help
+```
