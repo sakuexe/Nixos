@@ -52,7 +52,7 @@
   # Fonts
   # https://nixos.wiki/wiki/Fonts
   fonts.packages = with pkgs; [
-    fira-code-nerdfont
+    nerd-fonts.fira-code
   ];
 
   fonts.fontconfig.defaultFonts = {
