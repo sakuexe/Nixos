@@ -1,4 +1,4 @@
-{ config, pkgs, lib, userSettings, ... }:
+{ config, pkgs, lib, home-manager, userSettings, ... }:
 
 let
   dotfiles = "/home/${userSettings.username}/Nixos/.dotfiles";
