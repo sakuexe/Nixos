@@ -157,6 +157,7 @@ in
   programs.plasma = {
     enable = true;
     workspace.wallpaper = ~/.config/rainbow-wallpaper.svg;
+    workspace.wallpaperBackground.blur = true;
   };
 
   # idea from:
