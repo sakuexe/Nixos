@@ -161,6 +161,13 @@
     # nixos specific aliases
     rebuild = "sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1";
     nixupdate = "nix flake update --flake ~/Nixos";
+    # reformat the task manager icons, if they cannot be found
+    # https://discuss.kde.org/t/plasma-6-1-3-pinned-kde-application-icons-go-blank-after-gc-nixos/19444/3
+    reficons = ''
+      sed -i 's/file:\/\/\/nix\/store\/[^\/]*\/share\/applications\//applications:/gi' \
+      ~/.config/plasma-org.kde.plasma.desktop-appletsrc \
+      && systemctl restart --user plasma-plasmashell
+    '';
     # snapper
     # https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-snapper.html#proc-snapper-restore-cmdl
     snapperls = "sudo snapper -c home list";
