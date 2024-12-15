@@ -4,6 +4,12 @@
     enable = 
       lib.mkEnableOption "enables the wallpaper module";
 
+    ultrawide = lib.mkEnableOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Use the ultrawide (32:9) version of the wallpaper.";
+    };
+
     backgroundImage = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = ../assets/dark_leaves_wp.jpg;
@@ -35,13 +41,13 @@
   config = lib.mkIf config.wallpaper.enable {
     # idea from:
     # https://github.com/lucidph3nx/nixos-config/blob/main/modules/home-manager/desktopEnvironment/wallpaper.nix
-    home.file.".config/nixos_logo.svg" = {
+    home.file."Nixos/assets/nixos_logo.svg" = lib.mkIf (!config.wallpaper.ultrawide) {
         text = let
           bgImage = if (config.wallpaper.backgroundImage != null) then config.wallpaper.backgroundImage else "";
           primaryColor = "#8255c2";
           secondaryColor = "#b8a0d9";
         in
-        /* svg */
+        # svg
         ''
         <?xml version="1.0" encoding="UTF-8"?>
         <svg 
@@ -94,6 +100,67 @@
             </g>
           </svg>
         '';
+      };
+
+    home.file."Nixos/assets/nixos_logo_ultrawide.svg" = lib.mkIf config.wallpaper.ultrawide {
+      text = let
+        bgImage = if (config.wallpaper.backgroundImage != null) then config.wallpaper.backgroundImage else "";
+        primaryColor = "#8255c2";
+        secondaryColor = "#b8a0d9";
+      in
+        /* svg */
+        ''
+        <?xml version="1.0" encoding="UTF-8"?>
+        <svg 
+          xmlns="http://www.w3.org/2000/svg"
+          width="5120"
+          height="1440"
+          version="1.1"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 0 5120 1440">
+
+          <rect 
+            id="background"
+            width="5120"
+            height="1440"
+            style="fill: ${config.wallpaper.backgroundColor}; stroke-width: 0px;" />
+
+          <image 
+            id="background-image" 
+            x="0" y="0" 
+            xlink:href="${bgImage}"
+            width="5120" height="1440"
+            preserveAspectRatio="xMidYMid slice"
+            style="opacity: ${toString config.wallpaper.backgroundColor};"/>
+
+          <g id="nixlogo">
+            <path 
+              id="part1"
+              d="M2664.77,713.65l-130.34-225.77,59.9-.56,34.8,60.66,35.04-60.33h29.76s15.24,26.35,15.24,26.35l-49.93,85.85,35.44,61.68-29.92,52.14Z" 
+              style="fill: ${primaryColor};" />
+            <path 
+              id="part2"
+              d="M2617.43,806.61l130.36-225.76,30.44,51.59-35.13,60.46,69.77.18,14.87,25.78-15.18,26.37-99.31-.31-35.69,61.53-60.11.16Z" 
+              style="fill: ${secondaryColor};" />
+            <path 
+              id="part3"
+              d="M2513.03,812.57h260.69s-29.46,52.17-29.46,52.17l-69.93-.19,34.73,60.52-14.89,25.77-30.43.03-49.39-86.16-71.14-.14-30.19-51.98Z" 
+              style="fill: ${primaryColor};" />
+            <path 
+              id="part4"
+              d="M2455.99,725.1l130.34,225.77-59.9.56-34.8-60.66-35.04,60.33h-29.76s-15.24-26.35-15.24-26.35l49.93-85.85-35.44-61.68,29.92-52.14Z"
+              style="fill: ${secondaryColor};" />
+            <path 
+              id="part5"
+              d="M2503.03,632.1l-130.36,225.76-30.44-51.59,35.13-60.46-69.77-.18-14.87-25.78,15.18-26.37,99.31.31,35.69-61.53,60.11-.16Z"
+              style="fill: ${primaryColor};" />
+            <path 
+              id="part6"
+              d="M2607.18,625.66h-260.69s29.46-52.17,29.46-52.17l69.93.19-34.73-60.52,14.89-25.77,30.43-.03,49.39,86.16,71.14.14,30.19,51.98Z"
+              style="fill: ${secondaryColor};" />
+            </g>
+          </svg>
+        '';
+      };
     };
-  };
-}
+  }
