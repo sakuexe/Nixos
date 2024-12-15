@@ -156,18 +156,18 @@ in
     };
   };
 
+  wallpaper.enable = true;
+  wallpaper.iconScale = 1.0; # does not work yet, the icon is not centered
+  wallpaper.ultrawide = false;
+  # wallpaper.backgroundImage = null;
+
   # TODO: look into this more
   # https://github.com/nix-community/plasma-manager/blob/trunk/examples/home.nix
   programs.plasma = {
     enable = true;
-    workspace.wallpaper = ./assets/nix_logo_ultrawide.svg;
+    workspace.wallpaper = ~/.config/nixos_logo.svg;
     workspace.wallpaperBackground.blur = true;
   };
-
-  wallpaper.enable = true;
-  wallpaper.iconScale = 1.0; # does not work yet, the icon is not centered
-  wallpaper.ultrawide = true;
-  # wallpaper.backgroundImage = null;
 
   # This value determines the home Manager release that your
   # configuration is compatible with. This helps avoid breakage
