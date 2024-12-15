@@ -165,6 +165,7 @@ in
   };
 
   wallpaper.enable = true;
+  wallpaper.iconScale = 1.0; # does not work yet, the icon is not centered
   # wallpaper.backgroundImage = null;
 
   # This value determines the home Manager release that your
