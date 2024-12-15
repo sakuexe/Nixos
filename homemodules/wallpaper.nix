@@ -3,6 +3,12 @@
   options = {
     wallpaper.enable = 
       lib.mkEnableOption "enables the wallpaper module";
+
+    wallpaper.backgroundImage = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
+      default = ../assets/dark_leaves_wp.jpg;
+      description = "Path to the image that is used as the background";
+    };
   };
 
   # only enable the config if the module is enabled
@@ -12,7 +18,7 @@
     home.file.".config/nixos_logo.svg" = {
         text = let
           bgColor = "#18181a";
-          bgImage = ../assets/dark_leaves_wp.jpg; # path or an empty string
+          bgImage = if (config.wallpaper.backgroundImage != null) then config.wallpaper.backgroundImage else "";
           bgImageOpacity = 0.5;
           primaryColor = "#8255c2";
           secondaryColor = "#b8a0d9";
