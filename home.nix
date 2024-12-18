@@ -158,8 +158,7 @@ in
 
   wallpaper.enable = true;
   wallpaper.iconScale = 1.0; # does not work yet, the icon is not centered
-  wallpaper.ultrawide = false;
-  # wallpaper.backgroundImage = null;
+  wallpaper.backgroundImage = null;
 
   # TODO: look into this more
   # https://github.com/nix-community/plasma-manager/blob/trunk/examples/home.nix
