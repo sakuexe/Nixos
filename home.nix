@@ -157,14 +157,16 @@ in
   };
 
   wallpaper.enable = true;
+  wallpaper.ultrawide = true;
   wallpaper.iconScale = 1.0; # does not work yet, the icon is not centered
-  wallpaper.backgroundImage = null;
+  wallpaper.backgroundImage = ./assets/floating-cubes.jpg;
+  wallpaper.backgroundImageOpacity = 0.25;
 
   # TODO: look into this more
   # https://github.com/nix-community/plasma-manager/blob/trunk/examples/home.nix
   programs.plasma = {
     enable = true;
-    workspace.wallpaper = ~/.config/nixos_logo.svg;
+    workspace.wallpaper = ~/.config/nixos_logo_ultrawide.svg;
     workspace.wallpaperBackground.blur = true;
   };
 

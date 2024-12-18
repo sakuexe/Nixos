@@ -68,7 +68,7 @@
           x="0" y="0" 
           width="2560" height="1440"
           preserveAspectRatio="xMidYMid slice"
-          style="opacity: ${toString config.wallpaper.backgroundColor};"/>
+          style="opacity: ${toString config.wallpaper.backgroundImageOpacity};"/>
 
         <g id="nixlogo" 
           transform="scale(${toString config.wallpaper.iconScale})"
@@ -131,7 +131,7 @@
             xlink:href="${bgImage}"
             width="5120" height="1440"
             preserveAspectRatio="xMidYMid slice"
-            style="opacity: ${toString config.wallpaper.backgroundColor};"/>
+            style="opacity: ${toString config.wallpaper.backgroundImageOpacity};"/>
 
           <g id="nixlogo">
             <path 
