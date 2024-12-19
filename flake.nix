@@ -21,9 +21,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, home-manager-unstable, plasma-manager, ... }@inputs:
+  outputs = { 
+    self,
+    nixpkgs,
+    nixpkgs-unstable,
+    home-manager,
+    home-manager-unstable,
+    plasma-manager,
+    nixos-hardware,
+    ... }@inputs:
   let
     # changing these changes all the builds
     userSettings = {
@@ -73,6 +83,9 @@
         ./machines/laptop/configuration.nix
         ./modules/virtualization.nix
         ./modules/keyboard.nix
+
+        # module for taking care of the laptop hardware quirks
+        nixos-hardware.nixosModules.asus-zephyrus-ga503
 
         # home manager
         home-manager.nixosModules.home-manager
