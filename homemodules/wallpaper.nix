@@ -1,4 +1,8 @@
-{ config, lib, home-manager, ... }: {
+{ config, lib, home-manager, ... }: 
+  let
+    hasPlasmaManager = builtins.hasAttr "plasma" config.programs;
+    wallpaperPath = config.xdg.configHome;
+  in {
 
   options.wallpaper = {
     enable = 
@@ -41,7 +45,7 @@
   config = lib.mkIf config.wallpaper.enable {
     # idea from:
     # https://github.com/lucidph3nx/nixos-config/blob/main/modules/home-manager/desktopEnvironment/wallpaper.nix
-    home.file.".config/nixos_logo.svg" = lib.mkIf (!config.wallpaper.ultrawide) {
+    home.file."${wallpaperPath}/nixos_logo.svg" = lib.mkIf (!config.wallpaper.ultrawide) {
       text = let
         bgImage = if (config.wallpaper.backgroundImage != null) then config.wallpaper.backgroundImage else "";
         primaryColor = "#8255c2";
@@ -102,7 +106,7 @@
       '';
     };
 
-    home.file.".config/nixos_logo_ultrawide.svg" = lib.mkIf config.wallpaper.ultrawide {
+    home.file."${wallpaperPath}/nixos_logo_ultrawide.svg" = lib.mkIf config.wallpaper.ultrawide {
       text = let
         bgImage = if (config.wallpaper.backgroundImage != null) then config.wallpaper.backgroundImage else "";
         primaryColor = "#8255c2";
@@ -162,5 +166,14 @@
           </svg>
         '';
       };
+
+      # add the wallpaper to kde if plasma manager exists
+      programs = if hasPlasmaManager then {
+        plasma.enable = true;
+        plasma.workspace.wallpaper = if config.wallpaper.ultrawide 
+          then ../assets/floating-cubes.jpg
+          else ../assets/dark_leaves_wp.jpg;
+        plasma.workspace.wallpaperBackground.blur = true;
+      } else {};
     };
   }

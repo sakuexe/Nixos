@@ -31,8 +31,6 @@
     nixpkgs-unstable,
     home-manager,
     home-manager-unstable,
-    plasma-manager,
-    nixos-hardware,
     ... }@inputs:
   let
     # changing these changes all the builds
@@ -68,7 +66,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "hm-backup";
-          home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+          home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
           home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
         }
       ];
@@ -85,7 +83,7 @@
         ./modules/keyboard.nix
 
         # module for taking care of the laptop hardware quirks
-        nixos-hardware.nixosModules.asus-zephyrus-ga503
+        inputs.nixos-hardware.nixosModules.asus-zephyrus-ga503
 
         # home manager
         home-manager.nixosModules.home-manager
@@ -94,7 +92,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "hm-backup";
-          home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+          home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
           home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
         }
       ];
@@ -115,7 +113,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "hm-backup";
-          home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+          home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
           home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
         }
       ];
