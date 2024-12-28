@@ -114,6 +114,7 @@
     };
 
     # installation script
+    # https://ertt.ca/nix/shell-scripts/
     packages.x86_64-linux.install = 
       let
         pkgs = import nixpkgs { system = "x86_64-linux"; };
