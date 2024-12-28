@@ -127,10 +127,10 @@
       pkgs.writeShellScriptBin "install" ''
           echo "Installing Nixos setup from github:sakuexe/Nixos..."
           sleep 1
-          ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/nixos ~/Nixos
-          cp /etc/nixos/hardware-configuration.nix ~/Nixos/machines/vm
+          ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/nixos $HOME/Nixos
+          cp /etc/nixos/hardware-configuration.nix $HOME/Nixos/machines/vm
           # rebuild
-          nixos-rebuild switch --impure --flake ~/Nixos?submodules=1#vm-nix
+          nixos-rebuild switch --impure --flake $HOME/Nixos?submodules=1#vm-nix
       '';
   };
 }
