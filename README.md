@@ -19,6 +19,9 @@ for easy btrfs subvolume configurations.
 
 This will also use your `hardware-configuration.nix` file by copying it from `/etc/nixos`.
 
+To check what this installation script does, check it out from the 
+[flake.nix](https://github.com/sakuexe/Nixos/blob/main/flake.nix#L117) file.
+
 ```bash
 sudo nix --experimental-features "nix-command flakes" run github:sakuexe/Nixos#install
 ```
