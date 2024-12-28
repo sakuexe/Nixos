@@ -118,5 +118,19 @@
         }
       ];
     };
+
+    # installation script
+    packages.x86_64-linux.install = 
+      let
+        pkgs = import nixpkgs { system = "x86_64-linux"; };
+      in 
+      pkgs.writeShellScriptBin "install" ''
+          echo "Installing Nixos setup from github:sakuexe/Nixos..."
+          sleep 1
+          ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/nixos ~/Nixos
+          cp /etc/nixos/hardware-configuration.nix ~/Nixos/machines/vm
+          # rebuild
+          nixos-rebuild switch --impure --flake ~/Nixos?submodules=1#vm-nix
+      '';
   };
 }
