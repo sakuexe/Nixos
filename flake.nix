@@ -25,13 +25,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = { 
-    self,
-    nixpkgs,
-    nixpkgs-unstable,
-    home-manager,
-    home-manager-unstable,
-    ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
   let
     # changing these changes all the builds
     userSettings = {
@@ -60,7 +54,7 @@
         ./modules/keyboard.nix
 
         # home manager
-        home-manager-unstable.nixosModules.home-manager
+        inputs.home-manager-unstable.nixosModules.home-manager
         {
           home-manager.extraSpecialArgs = specialArgs;
           home-manager.useGlobalPkgs = true;
@@ -132,6 +126,8 @@
           cp /etc/nixos/hardware-configuration.nix ${userHome}/Nixos/machines/vm
           # rebuild
           nixos-rebuild switch --impure --flake ${userHome}/Nixos?submodules=1#vm-nix
+          # change the owner of the directory recursively
+          chown -R ${userSettings.username} ${userHome}/Nixos
       '';
   };
 }

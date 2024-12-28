@@ -13,57 +13,23 @@ idea of doing a git pull and having the same system on my PC and the laptop.
 For a fresh install of NixOS, follow [disko quickstart guide](https://github.com/nix-community/disko/blob/master/docs/quickstart.md)
 for easy btrfs subvolume configurations.
 
-## Getting Started
+## Install and build this setup
 
-0. Use `nix-shell` to install git momentarily, if you do not have git already
+1. Use the `install` script to clone and build one of my configurations
+
+This will also use your `hardware-configuration.nix` file by copying it from `/etc/nixos`.
 
 ```bash
-nix-shell -p git
+sudo nix --experimental-features "nix-command flakes" run github:sakuexe/Nixos#install
 ```
 
-1. Clone the repository to your home directory (or wherever)
+2. Reboot the system
 
 ```bash
-git clone --recurse-submodules -j8 https://github.com/sakuexe/nixos ~/nixos
-# exit the nix shell
-exit
-```
-
-2. Copy the `hardware-configuration` -file
-
-This will overwrite the hardware file as well that is in there by default
-
-```bash
-cp /etc/nixos/hardware-configuration.nix ~/nixos
-```
-
-3. Rebuild the system
-
-On the first build, you need to use this long ass command. You have to choose
-which version you would like to use too.
-
-Possible versions:
-
-- Virtual Machine
-- Laptop
-
-```bash
-# building the vm version
-sudo nixos-rebuild switch --flake ~/nixos?submodules=1#vm-nix
-# building the laptop version
-sudo nixos-rebuild switch --flake ~/nixos?submodules=1#laptop
-
-# reboot the machine afterwards
 sudo reboot
 ```
 
-After you have rebuilt and rebooted, you can just start using the `rebuild` alias.
-
-```bash
-rebuild
-```
-
-4. To be able to push changes to the `.dotfiles`, use git checkout.
+**Extra**: To be able to push changes to the `.dotfiles`, use git checkout.
 
 ```bash
 cd ~/nixos/.dotfiles
