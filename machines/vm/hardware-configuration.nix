@@ -8,54 +8,27 @@
     [ (modulesPath + "/profiles/qemu-guest.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sr_mod" "virtio_blk" ];
+  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sr_mod" "virtio_blk" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/fbb7c699-d36a-4797-bfca-f36008ea3123";
+    { device = "/dev/disk/by-uuid/9422618a-03c0-456f-bdbe-f5c53727d72a";
       fsType = "btrfs";
-      options = [ "subvol=@/root" ];
+      options = [ "subvol=@" ];
     };
 
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/fbb7c699-d36a-4797-bfca-f36008ea3123";
-      fsType = "btrfs";
-      options = [ "subvol=@/nix" ];
-    };
-
-  fileSystems."/var/lib" =
-    { device = "/dev/disk/by-uuid/fbb7c699-d36a-4797-bfca-f36008ea3123";
-      fsType = "btrfs";
-      options = [ "subvol=@/var/lib" ];
-    };
-
-  fileSystems."/var/log" =
-    { device = "/dev/disk/by-uuid/fbb7c699-d36a-4797-bfca-f36008ea3123";
-      fsType = "btrfs";
-      options = [ "subvol=@/var/log" ];
-    };
-
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/fbb7c699-d36a-4797-bfca-f36008ea3123";
-      fsType = "btrfs";
-      options = [ "subvol=@/home" ];
-    };
-
-  fileSystems."/partition-root" =
-    { device = "/dev/disk/by-uuid/fbb7c699-d36a-4797-bfca-f36008ea3123";
-      fsType = "btrfs";
-    };
+  boot.initrd.luks.devices."luks-01bfae0f-e308-4ffd-be0a-d3d73383ee1a".device = "/dev/disk/by-uuid/01bfae0f-e308-4ffd-be0a-d3d73383ee1a";
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/DF59-328D";
+    { device = "/dev/disk/by-uuid/9A24-328B";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/434dddf7-fb27-4b73-a1c8-4c1a04f04e59"; }
+    [ { device = "/dev/disk/by-uuid/c0119906-e86f-45cf-8b22-306a5ff723e1"; }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
