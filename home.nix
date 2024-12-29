@@ -1,55 +1,12 @@
 { config, pkgs, lib, home-manager, userSettings, ... }:
-
-let
-  dotfiles = "/home/${userSettings.username}/Nixos/.dotfiles";
-in
 {
   imports = [
     ./homemodules/wallpaper.nix
+    ./homemodules/dotfiles.nix
   ];
 
-  # TODO please change the username & home directory to your own
   home.username = userSettings.username;
   home.homeDirectory = "/home/${userSettings.username}";
-
-  # xdg.configHome == ~/.config
-  # xdg.dataHome == ~/.local/share
-
-  # https://mynixos.com/options/xdg.configFile.%3Cname%3E
-  xdg.configFile = {
-    nvim = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/nvim";
-      recursive = true;
-    };
-    tmux = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/tmux";
-      recursive = true;
-    };
-    zsh = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/zsh";
-      recursive = true;
-    };
-    omp = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/omp";
-      recursive = true;
-    };
-    # only on desktop environents
-    alacritty = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/alacritty";
-      recursive = true;
-    };
-    conky = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/conky";
-      recursive = true;
-    };
-    fastfetch = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/fastfetch";
-      recursive = true;
-    };
-  };
-
-  # add .zshenv to home, it works as an entrypoint to zsh config
-  home.file.".zshenv".source = ./.dotfiles/zsh/.zshenv;
 
   # encode the file content in nix configuration file directly
   # home.file.".xxx".text = ''
@@ -74,11 +31,10 @@ in
     pass # password-store
     wl-clipboard
 
-    # programming languages and etc
+    # programming languages and tools
     go
     python3
     nodejs_22
-    cargo # for now, used for nix lsp
     sqlite
 
     # nix related
@@ -95,17 +51,6 @@ in
     # networking tools
     nmap # A utility for network discovery and security auditing
 
-    # dotfiles dependencies
-    # neovim
-    gcc9
-    gnumake
-    xclip
-    # tmux plugins
-    tmuxPlugins.sensible
-    tmuxPlugins.yank
-    # prompt (zsh/bash)
-    oh-my-posh
-
     # chromium browser
     brave
 
@@ -117,9 +62,6 @@ in
     vlc
     audacity
     kdePackages.kdenlive
-
-    # stylizing the desktop (ricing)
-    conky
   ];
 
   # basic configuration of git, please change to your own
@@ -155,6 +97,8 @@ in
       uris = ["qemu:///system"];
     };
   };
+
+  dotfiles.enable = true;
 
   wallpaper.enable = true;
   wallpaper.ultrawide = true;
