@@ -131,9 +131,9 @@
           sleep 3
           CHOICE=$(printf "%s\n" ''${SYSTEMS[@]} | "${pkgs.fzf}/bin/fzf")
           ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/nixos ${userHome}/Nixos
-          cp /etc/nixos/hardware-configuration.nix ${userHome}/Nixos/machines/$PROFILE
+          cp /etc/nixos/hardware-configuration.nix ${userHome}/Nixos/machines/$CHOICE
           # rebuild
-          nixos-rebuild switch --impure --flake ${userHome}/Nixos?submodules=1#$PROFILE
+          nixos-rebuild switch --impure --flake ${userHome}/Nixos?submodules=1#$CHOICE
           # change the owner of the directory recursively
           chown -R ${userSettings.username} ${userHome}/Nixos
         '';
