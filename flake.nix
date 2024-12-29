@@ -40,8 +40,6 @@
     # https://nix.dev/manual/nix/2.17/language/constructs
     # desktop pc - using the unstable branch of nixos
     nixosConfigurations.ringtail = nixpkgs-unstable.lib.nixosSystem rec {
-
-      system = "x86_64-linux";
       specialArgs = { inherit inputs userSettings; };
 
       modules = [
@@ -68,7 +66,6 @@
 
     # laptop
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem rec {
-      system = "x86_64-linux";
       specialArgs = { inherit inputs userSettings; };
 
       modules = [
@@ -94,7 +91,6 @@
 
     # virtual machines
     nixosConfigurations.vm-nix = nixpkgs.lib.nixosSystem rec {
-      system = "x86_64-linux";
       specialArgs = { inherit inputs userSettings; };
 
       modules = [
