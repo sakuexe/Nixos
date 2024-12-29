@@ -39,13 +39,9 @@ cd ~/nixos/.dotfiles
 git checkout main
 ```
 
-## To-Try
+## TODO
 
-- [Home Manager](https://github.com/nix-community/home-manager) Home folder
-and dotfiles manager using Nix. To make software configuration declarative.
-
-- [plasma-manager](https://github.com/nix-community/plasma-manager). Home Manager
-modules for configuring the KDE Plasma settings using Nix.
+- Fix nixd lsp not including documentation when hovering over home-manager stuff.
 
 ## Useful commands
 
