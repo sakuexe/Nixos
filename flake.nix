@@ -130,6 +130,7 @@
           echo "Choose a system to use (opens next)"
           sleep 3
           CHOICE=$(printf "%s\n" ''${SYSTEMS[@]} | "${pkgs.fzf}/bin/fzf")
+          echo "$CHOICE was chosen, building..."
           ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/nixos ${userHome}/Nixos
           cp /etc/nixos/hardware-configuration.nix ${userHome}/Nixos/machines/$CHOICE
           # rebuild
