@@ -124,7 +124,7 @@
           userHome = "/home/${userSettings.username}";
         in
         pkgs.writeShellScriptBin "install" ''
-          SYSTEMS=(nixos-vm laptop desktop)
+          SYSTEMS=("nixos-vm" "laptop" "desktop")
           echo "Installing Nixos setup from github:sakuexe/Nixos..."
           sleep 1
           echo "Choose a system to use (opens next)"
