@@ -97,11 +97,11 @@
       };
 
       # virtual machines
-      nixosConfigurations.vm-nix = nixpkgs.lib.nixosSystem rec {
+      nixosConfigurations.nixos-vm = nixpkgs.lib.nixosSystem rec {
         specialArgs = { inherit inputs userSettings; };
 
         modules = [
-          ./machines/vm/configuration.nix
+          ./machines/nixos-vm/configuration.nix
 
           # home manager
           home-manager.nixosModules.home-manager
@@ -124,12 +124,16 @@
           userHome = "/home/${userSettings.username}";
         in
         pkgs.writeShellScriptBin "install" ''
+          SYSTEMS=(nixos-vm laptop desktop)
           echo "Installing Nixos setup from github:sakuexe/Nixos..."
           sleep 1
+          echo "Choose a system to use (opens next)"
+          sleep 3
+          CHOICE=$(printf "%s\n" ''${SYSTEMS[@]} | "${pkgs.fzf}/bin/fzf")
           ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/nixos ${userHome}/Nixos
-          cp /etc/nixos/hardware-configuration.nix ${userHome}/Nixos/machines/vm
+          cp /etc/nixos/hardware-configuration.nix ${userHome}/Nixos/machines/$PROFILE
           # rebuild
-          nixos-rebuild switch --impure --flake ${userHome}/Nixos?submodules=1#vm-nix
+          nixos-rebuild switch --impure --flake ${userHome}/Nixos?submodules=1#$PROFILE
           # change the owner of the directory recursively
           chown -R ${userSettings.username} ${userHome}/Nixos
         '';
