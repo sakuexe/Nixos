@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, userSettings, ... }:
+{ config, pkgs, lib, userSettings, inputs, ... }:
 let
   dotfiles = "/home/${userSettings.username}/Nixos/.dotfiles";
 in {
@@ -7,7 +7,7 @@ in {
     enable = lib.mkEnableOption "enables the dotfiles module";
   };
 
-  config = lib.mkIf config.wallpaper.enable {
+  config = lib.mkIf config.dotfiles.enable {
     # dependencies of the dotfiles
     home.packages = with pkgs; [
       # neovim
@@ -28,7 +28,10 @@ in {
       python3
       nodejs_22
       sqlite
+      nixd # nix lsp
     ];
+
+    nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
     # xdg.configHome == ~/.config
     # xdg.dataHome == ~/.local/share

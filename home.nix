@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, userSettings, ... }:
+{ config, pkgs, lib, home-manager, userSettings, inputs, ... }:
 {
   imports = [
     ./homemodules/wallpaper.nix
