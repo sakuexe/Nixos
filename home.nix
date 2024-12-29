@@ -1,4 +1,8 @@
-{ config, pkgs, lib, home-manager, userSettings, inputs, ... }:
+{
+  pkgs,
+  userSettings,
+  ...
+}:
 {
   imports = [
     ./homemodules/wallpaper.nix
@@ -43,7 +47,7 @@
     nix-output-monitor
 
     # system tools
-    btop  # replacement of htop
+    btop # replacement of htop
     # nvidia-smi # nvidia overview
     pciutils # lspci
     usbutils # lsusb
@@ -93,8 +97,8 @@
 
   dconf.settings = {
     "org/virt-manager/virt-manager/connections" = {
-      autoconnect = ["qemu:///system"];
-      uris = ["qemu:///system"];
+      autoconnect = [ "qemu:///system" ];
+      uris = [ "qemu:///system" ];
     };
   };
 
@@ -105,9 +109,6 @@
   wallpaper.iconScale = 1.0; # does not work yet, the icon is not centered
   wallpaper.backgroundImage = ./assets/floating-cubes.jpg;
   wallpaper.backgroundImageOpacity = 0.25;
-
-  # TODO: look into this more
-  # https://github.com/nix-community/plasma-manager/blob/trunk/examples/home.nix
 
   # This value determines the home Manager release that your
   # configuration is compatible with. This helps avoid breakage

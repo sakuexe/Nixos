@@ -25,98 +25,105 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
-  let
-    # changing these changes all the builds
-    userSettings = {
-      username = "sakuk";
-      description = "Saku Karttunen";
-      email = "saku.karttunen@gmail.com";
-    };
-  in 
-  {
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      ...
+    }@inputs:
+    let
+      # changing these changes all the builds
+      userSettings = {
+        username = "sakuk";
+        description = "Saku Karttunen";
+        email = "saku.karttunen@gmail.com";
+      };
+    in
+    {
 
-    # the rec keyword makes the set into a recursive set - this means that the values can reference each other
-    # https://nix.dev/manual/nix/2.17/language/constructs
-    # desktop pc - using the unstable branch of nixos
-    nixosConfigurations.ringtail = nixpkgs-unstable.lib.nixosSystem rec {
-      specialArgs = { inherit inputs userSettings; };
+      # the rec keyword makes the set into a recursive set - this means that the values can reference each other
+      # https://nix.dev/manual/nix/2.17/language/constructs
+      # desktop pc - using the unstable branch of nixos
+      nixosConfigurations.ringtail = nixpkgs-unstable.lib.nixosSystem rec {
+        specialArgs = { inherit inputs userSettings; };
 
-      modules = [
-        # my own modules
-        ./machines/desktop/configuration.nix
-        ./machines/desktop/configuration.nix
-        ./modules/gaming.nix
-        ./modules/entertainment.nix
-        ./modules/virtualization.nix
-        ./modules/keyboard.nix
+        modules = [
+          # my own modules
+          ./machines/desktop/configuration.nix
+          ./machines/desktop/configuration.nix
+          ./modules/gaming.nix
+          ./modules/entertainment.nix
+          ./modules/virtualization.nix
+          ./modules/keyboard.nix
 
-        # home manager
-        inputs.home-manager-unstable.nixosModules.home-manager
-        {
-          home-manager.extraSpecialArgs = specialArgs;
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = "hm-backup";
-          home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
-          home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
-        }
-      ];
-    };
+          # home manager
+          inputs.home-manager-unstable.nixosModules.home-manager
+          {
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-backup";
+            home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
+            home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
+          }
+        ];
+      };
 
-    # laptop
-    nixosConfigurations.laptop = nixpkgs.lib.nixosSystem rec {
-      specialArgs = { inherit inputs userSettings; };
+      # laptop
+      nixosConfigurations.laptop = nixpkgs.lib.nixosSystem rec {
+        specialArgs = { inherit inputs userSettings; };
 
-      modules = [
-        ./machines/laptop/configuration.nix
-        ./modules/virtualization.nix
-        ./modules/keyboard.nix
+        modules = [
+          ./machines/laptop/configuration.nix
+          ./modules/virtualization.nix
+          ./modules/keyboard.nix
 
-        # module for taking care of the laptop hardware quirks
-        inputs.nixos-hardware.nixosModules.asus-zephyrus-ga503
+          # module for taking care of the laptop hardware quirks
+          inputs.nixos-hardware.nixosModules.asus-zephyrus-ga503
 
-        # home manager
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.extraSpecialArgs = specialArgs;
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = "hm-backup";
-          home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
-          home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
-        }
-      ];
-    };
+          # home manager
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-backup";
+            home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
+            home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
+          }
+        ];
+      };
 
-    # virtual machines
-    nixosConfigurations.vm-nix = nixpkgs.lib.nixosSystem rec {
-      specialArgs = { inherit inputs userSettings; };
+      # virtual machines
+      nixosConfigurations.vm-nix = nixpkgs.lib.nixosSystem rec {
+        specialArgs = { inherit inputs userSettings; };
 
-      modules = [
-        ./machines/vm/configuration.nix
+        modules = [
+          ./machines/vm/configuration.nix
 
-        # home manager
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.extraSpecialArgs = specialArgs;
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = "hm-backup";
-          home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
-          home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
-        }
-      ];
-    };
+          # home manager
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-backup";
+            home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
+            home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
+          }
+        ];
+      };
 
-    # installation script
-    # https://ertt.ca/nix/shell-scripts/
-    packages.x86_64-linux.install = 
-      let
-        pkgs = import nixpkgs { system = "x86_64-linux"; };
-        userHome = "/home/${userSettings.username}";
-      in 
-      pkgs.writeShellScriptBin "install" ''
+      # installation script
+      # https://ertt.ca/nix/shell-scripts/
+      packages.x86_64-linux.install =
+        let
+          pkgs = import nixpkgs { system = "x86_64-linux"; };
+          userHome = "/home/${userSettings.username}";
+        in
+        pkgs.writeShellScriptBin "install" ''
           echo "Installing Nixos setup from github:sakuexe/Nixos..."
           sleep 1
           ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/nixos ${userHome}/Nixos
@@ -125,6 +132,6 @@
           nixos-rebuild switch --impure --flake ${userHome}/Nixos?submodules=1#vm-nix
           # change the owner of the directory recursively
           chown -R ${userSettings.username} ${userHome}/Nixos
-      '';
-  };
+        '';
+    };
 }
