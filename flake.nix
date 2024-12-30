@@ -162,9 +162,11 @@
             echo -e "''${RED}no disk was chosen... Aborting.$RESET"
             exit 1
           fi
+          DEVICE="/dev/$DEVICE"
 
           echo -e $GRAY
-          lsblk /dev/$DEVICE
+          lsblk $DEVICE
+          exit
           echo -e $RESET
           echo -e "The script will now format ''$PURPLE$DEVICE$RESET. This cannot be reverted"
           read -p "Continue? (y/N)" -r CONTINUE
