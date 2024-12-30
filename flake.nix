@@ -206,7 +206,7 @@
           if [[ "$CHOICE" == "desktop" ]]; then 
             CHOICE="ringtail"
           fi
-          sudo nixos-install --flake /mnt/etc/nixos#$CHOICE
+          sudo nixos-install --impure --flake /mnt/etc/nixos#$CHOICE
         '';
     };
 }
