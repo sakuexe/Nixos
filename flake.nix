@@ -184,9 +184,18 @@
           curl https://raw.githubusercontent.com/sakuexe/Nixos/refs/heads/main/machines/disko-config.nix > disko.nix
           curl https://raw.githubusercontent.com/sakuexe/Nixos/refs/heads/main/machines/$CHOICE/configuration.nix > /etc/nixos/configuration.nix
 
+          SWAP=($(free --giga | grep Mem: | awk {'print $2'}) $(free --giga | grep Mem: | awk {'print $2 / 2'}) 2)
+          SWAP_CHOICE=$(printf "%s\n" ''${SWAP[@]} | \
+          "${pkgs.fzf}/bin/fzf" --preview "echo 'setting the SWAP partition to {}G'")
+          if [[ ! " ''${SWAP[@]} " =~ " $SWAP_CHOICE " ]]; then 
+            echo -e "SWAP is required. Using the default of $PURPLE'8G'$RESET"
+            SWAP_CHOICE="8"
+            sleep 3
+          fi
+
           echo "Formatting device $PURPLE$DEVICE$RESET..."
           nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
-          --mode disko ./disko.nix --arg disk $DEVICE
+          --mode disko ./disko.nix --argstr disk "$DEVICE" --arg swap "$SWAP_CHOICE"
 
           nixos-generate-config --root /mnt && nixos-install
         '';
