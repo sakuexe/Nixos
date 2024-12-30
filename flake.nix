@@ -166,7 +166,6 @@
 
           echo -e $GRAY
           lsblk $DEVICE
-          exit
           echo -e $RESET
           echo -e "The script will now format ''$PURPLE$DEVICE$RESET. This cannot be reverted"
           read -p "Continue? (y/N)" -r CONTINUE
@@ -196,10 +195,10 @@
           fi
 
           echo "Formatting device $PURPLE$DEVICE$RESET..."
-          nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
+          sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
           --mode disko ./disko.nix --argstr disk "$DEVICE" --arg swap "$SWAP_CHOICE"
 
-          nixos-generate-config --root /mnt && nixos-install
+          sudo nixos-generate-config --root /mnt && sudo nixos-install
         '';
     };
 }
