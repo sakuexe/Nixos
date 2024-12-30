@@ -124,7 +124,7 @@
           userHome = "/home/${userSettings.username}";
         in
         pkgs.writeShellScriptBin "install" ''
-          SYSTEMS=("nixos-vm" "laptop" "desktop")
+          SYSTEMS=("nixos-vm" "laptop" "ringtail")
           echo "Installing Nixos setup from github:sakuexe/Nixos..."
           sleep 1
           echo "Choose a system to use (opens next)"
@@ -151,21 +151,22 @@
           GREEN="\033[0;32m"
           RED="\033[0;31m"
           PURPLE="\033[0;35m"
+          SYSTEMS=("nixos-vm" "laptop" "desktop")
 
           echo "Choose a storage device to install NixOS on..."
           sleep 3
-          CHOICE=$(lsblk -nd -o NAME | \
+          DEVICE=$(lsblk -nd -o NAME | \
           ${pkgs.fzf}/bin/fzf --preview 'lsblk /dev/{}')
 
-          if [[ "$CHOICE" == "" ]]; then 
+          if [[ "$DEVICE" == "" ]]; then 
             echo -e "''${RED}no disk was chosen... Aborting.$RESET"
             exit 1
           fi
 
           echo -e $GRAY
-          lsblk /dev/$CHOICE
+          lsblk /dev/$DEVICE
           echo -e $RESET
-          echo -e "The script will now format ''$PURPLE$CHOICE$RESET. This cannot be reverted"
+          echo -e "The script will now format ''$PURPLE$DEVICE$RESET. This cannot be reverted"
           read -p "Continue? (y/N)" -r CONTINUE
 
           if [[ "$CONTINUE" != "y" && "$CONTINUE" != "Y" ]]; then 
@@ -173,9 +174,21 @@
             exit 0
           fi
 
-          echo "cloning the configuration.nix and disko.nix files"
+          CHOICE=$(printf "%s\n" ''${SYSTEMS[@]} | "${pkgs.fzf}/bin/fzf")
+          if [[ ! " ''${SYSTEMS[@]} " =~ " $CHOICE " ]]; then # if choice is not in systems
+            echo -e "''${RED}System choice was not valid. Aborting.$RESET"
+            exit 1
+          fi
+
+          echo "Cloning the $CHOICE/configuration.nix and disko.nix files"
           curl https://raw.githubusercontent.com/sakuexe/Nixos/refs/heads/main/machines/disko-config.nix > disko.nix
-          cat disko.nix
+          curl https://raw.githubusercontent.com/sakuexe/Nixos/refs/heads/main/machines/$CHOICE/configuration.nix > /etc/nixos/configuration.nix
+
+          echo "Formatting device $PURPLE$DEVICE$RESET..."
+          nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
+          --mode disko ./disko.nix --arg device $DEVICE
+
+          nixos-generate-config --root /mnt && nixos-install
         '';
     };
 }
