@@ -181,9 +181,8 @@
             exit 1
           fi
 
-          echo "Cloning the $CHOICE/configuration.nix and disko.nix files"
+          echo "Downloading the disko.nix files"
           curl https://raw.githubusercontent.com/sakuexe/Nixos/refs/heads/main/machines/disko-config.nix > disko.nix
-          curl https://raw.githubusercontent.com/sakuexe/Nixos/refs/heads/main/machines/$CHOICE/configuration.nix > /etc/nixos/configuration.nix
 
           SWAP=($(free --giga | grep Mem: | awk {'print $2'}) $(free --giga | grep Mem: | awk {'print $2 / 2'}) 2)
           SWAP_CHOICE=$(printf "%s\n" ''${SWAP[@]} | \
@@ -198,7 +197,13 @@
           sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
           --mode disko ./disko.nix --argstr disk "$DEVICE" --arg swap "$SWAP_CHOICE"
 
-          sudo nixos-generate-config --root /mnt && sudo nixos-install
+          sudo nixos-generate-config --root /mnt
+          ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/Nixos /tmp/nixos
+          sudo mv /mnt/etc/nixos/hardware-configuration.nix /tmp/nixos
+          sudo rm -rf /mnt/etc/nixos
+          sudo mv /tmp/nixos /mnt/etc/nixos
+
+          sudo nixos-install --flake /mnt/etc/nixos
         '';
     };
 }
