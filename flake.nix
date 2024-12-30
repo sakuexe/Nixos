@@ -138,5 +138,44 @@
           # change the owner of the directory recursively
           chown -R ${userSettings.username} ${userHome}/Nixos
         '';
+
+      # a fresh installation version, that would use disko
+      # to format the disk to use btrfs and my preferred subvolume layout
+      packages.x86_64-linux.freshinstall =
+        let
+          pkgs = import nixpkgs { system = "x86_64-linux"; };
+        in
+        pkgs.writeShellScriptBin "freshinstall" ''
+          GRAY="\033[0;37m"
+          RESET="\033[0m"
+          GREEN="\033[0;32m"
+          RED="\033[0;31m"
+          PURPLE="\033[0;35m"
+
+          echo "Choose a storage device to install NixOS on..."
+          sleep 3
+          CHOICE=$(lsblk -nd -o NAME | \
+          ${pkgs.fzf}/bin/fzf --preview 'lsblk /dev/{}')
+
+          if [[ "$CHOICE" == "" ]]; then 
+            echo -e "''${RED}no disk was chosen... Aborting.$RESET"
+            exit 1
+          fi
+
+          echo -e $GRAY
+          lsblk /dev/$CHOICE
+          echo -e $RESET
+          echo -e "The script will now format ''$PURPLE$CHOICE$RESET. This cannot be reverted"
+          read -p "Continue? (y/N)" -r CONTINUE
+
+          if [[ "$CONTINUE" != "y" && "$CONTINUE" != "Y" ]]; then 
+            echo "Aborting installation, no changes have been made to the system"
+            exit 0
+          fi
+
+          echo "cloning the configuration.nix and disko.nix files"
+          curl https://raw.githubusercontent.com/sakuexe/Nixos/refs/heads/main/machines/disko-config.nix > disko.nix
+          cat disko.nix
+        '';
     };
 }
