@@ -151,7 +151,7 @@
           GREEN="\033[0;32m"
           RED="\033[0;31m"
           PURPLE="\033[0;35m"
-          SYSTEMS=("nixos-vm" "laptop" "desktop")
+          SYSTEMS=("nixos-vm" "laptop" "ringtail")
 
           echo "Choose a storage device to install NixOS on..."
           sleep 3
@@ -199,11 +199,14 @@
 
           sudo nixos-generate-config --root /mnt
           ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/Nixos /tmp/nixos
-          sudo mv /mnt/etc/nixos/hardware-configuration.nix /tmp/nixos
+          sudo mv /mnt/etc/nixos/hardware-configuration.nix /tmp/nixos/machines/$CHOICE
           sudo rm -rf /mnt/etc/nixos
           sudo mv /tmp/nixos /mnt/etc/nixos
 
-          sudo nixos-install --flake /mnt/etc/nixos
+          if [[ "$CHOICE" == "desktop" ]]; then 
+            CHOICE="ringtail"
+          fi
+          sudo nixos-install --flake /mnt/etc/nixos#$CHOICE
         '';
     };
 }
