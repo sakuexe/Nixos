@@ -186,7 +186,7 @@
 
           echo "Formatting device $PURPLE$DEVICE$RESET..."
           nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
-          --mode disko ./disko.nix --arg device $DEVICE
+          --mode disko ./disko.nix --arg disk $DEVICE
 
           nixos-generate-config --root /mnt && nixos-install
         '';
