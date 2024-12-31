@@ -146,6 +146,7 @@
           pkgs = import nixpkgs { system = "x86_64-linux"; };
         in
         pkgs.writeShellScriptBin "freshinstall" ''
+          set -e # stop the script if any command errors
           GRAY="\033[0;37m"
           RESET="\033[0m"
           GREEN="\033[0;32m"
@@ -198,15 +199,14 @@
           --mode disko ./disko.nix --argstr disk "$DEVICE" --arg swap "$SWAP_CHOICE"
 
           sudo nixos-generate-config --root /mnt
-          ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/Nixos /tmp/nixos
-          sudo mv /mnt/etc/nixos/hardware-configuration.nix /tmp/nixos/machines/$CHOICE
-          sudo rm -rf /mnt/etc/nixos
-          sudo mv /tmp/nixos /mnt/etc/nixos
+          mkdir -p /mnt/home/${userSettings.username}
+          ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/Nixos /mnt/home/${userSettings.username}/Nixos
+          sudo mv /mnt/etc/nixos/hardware-configuration.nix /mnt/home/${userSettings.username}/Nixos/machines/$CHOICE
 
           if [[ "$CHOICE" == "desktop" ]]; then 
             CHOICE="ringtail"
           fi
-          sudo nixos-install --impure --flake /mnt/etc/nixos#$CHOICE
+          sudo nixos-install --impure --flake /mnt/home/${userSettings.username}/Nixos?submodules=1#$CHOICE
         '';
     };
 }
