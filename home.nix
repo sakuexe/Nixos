@@ -5,8 +5,7 @@
 }:
 {
   imports = [
-    ./homemodules/wallpaper.nix
-    ./homemodules/dotfiles.nix
+    ./homemodules
   ];
 
   home.username = userSettings.username;
@@ -103,9 +102,6 @@
     };
   };
 
-  dotfiles.enable = true;
-
-  wallpaper.enable = true;
   wallpaper.ultrawide = true;
   wallpaper.iconScale = 1.0; # does not work yet, the icon is not centered
   wallpaper.backgroundImage = ./assets/floating-cubes.jpg;

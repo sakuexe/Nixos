@@ -54,7 +54,6 @@
           ./machines/desktop/configuration.nix
           ./machines/desktop/configuration.nix
           ./modules/gaming.nix
-          ./modules/entertainment.nix
           ./modules/virtualization.nix
           ./modules/keyboard.nix
 
