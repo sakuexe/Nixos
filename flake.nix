@@ -55,6 +55,7 @@
           ./machines/desktop/configuration.nix
           ./modules/gaming.nix
           ./modules/virtualization.nix
+          ./modules/docker.nix
           ./modules/keyboard.nix
 
           # home manager
@@ -77,6 +78,7 @@
         modules = [
           ./machines/laptop/configuration.nix
           ./modules/virtualization.nix
+          ./modules/docker.nix
           ./modules/keyboard.nix
 
           # module for taking care of the laptop hardware quirks
