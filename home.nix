@@ -27,6 +27,7 @@
     jq # A lightweight and flexible command-line JSON processor
     fzf # A command-line fuzzy finder (the best util frfr)
     yazi # TUI file-manager of choice
+    lazygit
 
     # misc
     cowsay
