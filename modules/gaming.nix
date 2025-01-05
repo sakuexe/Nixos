@@ -1,4 +1,7 @@
-{ config, pkgs, lib, ... }:
+{
+  pkgs,
+  ...
+}:
 
 {
   environment.systemPackages = with pkgs; [
@@ -8,8 +11,9 @@
     betterdiscordctl
     space-cadet-pinball
     mangohud
+    protontricks
   ];
-  
+
   # steam
   programs.steam.enable = true;
   programs.steam.remotePlay.openFirewall = true;
