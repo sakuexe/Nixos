@@ -208,7 +208,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty
-    git
     fastfetch
     tmux
     vscode

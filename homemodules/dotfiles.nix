@@ -29,7 +29,7 @@ in {
       nodejs_22
       sqlite
       nixd # nix lsp
-      nixfmt-rfc-style
+      nixfmt-rfc-style # nix formatter
     ];
 
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];

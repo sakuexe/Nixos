@@ -66,7 +66,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-backup";
             home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
-            home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
+            home-manager.users."${specialArgs.userSettings.username}" = import ./machines/desktop/home.nix;
           }
         ];
       };
@@ -92,7 +92,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-backup";
             home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
-            home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
+            home-manager.users."${specialArgs.userSettings.username}" = import ./machines/laptop/home.nix;
           }
         ];
       };
@@ -112,7 +112,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-backup";
             home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
-            home-manager.users."${specialArgs.userSettings.username}" = import ./home.nix;
+            home-manager.users."${specialArgs.userSettings.username}" = import ./machines/nixos-vm/home.nix;
           }
         ];
       };
