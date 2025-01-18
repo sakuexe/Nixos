@@ -57,6 +57,7 @@
           ./modules/virtualization.nix
           ./modules/docker.nix
           ./modules/keyboard.nix
+          ./modules/nvidia.nix
 
           # home manager
           inputs.home-manager-unstable.nixosModules.home-manager
