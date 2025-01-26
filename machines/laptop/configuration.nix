@@ -136,18 +136,6 @@
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
 
-  # zsh
-  programs.zsh.enable = true;
-  programs.zsh.enableCompletion = true;
-  programs.zsh.syntaxHighlighting.enable = true;
-  programs.zsh.autosuggestions.enable = true;
-  programs.zsh.interactiveShellInit = "fastfetch";
-  programs.zsh.shellAliases = {
-    # nixos specific aliases
-    rebuild = "sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1";
-    nixupdate = "nix flake update --flake ~/Nixos";
-  };
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [

@@ -58,6 +58,7 @@
           ./modules/docker.nix
           ./modules/keyboard.nix
           ./modules/nvidia.nix
+          ./modules/shell.nix
 
           # home manager
           inputs.home-manager-unstable.nixosModules.home-manager
@@ -81,6 +82,7 @@
           ./modules/virtualization.nix
           ./modules/docker.nix
           ./modules/keyboard.nix
+          ./modules/shell.nix
 
           # module for taking care of the laptop hardware quirks
           inputs.nixos-hardware.nixosModules.asus-zephyrus-ga503
@@ -104,6 +106,7 @@
 
         modules = [
           ./machines/nixos-vm/configuration.nix
+          ./modules/shell.nix
 
           # home manager
           home-manager.nixosModules.home-manager

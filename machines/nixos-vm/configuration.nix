@@ -128,22 +128,6 @@
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
 
-  # zsh
-  programs.zsh.enable = true;
-  programs.zsh.enableCompletion = true;
-  programs.zsh.syntaxHighlighting.enable = true;
-  programs.zsh.autosuggestions.enable = true;
-  programs.zsh.shellAliases = {
-    # nixos specific aliases
-    rebuild = "sudo nixos-rebuild switch --flake ~/Nixos\\?submodules=1";
-    # snapper
-    # https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-snapper.html#proc-snapper-restore-cmdl
-    snapperls = "sudo snapper -c home list";
-    snapperstatus = "sudo snapper -c home status $(sudo snapper -c home list | awk 'NR>2 {print $1}' | tail -n 1)..0";
-    # this one does not work yet, fix it later
-    recover = "sudo snapper -c home -v undochange $(echo $1)..0 $2";
-  };
-
   # snapper
   # https://git.eisfunke.com/config/nixos/-/blob/fdb9668693f270ca6c32d2ed95b19111f31dc134/nixos/snapshots.nix
   services.snapper.snapshotInterval = "hourly";
