@@ -12,6 +12,7 @@
     space-cadet-pinball
     mangohud
     protontricks
+    prismlauncher
   ];
 
   # steam
