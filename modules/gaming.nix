@@ -7,7 +7,6 @@
   environment.systemPackages = with pkgs; [
     heroic
     discord
-    discord-canary # use canary until wayland screenshare comes to stable
     betterdiscordctl
     space-cadet-pinball
     mangohud
