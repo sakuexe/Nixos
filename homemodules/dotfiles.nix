@@ -26,13 +26,23 @@ in {
       # programming languages and tools
       go
       python3
-      nodejs_22
       sqlite
+      nodejs_23
+      # language servers
       nixd # nix lsp
       nixfmt-rfc-style # nix formatter
+      sumneko-lua-language-server
+      typescript-language-server
     ];
 
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
+    programs.neovim.enable = true;
+    # programs.neovim.extraPackages = with pkgs; [
+    # ];
+    programs.neovim.withNodeJs = true;
+    programs.neovim.withPython3 = true;
+    programs.neovim.withRuby = false;
 
     # xdg.configHome == ~/.config
     # xdg.dataHome == ~/.local/share
