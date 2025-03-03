@@ -100,6 +100,26 @@
         ];
       };
 
+      # laptop
+      nixosConfigurations.wsl = nixpkgs.lib.nixosSystem rec {
+        specialArgs = { inherit inputs userSettings; };
+        system = "x86_64-linux";
+
+        modules = [
+          ./machines/wsl/configuration.nix
+          ./modules/shell.nix
+
+          # home manager
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-backup";
+            home-manager.users."${specialArgs.userSettings.username}" = import ./machines/wsl/home.nix;
+          }
+        ];
+      };
       # virtual machines
       nixosConfigurations.nixos-vm = nixpkgs.lib.nixosSystem rec {
         specialArgs = { inherit inputs userSettings; };

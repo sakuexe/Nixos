@@ -47,7 +47,7 @@
   };
 
   # automatically start virt-manager network
-  dconf.settings = {
+  dconf.settings = lib.mkDefault {
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = [ "qemu:///system" ];
       uris = [ "qemu:///system" ];
