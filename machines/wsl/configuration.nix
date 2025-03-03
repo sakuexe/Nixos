@@ -40,7 +40,10 @@
     git
     fastfetch
     tmux
+    wget
   ];
+
+  programs.nix-ld.enable = true;
 
   programs.mtr.enable = true;
   programs.gnupg.agent = {
