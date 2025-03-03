@@ -15,6 +15,7 @@
 
   wsl.enable = true;
   wsl.defaultUser = userSettings.username;
+  wsl.wslConf.network.hostname = "wsl";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."${userSettings.username}" = {

@@ -4,7 +4,9 @@
     ../../homemodules
   ];
 
-  wallpaper.enable = false; # does not work yet, the icon is not centered
+  wallpaper.enable = false;
+  entertainment.enable = false;
+
   programs.alacritty.enable = false;
   dconf.settings = {};
 }
