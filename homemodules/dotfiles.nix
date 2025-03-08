@@ -1,39 +1,59 @@
-{ config, pkgs, lib, userSettings, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  userSettings,
+  inputs,
+  ...
+}:
 let
   dotfiles = "/home/${userSettings.username}/Nixos/.dotfiles";
-in {
+in
+{
 
   options.dotfiles = {
     enable = lib.mkEnableOption "enables the dotfiles module";
+
+    programming = lib.mkEnableOption {
+      type = lib.types.bool;
+      default = true;
+      description = "installs programming languages and tools when set to true";
+    };
   };
 
   config = lib.mkIf config.dotfiles.enable {
     # dependencies of the dotfiles
-    home.packages = with pkgs; [
-      # neovim
-      ripgrep
-      gcc9
-      gnumake
-      xclip # xorg clipboard manager
-      wl-clipboard # wayland clipboard manager
-      # tmux plugins
-      tmuxPlugins.sensible
-      tmuxPlugins.yank
-      # prompt (zsh/bash)
-      oh-my-posh
-      # stylizing the desktop (ricing)
-      conky
-      # programming languages and tools
-      go
-      python3
-      sqlite
-      nodejs_23
-      # language servers
-      nixd # nix lsp
-      nixfmt-rfc-style # nix formatter
-      sumneko-lua-language-server
-      typescript-language-server
-    ];
+    home.packages =
+      with pkgs;
+      [
+        # neovim
+        ripgrep
+        gcc9
+        gnumake
+        xclip # xorg clipboard manager
+        wl-clipboard # wayland clipboard manager
+        # tmux plugins
+        tmuxPlugins.sensible
+        tmuxPlugins.yank
+        # prompt (zsh/bash)
+        oh-my-posh
+        # stylizing the desktop (ricing)
+        conky
+      ]
+
+      ++ lib.optionals config.dotfiles.programming [
+        # programming languages
+        go
+        python3
+        sqlite
+        nodejs_23
+        # language servers
+        nixd # nix lsp
+        nixfmt-rfc-style # nix formatter
+        sumneko-lua-language-server
+        typescript-language-server
+        gopls
+      ];
 
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
