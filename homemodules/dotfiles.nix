@@ -14,7 +14,7 @@ in
   options.dotfiles = {
     enable = lib.mkEnableOption "enables the dotfiles module";
 
-    programming = lib.mkEnableOption {
+    programming = lib.mkOption {
       type = lib.types.bool;
       default = true;
       description = "installs programming languages and tools when set to true";
