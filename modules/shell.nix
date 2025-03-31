@@ -13,6 +13,7 @@
   programs.zsh.shellAliases = {
     # nixos specific aliases
     rebuild = "sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1";
+    nixdev = "nix develop git+file://\${PWD}\\?ref=HEAD --command zsh || nix develop --command zsh";
     # reformat the task manager icons, if they cannot be found
     # https://discuss.kde.org/t/plasma-6-1-3-pinned-kde-application-icons-go-blank-after-gc-nixos/19444/3
     reficons = ''
