@@ -85,7 +85,7 @@
           ./modules/shell.nix
 
           # module for taking care of the laptop hardware quirks
-          inputs.nixos-hardware.nixosModules.asus-zephyrus-ga503
+          inputs.nixos-hardware.nixosModules.asus-zephyrus-ga502
 
           # home manager
           home-manager.nixosModules.home-manager

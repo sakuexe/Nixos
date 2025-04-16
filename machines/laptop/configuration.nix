@@ -108,12 +108,10 @@
   hardware.nvidia.prime = {
     offload.enable = true;
     offload.enableOffloadCmd = true;
-    amdgpuBusId = "PCI:6:0:0";
-    nvidiaBusId = "PCI:1:0:0";
+    # these are set in the nixos hardware fix module
+    # amdgpuBusId = "PCI:6:0:0";
+    # nvidiaBusId = "PCI:1:0:0";
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."${userSettings.username}" = {
