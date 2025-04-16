@@ -93,21 +93,23 @@
     #media-session.enable = true;
   };
 
+  # OpenGL
+  hardware.graphics.enable = true; # new way
   # Nvidia
   hardware.enableAllFirmware = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.modesetting.enable = true;
-  # hardware.nvidia.powerManagement.enable = false;
-  # hardware.nvidia.powerManagement.finegrained = true;
-  hardware.nvidia.open = false;
+  hardware.nvidia.powerManagement.enable = false;
+  hardware.nvidia.powerManagement.finegrained = false;
+  hardware.nvidia.open = true;
   hardware.nvidia.nvidiaSettings = true;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   # offload
   hardware.nvidia.prime = {
     offload.enable = true;
     offload.enableOffloadCmd = true;
-    # amdgpuBusId = "PCI:6:0:0";
-    # nvidiaBusId = "PCI:1:0:0";
+    amdgpuBusId = "PCI:6:0:0";
+    nvidiaBusId = "PCI:1:0:0";
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
