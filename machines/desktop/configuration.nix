@@ -199,10 +199,10 @@
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Nix garbage collection - every day remove files older than 14d
+  # Nix garbage collection - every day remove files older than 30 days
   nix.gc.automatic = true;
   nix.gc.dates = "daily";
-  nix.gc.options = "--delete-older-than 14d";
+  nix.gc.options = "--delete-older-than 30d";
 
   
   # This value determines the NixOS release from which the default
