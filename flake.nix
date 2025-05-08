@@ -83,6 +83,7 @@
           ./modules/docker.nix
           ./modules/keyboard.nix
           ./modules/shell.nix
+          ./modules/hyprland.nix
 
           # module for taking care of the laptop hardware quirks
           inputs.nixos-hardware.nixosModules.asus-zephyrus-ga502
@@ -100,7 +101,7 @@
         ];
       };
 
-      # laptop
+      # wsl (for the work windows laptop)
       nixosConfigurations.wsl = nixpkgs.lib.nixosSystem rec {
         specialArgs = { inherit inputs userSettings; };
         system = "x86_64-linux";

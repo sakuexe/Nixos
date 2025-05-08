@@ -97,6 +97,10 @@ in
         source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/fastfetch";
         recursive = true;
       };
+      hypr = {
+        source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/hypr";
+        recursive = true;
+      };
     };
 
     # add .zshenv to home, it works as an entrypoint to zsh config
