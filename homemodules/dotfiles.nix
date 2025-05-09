@@ -101,6 +101,10 @@ in
         source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/hypr";
         recursive = true;
       };
+      waybar = {
+        source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/waybar";
+        recursive = true;
+      };
     };
 
     # add .zshenv to home, it works as an entrypoint to zsh config
