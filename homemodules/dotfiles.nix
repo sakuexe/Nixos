@@ -7,7 +7,7 @@
   ...
 }:
 let
-  dotfiles = "/home/${userSettings.username}/Nixos/.dotfiles";
+  dotfiles = "/home/${userSettings.username}/Nixos/dotfiles";
 in
 {
 
