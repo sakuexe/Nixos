@@ -46,7 +46,7 @@ in
         go
         python3
         sqlite
-        nodejs_23
+        nodejs_22
         # language servers
         nixd # nix lsp
         nixfmt-rfc-style # nix formatter
