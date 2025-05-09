@@ -59,6 +59,7 @@
           ./modules/keyboard.nix
           ./modules/nvidia.nix
           ./modules/shell.nix
+          ./modules/hyprland.nix
 
           # home manager
           inputs.home-manager-unstable.nixosModules.home-manager

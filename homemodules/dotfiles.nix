@@ -104,6 +104,6 @@ in
     };
 
     # add .zshenv to home, it works as an entrypoint to zsh config
-    home.file.".zshenv".source = ../.dotfiles/zsh/.zshenv;
+    home.file.".zshenv".source = "${dotfiles}/zsh/.zshenv";
   };
 }

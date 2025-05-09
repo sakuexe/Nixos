@@ -6,7 +6,8 @@
 
   # related packages
   environment.systemPackages = with pkgs; [
-    kitty
+    waybar # statusbar
+    rofi-wayland # launcher
   ];
 
   # hint electron apps to use Wayland
