@@ -69,7 +69,10 @@ in
     # xdg.configHome == ~/.config
     # xdg.dataHome == ~/.local/share
     # https://mynixos.com/options/xdg.configFile.%3Cname%3E
-    # this might not be the best way to do it, but it works
+
+    # dynamically add all dotfiles folders as a symlink to xdgconfig
+    # this way I can modify them and see the changes without a reload
+    # some nix-heads would propably not approve of this impurity
     xdg.configFile = builtins.mapAttrs (name: path: {
       source    = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/${name}";
       recursive = true;
