@@ -8,6 +8,8 @@
 }:
 let
   dotfiles = "/home/${userSettings.username}/Nixos/dotfiles";
+  # returns an attribute list of { DIRNAME = "directory" }
+  directories = builtins.filterSource (_: type: type == "directory") dotfiles;
 in
 {
 
@@ -67,45 +69,11 @@ in
     # xdg.configHome == ~/.config
     # xdg.dataHome == ~/.local/share
     # https://mynixos.com/options/xdg.configFile.%3Cname%3E
-    xdg.configFile = {
-      nvim = {
-        source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/nvim";
-        recursive = true;
-      };
-      tmux = {
-        source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/tmux";
-        recursive = true;
-      };
-      zsh = {
-        source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/zsh";
-        recursive = true;
-      };
-      omp = {
-        source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/omp";
-        recursive = true;
-      };
-      # only on desktop environents
-      alacritty = {
-        source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/alacritty";
-        recursive = true;
-      };
-      conky = {
-        source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/conky";
-        recursive = true;
-      };
-      fastfetch = {
-        source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/fastfetch";
-        recursive = true;
-      };
-      hypr = {
-        source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/hypr";
-        recursive = true;
-      };
-      waybar = {
-        source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/waybar";
-        recursive = true;
-      };
-    };
+    # this might not be the best way to do it, but it works
+    xdg.configFile = builtins.mapAttrs (name: path: {
+      source    = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/${name}";
+      recursive = true;
+    }) (builtins.readDir directories);
 
     # add .zshenv to home, it works as an entrypoint to zsh config
     home.file.".zshenv".source = "${dotfiles}/zsh/.zshenv";
