@@ -8,9 +8,10 @@
   # related packages
   environment.systemPackages = with pkgs; [
     waybar # statusbar
-    rofi-wayland # launcher
-    fuzzel # other launcher (testing for now)
+    # rofi-wayland # launcher
+    fuzzel # launcher (testing for now)
     hyprpaper # wallpaper
+    cliphist # clipboard manager
     kdePackages.dolphin
   ];
 

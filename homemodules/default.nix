@@ -66,6 +66,7 @@
     fzf # A command-line fuzzy finder (the best util frfr)
     yazi # TUI file-manager of choice
     lazygit
+    tldr
 
     # misc
     cowsay
