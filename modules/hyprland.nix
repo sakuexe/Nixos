@@ -12,6 +12,7 @@
     fuzzel # launcher (testing for now)
     hyprpaper # wallpaper
     cliphist # clipboard manager
+    nwg-bar # power menu
     kdePackages.dolphin
   ];
 
