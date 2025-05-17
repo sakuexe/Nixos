@@ -12,7 +12,6 @@ let
   directories = builtins.filterSource (_: type: type == "directory") dotfiles;
 in
 {
-
   options.dotfiles = {
     enable = lib.mkEnableOption "enables the dotfiles module";
 
@@ -74,7 +73,7 @@ in
     # this way I can modify them and see the changes without a reload
     # some nix-heads would propably not approve of this impurity
     xdg.configFile = builtins.mapAttrs (name: path: {
-      source    = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/${name}";
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/${name}";
       recursive = true;
     }) (builtins.readDir directories);
 

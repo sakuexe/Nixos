@@ -5,29 +5,37 @@
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
 
-{ config, pkgs, userSettings, ... }:
+{ pkgs, userSettings, ... }:
 
 {
   imports = [
-    # include NixOS-WSL modules
-    <nixos-wsl/modules>
+    <nixos-wsl/modules> # include NixOS-WSL modules
+    ../../modules
   ];
 
+  # wsl modules
   wsl.enable = true;
   wsl.defaultUser = userSettings.username;
   wsl.wslConf.network.hostname = "wsl";
+
+  # custom nixos modules
+  keyboard.enable = false;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."${userSettings.username}" = {
     isNormalUser = true;
     description = userSettings.description;
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "libvirtd"
+    ];
     shell = pkgs.zsh;
     useDefaultShell = true;
   };
-  users.groups.ringtails = {};
+  users.groups.ringtails = { };
   users.groups.ringtails.members = [ userSettings.username ];
-  
+
   # Install neovim and use it as the default editor
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
@@ -52,14 +60,16 @@
   };
 
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
   # Nix garbage collection - keep 10 generations
   # https://nix.dev/manual/nix/2.18/command-ref/nix-env/delete-generations#generations-time
   nix.gc.automatic = true;
   nix.gc.dates = "daily";
   nix.gc.options = "--delete-older-than +10";
-
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

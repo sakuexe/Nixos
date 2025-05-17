@@ -2,13 +2,20 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, disko, userSettings, ... }:
+{
+  pkgs,
+  userSettings,
+  ...
+}:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules
+  ];
+
+  # custom nixos modules
+  keyboard.enable = false;
 
   # Bootloader.
   boot.loader.grub.enable = true;
@@ -100,13 +107,16 @@
   users.users."${userSettings.username}" = {
     isNormalUser = true;
     description = userSettings.description;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     shell = pkgs.zsh;
     useDefaultShell = true;
   };
 
   # Define custom groups
-  users.groups.makapakas = {};
+  users.groups.makapakas = { };
   users.groups.makapakas.members = [ userSettings.username ];
 
   # Enable automatic login for the user.
@@ -120,7 +130,7 @@
   nix.gc.automatic = true;
   nix.gc.dates = "weekly";
   nix.gc.options = "--delete-older-than 7d";
-  
+
   # Install firefox.
   programs.firefox.enable = true;
 
@@ -134,8 +144,8 @@
   services.snapper.cleanupInterval = "1d";
   # create the .snapshot subvolumes (snapper doesn't do this automatically)
   # https://www.mankier.com/5/tmpfiles.d
-  systemd.tmpfiles.rules = [ 
-    "v /home/.snapshots 0700 root root -" 
+  systemd.tmpfiles.rules = [
+    "v /home/.snapshots 0700 root root -"
   ];
   services.snapper.configs.home = {
     SUBVOLUME = "/home";
@@ -185,7 +195,10 @@
   # networking.firewall.enable = false;
 
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -50,15 +50,12 @@
         specialArgs = { inherit inputs userSettings; };
 
         modules = [
-          # my own modules
           ./machines/desktop/configuration.nix
           ./machines/desktop/configuration.nix
           ./modules/gaming.nix
           ./modules/virtualization.nix
           ./modules/docker.nix
-          ./modules/keyboard.nix
           ./modules/nvidia.nix
-          ./modules/shell.nix
           ./modules/hyprland.nix
 
           # home manager
@@ -80,10 +77,9 @@
 
         modules = [
           ./machines/laptop/configuration.nix
+          ./modules
           ./modules/virtualization.nix
           ./modules/docker.nix
-          ./modules/keyboard.nix
-          ./modules/shell.nix
           ./modules/hyprland.nix
 
           # module for taking care of the laptop hardware quirks
@@ -109,7 +105,7 @@
 
         modules = [
           ./machines/wsl/configuration.nix
-          ./modules/shell.nix
+          ./modules
 
           # home manager
           home-manager.nixosModules.home-manager
@@ -128,7 +124,7 @@
 
         modules = [
           ./machines/nixos-vm/configuration.nix
-          ./modules/shell.nix
+          ./modules
 
           # home manager
           home-manager.nixosModules.home-manager
