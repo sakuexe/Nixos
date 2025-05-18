@@ -1,27 +1,38 @@
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  # enable hyprland
-  programs.hyprland.enable = true;
-  services.blueman.enable = true;
+  options.hyprland = {
+    enable = lib.mkEnableOption "enables hyprland and the hyprland specific programs";
+  };
 
-  # related packages
-  environment.systemPackages = with pkgs; [
-    waybar # statusbar
-    # rofi-wayland # launcher
-    fuzzel # launcher (testing for now)
-    hyprpaper # wallpaper
-    cliphist # clipboard manager
-    nwg-bar # power menu
-    kdePackages.dolphin
-  ];
+  config = lib.mkIf config.hyprland.enable {
+    # enable hyprland
+    programs.hyprland.enable = true;
+    services.blueman.enable = true;
 
-  # hint electron apps to use Wayland
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+    # related packages
+    environment.systemPackages = with pkgs; [
+      waybar # statusbar
+      # rofi-wayland # launcher
+      fuzzel # launcher (testing for now)
+      hyprpaper # wallpaper
+      cliphist # clipboard manager
+      nwg-bar # power menu
+      kdePackages.dolphin
+    ];
 
-  # enable screensharing
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+    # hint electron apps to use Wayland
+    environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+    # enable screensharing
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+    };
   };
 }

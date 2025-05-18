@@ -51,12 +51,6 @@
 
         modules = [
           ./machines/desktop/configuration.nix
-          ./machines/desktop/configuration.nix
-          ./modules/gaming.nix
-          ./modules/virtualization.nix
-          ./modules/docker.nix
-          ./modules/nvidia.nix
-          ./modules/hyprland.nix
 
           # home manager
           inputs.home-manager-unstable.nixosModules.home-manager
@@ -77,10 +71,6 @@
 
         modules = [
           ./machines/laptop/configuration.nix
-          ./modules
-          ./modules/virtualization.nix
-          ./modules/docker.nix
-          ./modules/hyprland.nix
 
           # module for taking care of the laptop hardware quirks
           inputs.nixos-hardware.nixosModules.asus-zephyrus-ga502

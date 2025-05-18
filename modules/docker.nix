@@ -1,17 +1,30 @@
-{ lib, userSettings, ... }:
+{
+  config,
+  lib,
+  userSettings,
+  ...
+}:
 
 {
-  # docker
-  # https://wiki.nixos.org/wiki/Docker
-  virtualisation.docker.enable = true;
+  options.docker = {
+    enable = lib.mkEnableOption "enables docker (rootless)";
+  };
 
-  # enable rootless mode
-  users.users."${userSettings.username}".extraGroups = [
-    "docker"
-  ];
-  virtualisation.docker.rootless.enable = true;
-  virtualisation.docker.rootless.setSocketVariable = true;
+  config = lib.mkIf config.docker.enable {
+    # docker
+    # https://wiki.nixos.org/wiki/Docker
+    virtualisation.docker.enable = true;
 
-  # enable btrfs
-  virtualisation.docker.storageDriver = lib.mkDefault "btrfs";
+    # include the user in the docker group
+    users.users."${userSettings.username}".extraGroups = [
+      "docker"
+    ];
+
+    # enable rootless mode
+    virtualisation.docker.rootless.enable = true;
+    virtualisation.docker.rootless.setSocketVariable = true;
+
+    # enable btrfs
+    virtualisation.docker.storageDriver = lib.mkDefault "btrfs";
+  };
 }

@@ -1,31 +1,38 @@
 {
+  config,
+  lib,
   pkgs,
   ...
 }:
 
 {
-  environment.systemPackages = with pkgs; [
-    heroic
-    discord
-    betterdiscordctl
-    space-cadet-pinball
-    mangohud
-    protontricks
-    prismlauncher
-  ];
+  options.gaming = {
+    enable = lib.mkEnableOption "enables gaming related settings and packages";
+  };
 
-  # steam
-  programs.steam.enable = true;
-  programs.steam.remotePlay.openFirewall = true;
-  programs.steam.dedicatedServer.openFirewall = true;
-  programs.steam.localNetworkGameTransfers.openFirewall = true;
+  config = lib.mkIf config.gaming.enable {
+    environment.systemPackages = with pkgs; [
+      heroic
+      discord
+      space-cadet-pinball
+      mangohud
+      protontricks
+      prismlauncher
+    ];
 
-  # Use these in steam by setting launch options:
-  # mangohud %command%
-  # gamescope %command%
-  # gamemoderun %command%
-  # can help if the game running has problems upscaling
-  programs.steam.gamescopeSession.enable = true;
-  # performance optimizations
-  programs.gamemode.enable = true;
+    # steam
+    programs.steam.enable = true;
+    programs.steam.remotePlay.openFirewall = true;
+    programs.steam.dedicatedServer.openFirewall = true;
+    programs.steam.localNetworkGameTransfers.openFirewall = true;
+
+    # Use these in steam by setting launch options:
+    # mangohud %command%
+    # gamescope %command%
+    # gamemoderun %command%
+    # can help if the game running has problems upscaling
+    programs.steam.gamescopeSession.enable = true;
+    # performance optimizations
+    programs.gamemode.enable = true;
+  };
 }

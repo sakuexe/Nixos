@@ -2,14 +2,27 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, userSettings, ... }:
+{
+  config,
+  pkgs,
+  userSettings,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../../modules
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../../modules
+  ];
+
+  # custom modules
+  virtualization.enable = true;
+  docker.enable = true;
+  nvidia.enable = true;
+  nvidia.laptopSpecifics = true;
+  nvidia.offload = true;
+  hyprland.enable = true;
 
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
@@ -94,37 +107,42 @@
     #media-session.enable = true;
   };
 
+  # TODO: remove these once you have checked that the module works
   # OpenGL
-  hardware.graphics.enable = true; # new way
+  # hardware.graphics.enable = true; # new way
   # Nvidia
-  hardware.enableAllFirmware = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia.modesetting.enable = true;
-  hardware.nvidia.powerManagement.enable = false;
-  hardware.nvidia.powerManagement.finegrained = false;
-  hardware.nvidia.open = true;
-  hardware.nvidia.nvidiaSettings = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+  # hardware.enableAllFirmware = true;
+  # services.xserver.videoDrivers = [ "nvidia" ];
+  # hardware.nvidia.modesetting.enable = true;
+  # hardware.nvidia.powerManagement.enable = false;
+  # hardware.nvidia.powerManagement.finegrained = false;
+  # hardware.nvidia.open = true;
+  # hardware.nvidia.nvidiaSettings = true;
+  # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   # offload
-  hardware.nvidia.prime = {
-    offload.enable = true;
-    offload.enableOffloadCmd = true;
-    # these are set in the nixos hardware fix module
-    # amdgpuBusId = "PCI:6:0:0";
-    # nvidiaBusId = "PCI:1:0:0";
-  };
+  # hardware.nvidia.prime = {
+  #   offload.enable = true;
+  #   offload.enableOffloadCmd = true;
+  #   # these are set in the nixos hardware fix module
+  #   # amdgpuBusId = "PCI:6:0:0";
+  #   # nvidiaBusId = "PCI:1:0:0";
+  # };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."${userSettings.username}" = {
     isNormalUser = true;
     description = userSettings.description;
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "libvirtd"
+    ];
     shell = pkgs.zsh;
     useDefaultShell = true;
   };
 
   # Define custom groups
-  users.groups.ringtails = {};
+  users.groups.ringtails = { };
   users.groups.ringtails.members = [ userSettings.username ];
 
   # Allow unfree packages
@@ -166,8 +184,11 @@
   # networking.firewall.enable = false;
 
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
   # Nix garbage collection - keep 10 generations
   # https://nix.dev/manual/nix/2.18/command-ref/nix-env/delete-generations#generations-time
   nix.gc.automatic = true;

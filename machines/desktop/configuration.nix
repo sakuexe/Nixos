@@ -2,14 +2,27 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, lib, userSettings, ... }:
+{
+  pkgs,
+  lib,
+  userSettings,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../../modules
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../../modules
+  ];
+
+  # custom modules
+  gaming.enable = true;
+  virtualization.enable = true;
+  docker.enable = true;
+  nvidia.enable = true;
+  nvidia.betaVersion = true;
+  hyprland.enable = true;
 
   # Bootloader. (using grub, because it's nice and keeps the generations tidy)
   boot.loader.grub.enable = true;
@@ -111,13 +124,17 @@
   users.users."${userSettings.username}" = {
     isNormalUser = true;
     description = userSettings.description;
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "libvirtd"
+    ];
     shell = pkgs.zsh;
     useDefaultShell = true;
   };
 
   # Define custom groups
-  users.groups.ringtails = {};
+  users.groups.ringtails = { };
   users.groups.ringtails.members = [ userSettings.username ];
 
   # Enable automatic login for the user.
@@ -126,7 +143,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  
+
   # Install firefox.
   programs.firefox.enable = true;
   # enable Qt (kde) file picker in firefox instead of the GTK (gnome) one
@@ -145,8 +162,8 @@
   services.snapper.cleanupInterval = "1d";
   # create the .snapshot subvolumes (snapper doesn't do this automatically)
   # https://www.mankier.com/5/tmpfiles.d
-  systemd.tmpfiles.rules = [ 
-    "v /home/.snapshots 0700 root root -" 
+  systemd.tmpfiles.rules = [
+    "v /home/.snapshots 0700 root root -"
   ];
   services.snapper.configs.home = {
     SUBVOLUME = "/home";
@@ -197,14 +214,16 @@
   # networking.firewall.enable = false;
 
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Nix garbage collection - every day remove files older than 30 days
   nix.gc.automatic = true;
   nix.gc.dates = "daily";
   nix.gc.options = "--delete-older-than 30d";
 
-  
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
