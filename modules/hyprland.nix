@@ -34,5 +34,7 @@
       enable = true;
       extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
     };
+
+    services.displayManager.defaultSession = lib.mkForce "hyprland";
   };
 }
