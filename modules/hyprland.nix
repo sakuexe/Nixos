@@ -26,8 +26,12 @@
       kdePackages.dolphin
     ];
 
-    # hint electron apps to use Wayland
-    environment.sessionVariables.NIXOS_OZONE_WL = "1";
+    environment.sessionVariables = {
+      # hint electron apps to use Wayland
+      NIXOS_OZONE_WL = "1";
+      LIBVA_DRIVER_NAME = "nvidia";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    };
 
     # enable screensharing
     xdg.portal = {

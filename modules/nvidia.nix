@@ -52,7 +52,7 @@
         config.boot.kernelPackages.nvidiaPackages.stable;
 
     # power management
-    hardware.nvidia.powerManagement.enable = false;
+    hardware.nvidia.powerManagement.enable = true;
     hardware.nvidia.powerManagement.finegrained = false;
 
     # extra settings
