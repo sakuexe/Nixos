@@ -24,6 +24,7 @@
       cliphist # clipboard manager
       nwg-bar # power menu
       kdePackages.dolphin
+      playerctl # cli audio controls
     ];
 
     environment.sessionVariables = {
