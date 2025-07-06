@@ -25,6 +25,7 @@
       nwg-bar # power menu
       kdePackages.dolphin
       playerctl # cli audio controls
+      mako # notification daemon (for discord to not crash)
     ];
 
     environment.sessionVariables = {
