@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   options.shell = {
@@ -14,19 +14,31 @@
     programs.zsh.syntaxHighlighting.enable = lib.mkDefault true;
     programs.zsh.autosuggestions.enable = lib.mkDefault true;
 
+    environment.systemPackages = with pkgs; [
+      nvd # nix cli tools
+    ];
+
     # aliases
     programs.zsh.shellAliases = {
       # nixos specific aliases
       rebuild = "sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1";
+      nixupdate = ''
+        nix flake update --flake ~/Nixos \
+          && rebuild
+          && nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)
+      '';
+      nixdiff = "nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)";
       nixdev = "nix develop git+file://\${PWD}\\?ref=HEAD --command zsh || nix develop --command zsh";
       openport = "sudo nixos-firewall-tool open tcp";
-      # reformat the task manager icons, if they cannot be found
+
+      # reformat the task manager icons, if they cannot be found (KDE Plasma 6)
       # https://discuss.kde.org/t/plasma-6-1-3-pinned-kde-application-icons-go-blank-after-gc-nixos/19444/3
       reficons = ''
         sed -i 's/file:\/\/\/nix\/store\/[^\/]*\/share\/applications\//applications:/gi' \
-        ~/.config/plasma-org.kde.plasma.desktop-appletsrc \
-        && systemctl restart --user plasma-plasmashell
+          ~/.config/plasma-org.kde.plasma.desktop-appletsrc \
+          && systemctl restart --user plasma-plasmashell
       '';
+
       # snapper aliases
       # https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-snapper.html#proc-snapper-restore-cmdl
       snapperls = "sudo snapper -c home list";
