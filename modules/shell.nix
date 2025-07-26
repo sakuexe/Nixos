@@ -24,7 +24,7 @@
       rebuild = "sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1";
       nixupdate = ''
         nix flake update --flake ~/Nixos \
-          && rebuild
+          && rebuild \
           && nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)
       '';
       nixdiff = "nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)";
