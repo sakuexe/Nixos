@@ -21,11 +21,18 @@
       # rofi-wayland # launcher
       fuzzel # launcher (testing for now)
       hyprpaper # wallpaper
-      cliphist # clipboard manager
       nwg-bar # power menu
       kdePackages.dolphin
+
+      # system controls
+      cliphist # clipboard manager
       playerctl # cli audio controls
       mako # notification daemon (for discord to not crash)
+
+      # screenshot stuff
+      grim # take the screenshot
+      slurp # capture a region of the screen
+      satty # quick editor for the screenshot
     ];
 
     environment.sessionVariables = {
