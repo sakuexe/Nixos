@@ -23,7 +23,8 @@
       # nixos specific aliases
       rebuild = "sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1";
       nixupdate = ''
-        nix flake update --flake ~/Nixos \
+        sudo -v \
+          && nix flake update --flake ~/Nixos \
           && rebuild \
           && nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)
       '';

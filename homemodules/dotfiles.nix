@@ -45,7 +45,10 @@ in
       ++ lib.optionals config.dotfiles.programming [
         # programming languages
         go
-        python3
+        # python313
+        (python313.withPackages (python313Packages: with python313Packages; [
+          pip
+        ]))
         sqlite
         nodejs_22
         # language servers
@@ -54,6 +57,7 @@ in
         sumneko-lua-language-server
         typescript-language-server
         gopls
+        python313Packages.jedi-language-server
       ];
 
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];

@@ -27,12 +27,15 @@
       # system controls
       cliphist # clipboard manager
       playerctl # cli audio controls
-      mako # notification daemon (for discord to not crash)
+      # mako # notification daemon (for discord to not crash)
 
       # screenshot stuff
       grim # take the screenshot
       slurp # capture a region of the screen
       satty # quick editor for the screenshot
+
+      # widgets
+      eww
     ];
 
     environment.sessionVariables = {

@@ -13,7 +13,7 @@
     documentation = {
       # dev.enable = true;
       man.generateCaches = true; # allow man -k to work
-      nixos.includeAllModules = true;
+      nixos.includeAllModules = false;
     };
   };
 }
