@@ -26,5 +26,8 @@
 
     # enable btrfs
     virtualisation.docker.storageDriver = lib.mkDefault "btrfs";
+
+    # automatically run docker system prune -f periodically
+    virtualisation.docker.autoPrune.enable = true;
   };
 }
