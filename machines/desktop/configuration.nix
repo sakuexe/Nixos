@@ -225,6 +225,8 @@
   nix.gc.options = "--delete-older-than 30d";
   nix.settings.auto-optimise-store = true;
 
+  nix.settings.download-buffer-size = 67108864 * 2;
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

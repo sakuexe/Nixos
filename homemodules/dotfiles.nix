@@ -29,7 +29,7 @@ in
       [
         # neovim
         ripgrep
-        gcc9
+        gcc15
         gnumake
         xclip # xorg clipboard manager
         wl-clipboard # wayland clipboard manager
@@ -57,7 +57,7 @@ in
         sumneko-lua-language-server
         typescript-language-server
         gopls
-        python313Packages.jedi-language-server
+        # python313Packages.jedi-language-server
       ];
 
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
