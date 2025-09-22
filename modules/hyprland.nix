@@ -23,6 +23,7 @@
       hyprpaper # wallpaper
       nwg-bar # power menu
       kdePackages.dolphin
+      nautilus
 
       # system controls
       cliphist # clipboard manager
@@ -33,6 +34,9 @@
       grim # take the screenshot
       slurp # capture a region of the screen
       satty # quick editor for the screenshot
+
+      # images
+      eog
 
       # widgets
       eww
@@ -49,6 +53,18 @@
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+    };
+
+    xdg.mime.enable = true;
+    xdg.mime.defaultApplications = {
+      "application/pdf" = "firefox.desktop";
+      "image/svg+xml" = "firefox.desktop";
+      "image/png" = "org.gnome.eog.desktop";
+      "image/jpeg" = "org.gnome.eog.desktop";
+      "image/gif" = "org.gnome.eog.desktop";
+      # "video/mp4" = "vlc.desktop";
+      # "video/mp3" = "vlc.desktop";
+      # "video/webm" = "vlc.desktop";
     };
 
     services.displayManager.defaultSession = lib.mkForce "hyprland";
