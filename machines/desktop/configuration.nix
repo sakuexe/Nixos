@@ -23,6 +23,16 @@
   nvidia.enable = true;
   nvidia.betaVersion = true;
   hyprland.enable = true;
+  scheduler.enable = true;
+  scheduler.items = [
+    {
+      name = "helmiala-backup";
+      description = "backup the Helmiälä project with rsync";
+      script = "./Code/helmia/backup.sh";
+      onCalendar = "daily";
+      packages = [ pkgs.rsync pkgs.openssh pkgs.zip ];
+    }
+  ];
 
   # Bootloader. (using grub, because it's nice and keeps the generations tidy)
   boot.loader.grub.enable = true;

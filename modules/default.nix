@@ -15,6 +15,7 @@
     ./virtualization.nix
     ./hyprland.nix
     ./manpages.nix
+    ./scheduler.nix
   ];
 
   # default nix modules
@@ -28,4 +29,5 @@
   docker.enable = lib.mkDefault false;
   virtualization.enable = lib.mkDefault false;
   hyprland.enable = lib.mkDefault false;
+  scheduler.enable = lib.mkDefault false;
 }
