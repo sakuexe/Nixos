@@ -38,8 +38,6 @@ in
         tmuxPlugins.yank
         # prompt (zsh/bash)
         oh-my-posh
-        # stylizing the desktop (ricing)
-        conky
       ]
 
       ++ lib.optionals config.dotfiles.programming [
@@ -54,10 +52,9 @@ in
         # language servers
         nixd # nix lsp
         nixfmt-rfc-style # nix formatter
-        sumneko-lua-language-server
+        lua-language-server
         typescript-language-server
         gopls
-        # python313Packages.jedi-language-server
       ];
 
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];

@@ -28,6 +28,7 @@
       # system controls
       cliphist # clipboard manager
       playerctl # cli audio controls
+      pavucontrol
       # mako # notification daemon (for discord to not crash)
 
       # screenshot stuff

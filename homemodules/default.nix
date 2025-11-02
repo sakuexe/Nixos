@@ -24,8 +24,10 @@
   # basic configuration of git
   programs.git = {
     enable = lib.mkDefault true;
-    userName = userSettings.description;
-    userEmail = userSettings.email;
+    settings = {
+      user.name = userSettings.description;
+      user.email = userSettings.email;
+    };
   };
 
   # alacritty - a cross-platform, GPU-accelerated terminal emulator
