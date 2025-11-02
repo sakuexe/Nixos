@@ -10,6 +10,7 @@
     ./dotfiles.nix
     ./entertainment.nix
     ./videoproduction.nix
+    ./hyprland.nix
   ];
 
   home.username = userSettings.username;
@@ -19,6 +20,7 @@
   dotfiles.enable = lib.mkDefault true;
   wallpaper.enable = lib.mkDefault true;
   entertainment.enable = lib.mkDefault true;
+  hyprland.enable = lib.mkDefault true;
   videoproduction.enable = lib.mkDefault false;
 
   # basic configuration of git

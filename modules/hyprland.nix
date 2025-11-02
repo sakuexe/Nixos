@@ -15,34 +15,6 @@
     programs.hyprland.enable = true;
     services.blueman.enable = true;
 
-    # related packages
-    environment.systemPackages = with pkgs; [
-      waybar # statusbar
-      # rofi-wayland # launcher
-      fuzzel # launcher (testing for now)
-      hyprpaper # wallpaper
-      nwg-bar # power menu
-      kdePackages.dolphin
-      nautilus
-
-      # system controls
-      cliphist # clipboard manager
-      playerctl # cli audio controls
-      pavucontrol
-      # mako # notification daemon (for discord to not crash)
-
-      # screenshot stuff
-      grim # take the screenshot
-      slurp # capture a region of the screen
-      satty # quick editor for the screenshot
-
-      # images
-      eog
-
-      # widgets
-      eww
-    ];
-
     environment.sessionVariables = {
       # hint electron apps to use Wayland
       NIXOS_OZONE_WL = "1";
@@ -67,6 +39,7 @@
       # "video/mp3" = "vlc.desktop";
       # "video/webm" = "vlc.desktop";
     };
+
 
     services.displayManager.defaultSession = lib.mkForce "hyprland";
   };

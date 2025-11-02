@@ -9,4 +9,6 @@
   wallpaper.backgroundImage = ../../assets/floating-cubes.jpg;
   wallpaper.backgroundImageOpacity = 0.5;
   videoproduction.enable = true;
+  hyprland.ultrawide = true;
+  hyprland.wallpaper = ../../assets/minecraft_lake.png;
 }
