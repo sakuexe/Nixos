@@ -25,7 +25,11 @@
     # enable screensharing
     xdg.portal = {
       enable = true;
-      extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-hyprland
+        xdg-desktop-portal-gnome
+      ];
     };
 
     xdg.mime.enable = true;
@@ -40,6 +44,7 @@
       # "video/webm" = "vlc.desktop";
     };
 
+    programs.dconf.enable = true;
 
     services.displayManager.defaultSession = lib.mkForce "hyprland";
   };

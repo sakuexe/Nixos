@@ -1,4 +1,9 @@
 {
+  lib,
+  ...
+}:
+
+{
   # Default hyprland configuration, to be used as a base
   # for the home-manager configuration.
   # This is done so that the file can be a bit more readable
@@ -41,8 +46,8 @@
     gaps_in = 2;
     gaps_out = 12;
     border_size = 2;
-    "col.active_border" = "rgba(783cbdee) rgba(ad6e40ee) 45deg";
-    "col.inactive_border" = "rgba(595959aa)";
+    "col.active_border" = lib.mkDefault "rgba(783cbdee) rgba(ad6e40ee) 45deg";
+    "col.inactive_border" = lib.mkDefault "rgba(595959aa)";
     resize_on_border = false;
     allow_tearing = false;
     layout = "master"; # or dwindle
@@ -73,7 +78,7 @@
       enabled = true;
       range = 4;
       render_power = 3;
-      color = "rgba(1a1a1aee)";
+      color = lib.mkDefault "rgba(1a1a1aee)";
     };
 
     blur = {
@@ -113,12 +118,6 @@
   ];
   animations = {
     enabled = "yes, please :)";
-  };
-
-  # https://wiki.hyprland.org/Configuring/Variables/#misc
-  misc = {
-    force_default_wallpaper = -1;
-    disable_hyprland_logo = false;
   };
 
   # --- INPUT ---

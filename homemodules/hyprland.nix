@@ -5,7 +5,7 @@
   ...
 }:
 let
-  hyprconfig = import ./utils/hyprconfig.nix;
+  hyprconfig = import ./utils/hyprconfig.nix { inherit lib; };
 
   appmenuScript = pkgs.pkgs.writeShellScriptBin "appmenu" ''
     error_message="$(fuzzel 2>&1 >/dev/null)"
@@ -103,7 +103,12 @@ in
   };
 
   config = lib.mkIf config.hyprland.enable {
-    wayland.windowManager.hyprland.enable = true;
+    wayland.windowManager.hyprland = {
+      enable = true;
+      package = null;
+      portalPackage = null;
+    };
+
     wayland.windowManager.hyprland.settings = hyprconfig // {
 
       # See https://wiki.hyprland.org/Configuring/Monitors/
@@ -133,6 +138,7 @@ in
       hyprpaper # wallpaper
       nwg-bar # power menu
       nautilus
+      gsettings-qt
 
       # system controls
       cliphist # clipboard manager
@@ -157,6 +163,44 @@ in
         preload = ${config.hyprland.wallpaper}
         wallpaper = ,${config.hyprland.wallpaper}
       '';
+    };
+
+    dconf.settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+      };
+    };
+
+    home.pointerCursor = {
+      gtk.enable = true;
+      # x11.enable = true;
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
+      size = 16;
+    };
+
+    gtk = {
+      enable = true;
+      iconTheme = {
+        package = pkgs.adwaita-icon-theme;
+        name = "Adwaita";
+      };
+      theme = {
+        name = "Adwaita";
+        package = pkgs.adwaita-icon-theme;
+      };
+      gtk3.extraConfig = {
+        "gtk-application-prefer-dark-theme" = 1;
+      };
+    };
+
+    qt = {
+      enable = true;
+      platformTheme.name = "adwaita";
+      style = {
+        name = "Adwaita-dark";
+        package = pkgs.gnome-themes-extra;
+      };
     };
   };
 }
