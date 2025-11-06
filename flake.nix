@@ -66,7 +66,7 @@
       };
 
       # laptop
-      nixosConfigurations.laptop = nixpkgs.lib.nixosSystem rec {
+      nixosConfigurations.laptop = nixpkgs-unstable.lib.nixosSystem rec {
         specialArgs = { inherit inputs userSettings; };
 
         modules = [
@@ -76,7 +76,7 @@
           inputs.nixos-hardware.nixosModules.asus-zephyrus-ga502
 
           # home manager
-          home-manager.nixosModules.home-manager
+          inputs.home-manager-unstable.nixosModules.home-manager
           {
             home-manager.extraSpecialArgs = specialArgs;
             home-manager.useGlobalPkgs = true;

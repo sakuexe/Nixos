@@ -64,7 +64,7 @@
   # Fonts
   # https://nixos.wiki/wiki/Fonts
   fonts.packages = with pkgs; [
-    fira-code-nerdfont
+    nerd-fonts.fira-code
   ];
 
   fonts.fontconfig.defaultFonts = {
@@ -92,7 +92,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;

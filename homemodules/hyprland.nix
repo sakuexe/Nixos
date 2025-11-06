@@ -89,10 +89,16 @@ in
   options.hyprland = {
     enable = lib.mkEnableOption "Enables Hyprland configuration";
 
-    ultrawide = lib.mkEnableOption {
+    ultrawide = lib.mkOption {
       type = lib.types.bool;
       default = false;
       description = "Use settings meant for the ultrawide (32:9) monitor at home.";
+    };
+    
+    scaleFactor = lib.mkOption {
+      type = lib.types.float;
+      default = 1;
+      description = "The screen scaling factor";
     };
 
     wallpaper = lib.mkOption {
@@ -117,9 +123,17 @@ in
           if config.hyprland.ultrawide then
             ", highres, auto, auto, vrr, 1" # 32:9 home monitor
           else
-            ", preferred,auto,auto" # default
+            ", preferred,auto,${builtins.toString config.hyprland.scaleFactor}" # default
         )
       ];
+
+      general = hyprconfig.general // {
+        layout = 
+          if config.hyprland.ultrawide then
+            "master"
+          else
+            "dwindle";
+      };
 
       "$menu" = "${appmenuScript}/bin/appmenu";
       # append instead of replace
