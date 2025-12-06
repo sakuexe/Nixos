@@ -21,7 +21,9 @@
     # aliases
     programs.zsh.shellAliases = {
       # nixos specific aliases
-      rebuild = "sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1";
+      rebuild = ''
+          sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1
+            && nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)'';
       nixupdate = ''
         sudo -v \
           && nix flake update --flake ~/Nixos \
@@ -29,7 +31,7 @@
           && nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)
       '';
       nixdiff = "nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)";
-      nixdev = "nix develop git+file://\${PWD}\\?ref=HEAD --command zsh || nix develop --command zsh";
+      nixdev = "nix develop --command zsh";
       openport = "sudo nixos-firewall-tool open tcp";
 
       # reformat the task manager icons, if they cannot be found (KDE Plasma 6)
