@@ -32,9 +32,6 @@
     };
   };
 
-  # alacritty - a cross-platform, GPU-accelerated terminal emulator
-  programs.alacritty.enable = lib.mkDefault true;
-
   programs.bash = {
     enable = lib.mkDefault true;
     enableCompletion = lib.mkDefault true;
@@ -60,6 +57,9 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+    # terminal emulator
+    ghostty
+
     # compression
     zip
     unzip

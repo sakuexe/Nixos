@@ -16,7 +16,7 @@
 
   # --- PROGRAMS ---
   # https://wiki.hyprland.org/Configuring/Keywords/
-  "$terminal" = "alacritty";
+  "$terminal" = "ghostty";
   "$fileManager" = "nautilus";
   "$menu" = ''sh $XDG_CONFIG_HOME/hypr/scripts/appmenu.sh'';
   "$browser" = "vivaldi";
