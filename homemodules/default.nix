@@ -94,7 +94,7 @@
     nmap # A utility for network discovery and security auditing
 
     # chromium browser
-    brave
+    vivaldi
 
     # office suite
     libreoffice

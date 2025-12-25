@@ -19,7 +19,7 @@
   "$terminal" = "alacritty";
   "$fileManager" = "nautilus";
   "$menu" = ''sh $XDG_CONFIG_HOME/hypr/scripts/appmenu.sh'';
-  "$browser" = "firefox";
+  "$browser" = "vivaldi";
   "$powermenu" = "nwg-bar";
 
   # --- AUTOSTART ---

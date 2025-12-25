@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   options.shell = {
@@ -22,8 +27,10 @@
     programs.zsh.shellAliases = {
       # nixos specific aliases
       rebuild = ''
-          sudo nixos-rebuild --impure switch --flake ~/Nixos\\?submodules=1
-            && nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)'';
+        sudo nixos-rebuild --impure switch \
+          --flake ~/Nixos\?submodules=1 \
+          && nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link | tail -n 2)
+      '';
       nixupdate = ''
         sudo -v \
           && nix flake update --flake ~/Nixos \
