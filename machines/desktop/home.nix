@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   imports = [
     ../../homemodules
@@ -11,4 +11,8 @@
   videoproduction.enable = true;
   hyprland.ultrawide = true;
   hyprland.wallpaper = ../../assets/minecraft_lake.png;
+
+  home.packages = with pkgs; [
+    easyeffects # input audio mixer
+  ];
 }
