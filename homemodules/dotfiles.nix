@@ -51,7 +51,7 @@ in
         nodejs_22
         # language servers
         nixd # nix lsp
-        nixfmt-rfc-style # nix formatter
+        nixfmt # nix formatter
         lua-language-server
         typescript-language-server
         gopls

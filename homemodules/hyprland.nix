@@ -172,10 +172,16 @@ in
     ];
 
     xdg.configFile."hypr/hyprpaper.conf" = {
-      # enable = true;
+      enable = true;
       text = ''
-        preload = ${config.hyprland.wallpaper}
-        wallpaper = ,${config.hyprland.wallpaper}
+        wallpaper {
+          monitor =
+          path = ${config.hyprland.wallpaper}
+          fit_mode = cover
+        }
+
+        # quote at the bottom of the screen
+        splash = false
       '';
     };
 

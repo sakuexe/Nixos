@@ -31,7 +31,7 @@
           --flake ~/Nixos\?submodules=1 \
           && nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link | tail -n 2)
       '';
-      nixupdate = "sudo -v && nix flake update --flake ~/Nixos && rebuild && nixdiff";
+      nixupdate = "sudo -v && nix flake update --flake ~/Nixos && rebuild";
       nixdiff = "nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)";
       nixdev = "nix develop --command zsh";
       openport = "sudo nixos-firewall-tool open tcp";
