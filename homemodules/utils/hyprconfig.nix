@@ -154,6 +154,7 @@
   bind = [
     "$mainMod, Q, exec, $terminal"
     "$mainMod, SUPER_L, exec, $menu"
+    ", mouse:278, exec, $menu"
     "$mainMod, F, exec, $browser"
     "$mainMod, E, exec, $fileManager"
     "$mainMod, X, exec, hyprctl kill"
