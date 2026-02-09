@@ -230,26 +230,20 @@
   # --- WINDOWS & WORKSPACES / RULES ---
   # https://wiki.hyprland.org/Configuring/Window-Rules/
   # https://wiki.hyprland.org/Configuring/Workspace-Rules/
-  "windowrulev2" = [
+  "windowrule" = [
 
-    "suppressevent maximize, class:.*"
-    "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
-    "opacity 0.95, floating:1,fullscreen:0"
+    "match:class .*, suppress_event maximize"
+    "match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false, no_focus on"
+    "match:float true, match:fullscreen false, opacity 0.95"
 
     # steam friends
-    "float, class:steam, initialTitle:Friends List"
-    "size 500 800, class:steam, initialTitle:Friends List"
-    "center, class:steam, initialTitle:Friends List"
+    "match:class steam, match:initial_title Friends List, float on, size 500 800, center on"
 
     # system management popups
-    "float, class:^\\.blueman.*"
-    "size 600 400, class:^\\.blueman.*"
-    "move 100%-w-11 3%, class:^\\.blueman.*"
-    "float, class:^org\\.pulseaudio\\.pavucontrol$"
-    "size 800 500, class:^org\\.pulseaudio\\.pavucontrol$"
-    "move 100%-w-11 3%, class:^org\\.pulseaudio\\.pavucontrol$"
+    "match:class ^\.blueman.*, float on, size 600 400, move (monitor_w-window_w-11) (monitor_h*0.03)"
+    "match:class ^org\.pulseaudio\.pavucontrol$, float on, size 800 500, move (monitor_w-window_w-11) (monitor_h*0.03)"
 
     # image viewer
-    "float, class:^eog$"
+    "match:class ^eog$, float on"
   ];
 }
