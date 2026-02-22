@@ -201,7 +201,7 @@
     tmux
     vscode
     blender
-    wineWowPackages.stable
+    wineWow64Packages.stable
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -235,7 +235,8 @@
   nix.gc.options = "--delete-older-than 30d";
   nix.settings.auto-optimise-store = true;
 
-  nix.settings.download-buffer-size = 67108864 * 2;
+  # 512 MiB
+  nix.settings.download-buffer-size = 512 * 1024 * 1024;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

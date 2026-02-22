@@ -161,7 +161,7 @@
     git
     fastfetch
     tmux
-    wineWowPackages.stable
+    wineWow64Packages.stable
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
