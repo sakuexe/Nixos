@@ -154,7 +154,6 @@
   bind = [
     "$mainMod, Q, exec, $terminal"
     "$mainMod, SUPER_L, exec, $menu"
-    ", mouse:278, exec, $menu"
     "$mainMod, F, exec, $browser"
     "$mainMod, E, exec, $fileManager"
     "$mainMod, X, exec, hyprctl kill"
@@ -171,6 +170,10 @@
     # screenshots
     ", Print, exec, sh $XDG_CONFIG_HOME/hypr/scripts/screenshots.sh fullscreen"
     "SUPER_SHIFT, s, exec, sh $XDG_CONFIG_HOME/hypr/scripts/screenshots.sh region"
+
+    # Logitech MX Master 4 large side button
+    "$mainMod, mouse:278, exec, $menu"
+    ", mouse:278, exec, playerctl play-pause"
 
     # navigation
     "$mainMod, h, movefocus, l"
