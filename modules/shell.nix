@@ -29,7 +29,8 @@
       rebuild = ''
         sudo nixos-rebuild --impure switch \
           --flake ~/Nixos\?submodules=1 \
-          && nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link | tail -n 2)
+          && nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link | tail -n 2) \
+          && if [[ -f /var/run/reboot-required ]]; then echo "Reboot required"; fi
       '';
       nixupdate = "sudo -v && nix flake update --flake ~/Nixos && rebuild";
       nixdiff = "nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)";
