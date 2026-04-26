@@ -38,6 +38,8 @@ in
         tmuxPlugins.yank
         # prompt (zsh/bash)
         oh-my-posh
+        # ai tools (testing out)
+        github-copilot-cli
       ]
 
       ++ lib.optionals config.dotfiles.programming [

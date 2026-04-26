@@ -30,6 +30,7 @@
       user.name = userSettings.description;
       user.email = userSettings.email;
     };
+    signing.format = null;
   };
 
   programs.bash = {

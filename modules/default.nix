@@ -14,13 +14,11 @@
     ./docker.nix
     ./virtualization.nix
     ./hyprland.nix
-    ./manpages.nix
     ./scheduler.nix
   ];
 
   # default nix modules
   shell.enable = lib.mkDefault true;
-  manpages.enable = lib.mkDefault true;
   keyboard.enable = lib.mkDefault true;
 
   # not on by default
