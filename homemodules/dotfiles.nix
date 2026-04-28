@@ -67,6 +67,7 @@ in
     programs.neovim.withNodeJs = true;
     programs.neovim.withPython3 = true;
     programs.neovim.withRuby = false;
+    programs.neovim.sideloadInitLua = true;
 
     # xdg.configHome == ~/.config
     # xdg.dataHome == ~/.local/share
