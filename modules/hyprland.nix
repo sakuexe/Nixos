@@ -30,6 +30,11 @@
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-gnome
       ];
+      config.common = {
+        default = [ "hyprland" "gtk" ];
+        # Important for dark mode / prefers-color-scheme
+        "org.freedesktop.impl.portal.Settings" = [ "gtk" ];
+      };
     };
 
     xdg.mime.enable = true;
@@ -47,5 +52,10 @@
     programs.dconf.enable = true;
 
     services.displayManager.defaultSession = lib.mkForce "hyprland";
+
+    environment.pathsToLink = [
+      "/share/applications"
+      "/share/xdg-desktop-portal"
+    ];
   };
 }

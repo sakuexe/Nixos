@@ -94,7 +94,7 @@ in
       default = false;
       description = "Use settings meant for the ultrawide (32:9) monitor at home.";
     };
-    
+
     scaleFactor = lib.mkOption {
       type = lib.types.float;
       default = 1;
@@ -128,11 +128,7 @@ in
       ];
 
       general = hyprconfig.general // {
-        layout = 
-          if config.hyprland.ultrawide then
-            "master"
-          else
-            "dwindle";
+        layout = if config.hyprland.ultrawide then "master" else "dwindle";
       };
 
       "$menu" = "${appmenuScript}/bin/appmenu";
@@ -185,12 +181,6 @@ in
       '';
     };
 
-    dconf.settings = {
-      "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
-      };
-    };
-
     home.pointerCursor = {
       gtk.enable = true;
       # x11.enable = true;
@@ -201,16 +191,25 @@ in
 
     gtk = {
       enable = true;
-      iconTheme = {
-        package = pkgs.adwaita-icon-theme;
-        name = "Adwaita";
-      };
+      colorScheme = "dark";
+
       theme = {
+        name = "Adwaita-dark";
+        package = pkgs.gnome-themes-extra;
+      };
+
+      gtk4.theme = null;
+
+      iconTheme = {
         name = "Adwaita";
         package = pkgs.adwaita-icon-theme;
       };
-      gtk3.extraConfig = {
-        "gtk-application-prefer-dark-theme" = 1;
+    };
+
+    dconf.settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+        gtk-theme = "Adwaita-dark";
       };
     };
 
