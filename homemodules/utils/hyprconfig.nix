@@ -65,7 +65,7 @@
 
   # https://wiki.hyprland.org/Configuring/Dwindle-Layout/
   dwindle = {
-    pseudotile = true;
+    # pseudotile = true;
     preserve_split = true;
   };
 

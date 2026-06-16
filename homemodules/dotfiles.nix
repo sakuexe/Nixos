@@ -33,6 +33,7 @@ in
         gnumake
         xclip # xorg clipboard manager
         wl-clipboard # wayland clipboard manager
+        tree-sitter
         # tmux plugins
         tmuxPlugins.sensible
         tmuxPlugins.yank
@@ -40,6 +41,8 @@ in
         oh-my-posh
         # ai tools (testing out)
         github-copilot-cli
+        claude-code
+        claude-monitor
       ]
 
       ++ lib.optionals config.dotfiles.programming [
