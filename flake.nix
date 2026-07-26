@@ -1,11 +1,11 @@
 {
   description = "My Home Flake";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-26.05";
       # use the follows attribute to use the same dependencies as nixpkgs
       # this way there wont be unnecessary duplications and inconsistensies
       inputs.nixpkgs.follows = "nixpkgs";
