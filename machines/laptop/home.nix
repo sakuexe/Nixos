@@ -9,5 +9,4 @@
   wallpaper.backgroundImageOpacity = 0.5;
   videoproduction.enable = true;
   hyprland.enable = true;
-  hyprland.scaleFactor = 1.2;
 }

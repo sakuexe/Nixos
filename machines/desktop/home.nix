@@ -9,9 +9,6 @@
   wallpaper.backgroundImage = ../../assets/floating-cubes.jpg;
   wallpaper.backgroundImageOpacity = 0.5;
   videoproduction.enable = true;
-  hyprland.ultrawide = true;
-  # hyprland.wallpaper = ../../assets/minecraft_lake.png;
-  hyprland.wallpaper = "/home/sakuk/Pictures/homer_fine_arts.jpg";
 
   home.packages = with pkgs; [
     easyeffects # input audio mixer
