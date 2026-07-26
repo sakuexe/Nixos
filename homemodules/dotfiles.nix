@@ -8,8 +8,6 @@
 }:
 let
   dotfiles = "/home/${userSettings.username}/Nixos/dotfiles";
-  # returns an attribute list of { DIRNAME = "directory" }
-  directories = builtins.filterSource (_: type: type == "directory") dotfiles;
 in
 {
   options.dotfiles = {
@@ -79,10 +77,10 @@ in
     # dynamically add all dotfiles folders as a symlink to xdgconfig
     # this way I can modify them and see the changes without a reload
     # some nix-heads would propably not approve of this impurity
-    xdg.configFile = builtins.mapAttrs (name: path: {
+    xdg.configFile = lib.mapAttrs (name: _: {
       source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/${name}";
       recursive = true;
-    }) (builtins.readDir directories);
+    }) (lib.filterAttrs (_: type: type == "directory") (builtins.readDir dotfiles));
 
     # add .zshenv to home, it works as an entrypoint to zsh config
     home.file.".zshenv".source = "${dotfiles}/zsh/.zshenv";
