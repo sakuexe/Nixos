@@ -17,9 +17,11 @@
   wsl.enable = true;
   wsl.defaultUser = userSettings.username;
   wsl.wslConf.network.hostname = "wsl";
+  networking.resolvconf.enable = false;
 
   # custom nixos modules
   keyboard.enable = false;
+  docker.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."${userSettings.username}" = {
