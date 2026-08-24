@@ -13,7 +13,10 @@
   config = lib.mkIf config.hyprland.enable {
     # enable hyprland
     programs.hyprland.enable = true;
+    programs.hyprland.withUWSM = true;
     services.blueman.enable = true;
+
+    services.displayManager.defaultSession = lib.mkForce "hyprland-uwsm";
 
     environment.sessionVariables = {
       # hint electron apps to use Wayland
@@ -50,8 +53,6 @@
     };
 
     programs.dconf.enable = true;
-
-    services.displayManager.defaultSession = lib.mkForce "hyprland";
 
     environment.pathsToLink = [
       "/share/applications"
