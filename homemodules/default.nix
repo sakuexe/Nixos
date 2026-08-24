@@ -8,7 +8,6 @@
   imports = [
     ./wallpaper.nix
     ./dotfiles.nix
-    ./entertainment.nix
     ./videoproduction.nix
     ./hyprland.nix
   ];
@@ -19,7 +18,6 @@
   # custom home manager modules
   dotfiles.enable = lib.mkDefault true;
   wallpaper.enable = lib.mkDefault true;
-  entertainment.enable = lib.mkDefault true;
   hyprland.enable = lib.mkDefault true;
   videoproduction.enable = lib.mkDefault false;
 
