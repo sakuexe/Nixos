@@ -41,6 +41,8 @@ in
         github-copilot-cli
         claude-code
         claude-monitor
+        opencode
+        pi-coding-agent
       ]
 
       ++ lib.optionals config.dotfiles.programming [
