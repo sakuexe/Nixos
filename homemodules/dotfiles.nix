@@ -82,9 +82,15 @@ in
     xdg.configFile = lib.mapAttrs (name: _: {
       source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/${name}";
       recursive = true;
-    }) (lib.filterAttrs (_: type: type == "directory") (builtins.readDir dotfiles));
+    }) (lib.filterAttrs (name: type: type == "directory" && name != "pi") (builtins.readDir dotfiles));
 
     # add .zshenv to home, it works as an entrypoint to zsh config
     home.file.".zshenv".source = "${dotfiles}/zsh/.zshenv";
+
+    # pi does not support xdg conventions
+    home.file.".pi" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/pi";
+      recursive = true;
+    };
   };
 }
