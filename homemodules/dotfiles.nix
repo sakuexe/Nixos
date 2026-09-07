@@ -38,9 +38,7 @@ in
         # prompt (zsh/bash)
         oh-my-posh
         # ai tools (testing out)
-        github-copilot-cli
         claude-code
-        claude-monitor
         opencode
         pi-coding-agent
       ]
