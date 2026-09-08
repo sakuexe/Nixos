@@ -23,7 +23,7 @@
   nvidia.enable = true;
   nvidia.betaVersion = true;
   hyprland.enable = true;
-  scheduler.enable = true;
+  scheduler.enable = false;
   scheduler.items = [
     {
       name = "helmiala-backup";
