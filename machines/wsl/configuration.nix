@@ -18,6 +18,14 @@
   wsl.defaultUser = userSettings.username;
   wsl.wslConf.network.hostname = "wsl";
   networking.resolvconf.enable = false;
+  wsl.usbip = {
+    enable = true;
+    autoAttach = [ "2-1" ];
+  };
+
+  services.udev.extraRules = ''
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1050", MODE="0660", GROUP="plugdev"
+  '';
 
   # custom nixos modules
   keyboard.enable = false;
@@ -35,8 +43,8 @@
     shell = pkgs.zsh;
     useDefaultShell = true;
   };
-  users.groups.ringtails = { };
   users.groups.ringtails.members = [ userSettings.username ];
+  users.groups.plugdev.members = [ userSettings.username ];
 
   # Install neovim and use it as the default editor
   programs.neovim.enable = true;
@@ -51,6 +59,9 @@
     fastfetch
     tmux
     wget
+    kmod
+    libfido2 
+    yubikey-manager
   ];
 
   programs.nix-ld.enable = true;
@@ -60,6 +71,15 @@
     enable = true;
     enableSSHSupport = true;
   };
+
+  programs.ssh.extraConfig = ''
+    Host helmiala
+      HostName 157.180.122.131
+      Port 2001
+      User sakuk
+      IdentityFile ~/.ssh/id_ed25519_sk_rk
+      IdentitiesOnly yes
+  '';
 
   # Enable flakes
   nix.settings.experimental-features = [
