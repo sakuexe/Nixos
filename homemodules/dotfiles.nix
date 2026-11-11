@@ -8,6 +8,7 @@
 }:
 let
   dotfiles = "/home/${userSettings.username}/Nixos/dotfiles";
+  pkgs-unstable = import inputs.nixpkgs-unstable { inherit (pkgs) system config; };
 in
 {
   options.dotfiles = {
@@ -38,10 +39,14 @@ in
         # prompt (zsh/bash)
         oh-my-posh
         # ai tools (testing out)
-        claude-code
         opencode
-        pi-coding-agent
       ]
+
+      ++ (with pkgs-unstable; [
+        # kept on unstable for the latest versions
+        claude-code
+        pi-coding-agent
+      ])
 
       ++ lib.optionals config.dotfiles.programming [
         # programming languages
