@@ -20,9 +20,8 @@
   networking.resolvconf.enable = false;
   wsl.usbip = {
     enable = true;
-    autoAttach = [ "2-1" ];
+    autoAttach = [ "3-1" ];
   };
-
   services.udev.extraRules = ''
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1050", MODE="0660", GROUP="plugdev"
   '';
