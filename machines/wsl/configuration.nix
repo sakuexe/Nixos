@@ -20,11 +20,12 @@
   networking.resolvconf.enable = false;
   wsl.usbip = {
     enable = true;
-    autoAttach = [ "3-1" ];
+    autoAttach = [ "2-1" "3-1" ];  # YubiKey 1050:0407 lands on either bus ID
   };
   services.udev.extraRules = ''
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1050", MODE="0660", GROUP="plugdev"
   '';
+  boot.kernelModules = [ "vhci_hcd" ];
 
   # custom nixos modules
   keyboard.enable = false;
