@@ -23,6 +23,7 @@
   nvidia.enable = true;
   nvidia.betaVersion = true;
   hyprland.enable = true;
+  flatpak.enable = true;
   scheduler.enable = false;
   scheduler.items = [
     {

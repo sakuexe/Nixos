@@ -15,6 +15,7 @@
     ./virtualization.nix
     ./hyprland.nix
     ./scheduler.nix
+    ./flatpak.nix
   ];
 
   # default nix modules
@@ -28,4 +29,5 @@
   virtualization.enable = lib.mkDefault false;
   hyprland.enable = lib.mkDefault false;
   scheduler.enable = lib.mkDefault false;
+  flatpak.enable = lib.mkDefault false;
 }
