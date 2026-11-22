@@ -24,6 +24,7 @@
   nvidia.betaVersion = true;
   hyprland.enable = true;
   flatpak.enable = true;
+  syncthing.enable = true;
   scheduler.enable = false;
   scheduler.items = [
     {

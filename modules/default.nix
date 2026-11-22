@@ -16,6 +16,7 @@
     ./hyprland.nix
     ./scheduler.nix
     ./flatpak.nix
+    ./syncthing.nix
   ];
 
   # default nix modules
@@ -30,4 +31,5 @@
   hyprland.enable = lib.mkDefault false;
   scheduler.enable = lib.mkDefault false;
   flatpak.enable = lib.mkDefault false;
+  syncthing.enable = lib.mkDefault false;
 }
