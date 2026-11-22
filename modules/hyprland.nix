@@ -54,6 +54,10 @@
 
     programs.dconf.enable = true;
 
+    # gvfs provides the udisks2 volume monitor nautilus needs to list/mount drives
+    # (normally enabled by the gnome desktop module, which isn't used here)
+    services.gvfs.enable = true;
+
     environment.pathsToLink = [
       "/share/applications"
       "/share/xdg-desktop-portal"
