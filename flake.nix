@@ -21,8 +21,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   outputs =
@@ -50,7 +48,7 @@
         specialArgs = { inherit inputs userSettings; };
 
         modules = [
-          ./machines/desktop/configuration.nix
+          ./machines/ringtail/configuration.nix
 
           # home manager
           inputs.home-manager-unstable.nixosModules.home-manager
@@ -60,30 +58,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-backup";
             home-manager.sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
-            home-manager.users."${specialArgs.userSettings.username}" = import ./machines/desktop/home.nix;
-          }
-        ];
-      };
-
-      # laptop
-      nixosConfigurations.laptop = nixpkgs-unstable.lib.nixosSystem rec {
-        specialArgs = { inherit inputs userSettings; };
-
-        modules = [
-          ./machines/laptop/configuration.nix
-
-          # module for taking care of the laptop hardware quirks
-          inputs.nixos-hardware.nixosModules.asus-zephyrus-ga502
-
-          # home manager
-          inputs.home-manager-unstable.nixosModules.home-manager
-          {
-            home-manager.extraSpecialArgs = specialArgs;
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "hm-backup";
-            home-manager.sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
-            home-manager.users."${specialArgs.userSettings.username}" = import ./machines/laptop/home.nix;
+            home-manager.users."${specialArgs.userSettings.username}" = import ./machines/ringtail/home.nix;
           }
         ];
       };
@@ -137,7 +112,7 @@
           userHome = "/home/${userSettings.username}";
         in
         pkgs.writeShellScriptBin "install" ''
-          SYSTEMS=("nixos-vm" "laptop" "ringtail")
+          SYSTEMS=("nixos-vm" "ringtail")
           echo "Installing Nixos setup from github:sakuexe/Nixos..."
           sleep 1
           echo "Choose a system to use (opens next)"
@@ -147,7 +122,7 @@
           ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/nixos ${userHome}/Nixos
           cp /etc/nixos/hardware-configuration.nix ${userHome}/Nixos/machines/$CHOICE
           # rebuild
-          nixos-rebuild switch --impure --flake ${userHome}/Nixos?submodules=1#$CHOICE
+          nixos-rebuild switch --impure --flake "${userHome}/Nixos?submodules=1#$CHOICE"
           # change the owner of the directory recursively
           chown -R ${userSettings.username} ${userHome}/Nixos
         '';
@@ -165,7 +140,7 @@
           GREEN="\033[0;32m"
           RED="\033[0;31m"
           PURPLE="\033[0;35m"
-          SYSTEMS=("nixos-vm" "laptop" "ringtail")
+          SYSTEMS=("nixos-vm" "ringtail")
 
           echo "Choose a storage device to install NixOS on..."
           sleep 3
@@ -214,12 +189,10 @@
           sudo nixos-generate-config --root /mnt
           mkdir -p /mnt/home/${userSettings.username}
           ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/Nixos /mnt/home/${userSettings.username}/Nixos
+
           sudo mv /mnt/etc/nixos/hardware-configuration.nix /mnt/home/${userSettings.username}/Nixos/machines/$CHOICE
 
-          if [[ "$CHOICE" == "desktop" ]]; then 
-            CHOICE="ringtail"
-          fi
-          sudo nixos-install --impure --flake /mnt/home/${userSettings.username}/Nixos#nixosConfigurations.$CHOICE#submodules
+          sudo nixos-install --impure --flake "/mnt/home/${userSettings.username}/Nixos?submodules=1#$CHOICE"
         '';
     };
 }
