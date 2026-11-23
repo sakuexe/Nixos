@@ -49,5 +49,34 @@
         flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       '';
     };
+
+    # keep user flatpaks updated, most importantly the GL.nvidia-<version> extension:
+    # flatpak picks it from the *loaded* kernel module, so after a driver bump it can
+    # only be fetched after the reboot, a mismatch gives vulkan apps a black window
+    systemd.services.flatpak-update-user = {
+      description = "Update flatpaks for ${userSettings.username}";
+      wants = [ "network-online.target" ];
+      after = [
+        "network-online.target"
+        "flatpak-add-flathub-user.service"
+      ];
+      path = [ pkgs.flatpak ];
+      serviceConfig = {
+        Type = "oneshot";
+        User = userSettings.username;
+      };
+      script = ''
+        flatpak update --user --noninteractive -y
+        flatpak uninstall --user --unused --noninteractive -y
+      '';
+    };
+
+    systemd.timers.flatpak-update-user = {
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "2min";
+        OnUnitActiveSec = "1d";
+      };
+    };
   };
 }

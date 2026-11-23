@@ -167,6 +167,9 @@
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
 
+  # share clipboard and other data between devices on the same network
+  programs.kdeconnect.enable = true;
+
   # snapper
   # https://git.eisfunke.com/config/nixos/-/blob/fdb9668693f270ca6c32d2ed95b19111f31dc134/nixos/snapshots.nix
   services.snapper.snapshotInterval = "hourly";
