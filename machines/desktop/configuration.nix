@@ -21,7 +21,6 @@
   virtualization.enable = true;
   docker.enable = true;
   nvidia.enable = true;
-  nvidia.betaVersion = true;
   hyprland.enable = true;
   flatpak.enable = true;
   syncthing.enable = true;

@@ -10,16 +10,10 @@
       description = "enables laptop specific tweaks to make nvidia work";
     };
 
-    openDriver = lib.mkOption {
+    latestVersion = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "enables open source nvidia kernel modules";
-    };
-
-    betaVersion = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "whether to use the unstable driver or not";
+      description = "use the latest driver (newest of production/new-feature branches) instead of stable";
     };
 
     offload = lib.mkOption {
@@ -38,7 +32,8 @@
     hardware.graphics.enable = true; # new way
 
     hardware.enableAllFirmware = config.nvidia.laptopSpecifics;
-    hardware.nvidia.open = config.nvidia.openDriver;
+    # open kernel modules: recommended by nvidia for turing and newer
+    hardware.nvidia.open = true;
 
     # nvidia
     services.xserver.videoDrivers = [ "nvidia" ];
@@ -46,8 +41,8 @@
 
     # driver package version
     hardware.nvidia.package =
-      if config.nvidia.betaVersion then
-        config.boot.kernelPackages.nvidiaPackages.beta
+      if config.nvidia.latestVersion then
+        config.boot.kernelPackages.nvidiaPackages.latest
       else
         config.boot.kernelPackages.nvidiaPackages.stable;
 
