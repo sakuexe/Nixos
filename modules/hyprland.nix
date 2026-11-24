@@ -29,7 +29,10 @@
         xdg-desktop-portal-gnome
       ];
       config.common = {
-        default = [ "hyprland" "gtk" ];
+        default = [
+          "hyprland"
+          "gtk"
+        ];
         # Important for dark mode / prefers-color-scheme
         "org.freedesktop.impl.portal.Settings" = [ "gtk" ];
       };

@@ -17,7 +17,10 @@
   networking.resolvconf.enable = false;
   wsl.usbip = {
     enable = true;
-    autoAttach = [ "2-1" "3-1" ];  # YubiKey 1050:0407 lands on either bus ID
+    autoAttach = [
+      "2-1"
+      "3-1"
+    ]; # YubiKey 1050:0407 lands on either bus ID
   };
   services.udev.extraRules = ''
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1050", MODE="0660", GROUP="plugdev"
@@ -37,7 +40,7 @@
     tmux
     wget
     kmod
-    libfido2 
+    libfido2
     yubikey-manager
   ];
 

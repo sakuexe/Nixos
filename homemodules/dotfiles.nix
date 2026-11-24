@@ -44,9 +44,11 @@ in
         # programming languages
         go
         # python313
-        (python313.withPackages (python313Packages: with python313Packages; [
-          pip
-        ]))
+        (python313.withPackages (
+          python313Packages: with python313Packages; [
+            pip
+          ]
+        ))
         sqlite
         nodejs_24
         # language servers
