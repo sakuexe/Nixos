@@ -23,15 +23,15 @@
     # steam
     programs.steam.enable = true;
     programs.steam.remotePlay.openFirewall = true;
-    programs.steam.dedicatedServer.openFirewall = true;
     programs.steam.localNetworkGameTransfers.openFirewall = true;
 
     # Use these in steam by setting launch options:
     # mangohud %command%
     # gamescope %command%
     # gamemoderun %command%
-    # can help if the game running has problems upscaling
-    programs.steam.gamescopeSession.enable = true;
+    # gamescope can help if the game running has problems upscaling
+    # (only the binary, steam.gamescopeSession would add a Steam Deck-like login session to SDDM)
+    programs.gamescope.enable = true;
     # performance optimizations
     programs.gamemode.enable = true;
   };

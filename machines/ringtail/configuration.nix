@@ -30,10 +30,14 @@
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.device = "nodev";
   boot.loader.efi.canTouchEfiVariables = true;
-  # enable tmpfs (ram based) to be mounted to /tmp
-  # nixos rebuilds use a lot of /tmp, so machines with small amounts of RAM can run into OOM errors
+  # mount /tmp as tmpfs (ram based)
+  # note: nix-daemon builds in /tmp, so this *increases* the risk of running out of space
+  # on big builds. fine with 64 GB of RAM, but drop it on machines with less
   # boot.tmp.tmpfsSize = 50%; # by default
   boot.tmp.useTmpfs = true;
+
+  # secondary drive (from hardware-configuration.nix), don't fail the boot if it is missing
+  fileSystems."/home/sakuk/Storage".options = [ "nofail" ];
 
   networking.hostName = "ringtail";
   networking.networkmanager.enable = true;
@@ -184,7 +188,8 @@
     "flakes"
   ];
 
-  nix.settings.auto-optimise-store = true;
+  # hard link identical store files, on a timer instead of during every build
+  nix.optimise.automatic = true;
 
   # 512 MiB
   nix.settings.download-buffer-size = 512 * 1024 * 1024;

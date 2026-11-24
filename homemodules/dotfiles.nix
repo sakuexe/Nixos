@@ -48,7 +48,7 @@ in
           pip
         ]))
         sqlite
-        nodejs_22
+        nodejs_24
         # language servers
         nixd # nix lsp
         nixfmt # nix formatter

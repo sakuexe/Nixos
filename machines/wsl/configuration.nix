@@ -82,7 +82,8 @@
     "flakes"
   ];
 
-  nix.settings.auto-optimise-store = true;
+  # hard link identical store files, on a timer instead of during every build
+  nix.optimise.automatic = true;
 
   nix.settings.download-buffer-size = 67108864 * 2;
 
