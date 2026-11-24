@@ -136,91 +136,132 @@
 
       packages.x86_64-linux.install =
         let
-          pkgs = import nixpkgs { system = "x86_64-linux"; };
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
           userHome = "/home/${userSettings.username}";
         in
-        pkgs.writeShellScriptBin "install" ''
-          SYSTEMS=("nixos-vm" "ringtail")
-          echo "Installing Nixos setup from github:sakuexe/Nixos..."
-          sleep 1
-          echo "Choose a system to use (opens next)"
-          sleep 3
-          CHOICE=$(printf "%s\n" ''${SYSTEMS[@]} | "${pkgs.fzf}/bin/fzf")
-          echo "$CHOICE was chosen, building..."
-          ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/nixos ${userHome}/Nixos
-          cp /etc/nixos/hardware-configuration.nix ${userHome}/Nixos/machines/$CHOICE
-          # rebuild
-          nixos-rebuild switch --impure --flake "${userHome}/Nixos?submodules=1#$CHOICE"
-          # change the owner of the directory recursively
-          chown -R ${userSettings.username} ${userHome}/Nixos
-        '';
+        pkgs.writeShellApplication {
+          name = "install";
+          runtimeInputs = with pkgs; [
+            fzf
+            git
+          ];
+          text = ''
+            SYSTEMS=("nixos-vm" "ringtail")
+            echo "Installing Nixos setup from github:sakuexe/Nixos..."
+            sleep 1
+            echo "Choose a system to use (opens next)"
+            sleep 3
+            CHOICE=$(printf "%s\n" "''${SYSTEMS[@]}" | fzf) || true
+            if [[ -z "$CHOICE" ]]; then
+              echo "No system was chosen. Aborting."
+              exit 1
+            fi
+            echo "$CHOICE was chosen, building..."
+            git clone --recurse-submodules -j8 https://github.com/sakuexe/Nixos "${userHome}/Nixos"
+            cp /etc/nixos/hardware-configuration.nix "${userHome}/Nixos/machines/$CHOICE"
+            # rebuild
+            nixos-rebuild switch --impure --flake "${userHome}/Nixos#$CHOICE"
+            # change the owner of the directory recursively
+            chown -R ${userSettings.username} "${userHome}/Nixos"
+          '';
+        };
 
       # a fresh installation version, that would use disko
       # to format the disk to use btrfs and my preferred subvolume layout
       packages.x86_64-linux.freshinstall =
         let
-          pkgs = import nixpkgs { system = "x86_64-linux"; };
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          userHome = "/home/${userSettings.username}";
         in
-        pkgs.writeShellScriptBin "freshinstall" ''
-          set -e # stop the script if any command errors
-          GRAY="\033[0;37m"
-          RESET="\033[0m"
-          GREEN="\033[0;32m"
-          RED="\033[0;31m"
-          PURPLE="\033[0;35m"
-          SYSTEMS=("nixos-vm" "ringtail")
+        pkgs.writeShellApplication {
+          name = "freshinstall";
+          runtimeInputs = with pkgs; [
+            fzf
+            git
+            util-linux # lsblk, findmnt (the safety checks rely on these)
+          ];
+          text = ''
+            GRAY="\033[0;37m"
+            RESET="\033[0m"
+            RED="\033[0;31m"
+            PURPLE="\033[0;35m"
+            SYSTEMS=("nixos-vm" "ringtail")
 
-          echo "Choose a storage device to install NixOS on..."
-          sleep 3
-          DEVICE=$(lsblk -nd -o NAME | \
-          ${pkgs.fzf}/bin/fzf --preview 'lsblk /dev/{}')
+            # safety: this script wipes a disk, so only ever run it from the NixOS live installer.
+            # the installer runs from a tmpfs root with the boot media mounted at /iso,
+            # an installed system never has either.
+            if [[ "$(findmnt -n -o FSTYPE /)" != "tmpfs" ]] || ! findmnt -n /iso > /dev/null; then
+              echo -e "''${RED}Not running from the NixOS live installer. Refusing to touch any disk.$RESET"
+              exit 1
+            fi
 
-          if [[ "$DEVICE" == "" ]]; then 
-            echo -e "''${RED}no disk was chosen... Aborting.$RESET"
-            exit 1
-          fi
-          DEVICE="/dev/$DEVICE"
-
-          echo -e $GRAY
-          lsblk $DEVICE
-          echo -e $RESET
-          echo -e "The script will now format ''$PURPLE$DEVICE$RESET. This cannot be reverted"
-          read -p "Continue? (y/N)" -r CONTINUE
-
-          if [[ "$CONTINUE" != "y" && "$CONTINUE" != "Y" ]]; then 
-            echo "Aborting installation, no changes have been made to the system"
-            exit 0
-          fi
-
-          CHOICE=$(printf "%s\n" ''${SYSTEMS[@]} | "${pkgs.fzf}/bin/fzf")
-          if [[ ! " ''${SYSTEMS[@]} " =~ " $CHOICE " ]]; then # if choice is not in systems
-            echo -e "''${RED}System choice was not valid. Aborting.$RESET"
-            exit 1
-          fi
-
-          echo "Downloading the disko.nix files"
-          curl https://raw.githubusercontent.com/sakuexe/Nixos/refs/heads/main/machines/disko-config.nix > disko.nix
-
-          SWAP=($(free --giga | grep Mem: | awk {'print $2'}) $(free --giga | grep Mem: | awk {'print $2 / 2'}) 2)
-          SWAP_CHOICE=$(printf "%s\n" ''${SWAP[@]} | \
-          "${pkgs.fzf}/bin/fzf" --preview "echo 'setting the SWAP partition to {}G'")
-          if [[ ! " ''${SWAP[@]} " =~ " $SWAP_CHOICE " ]]; then 
-            echo -e "SWAP is required. Using the default of $PURPLE'8G'$RESET"
-            SWAP_CHOICE="8"
+            echo "Choose a storage device to install NixOS on..."
             sleep 3
-          fi
+            DEVICE=$(lsblk -nd -o NAME | fzf --preview 'lsblk /dev/{}') || true
 
-          echo "Formatting device $PURPLE$DEVICE$RESET..."
-          sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
-          --mode disko ./disko.nix --argstr disk "$DEVICE" --arg swap "$SWAP_CHOICE"
+            if [[ -z "$DEVICE" ]]; then
+              echo -e "''${RED}No disk was chosen. Aborting.$RESET"
+              exit 1
+            fi
+            DEVICE="/dev/$DEVICE"
 
-          sudo nixos-generate-config --root /mnt
-          mkdir -p /mnt/home/${userSettings.username}
-          ${pkgs.git}/bin/git clone --recurse-submodules -j8 https://github.com/sakuexe/Nixos /mnt/home/${userSettings.username}/Nixos
+            # safety: never format a disk that has something mounted (for example the installer usb itself)
+            if [[ -n "$(lsblk -n -o MOUNTPOINTS "$DEVICE" | tr -d '[:space:]')" ]]; then
+              echo -e "''${RED}$DEVICE has mounted partitions. Refusing to format it.$RESET"
+              lsblk -o NAME,SIZE,MOUNTPOINTS "$DEVICE"
+              exit 1
+            fi
 
-          sudo mv /mnt/etc/nixos/hardware-configuration.nix /mnt/home/${userSettings.username}/Nixos/machines/$CHOICE
+            echo -e "$GRAY"
+            lsblk "$DEVICE"
+            echo -e "$RESET"
+            echo -e "The script will now format $PURPLE$DEVICE$RESET. This cannot be reverted"
+            # safety: a reflexive "y" is too easy, make the disk be typed out in full
+            read -p "Type the full device path ($DEVICE) to continue: " -r CONTINUE || true
 
-          sudo nixos-install --impure --flake "/mnt/home/${userSettings.username}/Nixos?submodules=1#$CHOICE"
-        '';
+            if [[ "$CONTINUE" != "$DEVICE" ]]; then
+              echo "Aborting installation, no changes have been made to the system"
+              exit 0
+            fi
+
+            CHOICE=$(printf "%s\n" "''${SYSTEMS[@]}" | fzf) || true
+            if [[ -z "$CHOICE" ]]; then
+              echo -e "''${RED}No system was chosen. Aborting.$RESET"
+              exit 1
+            fi
+
+            # whole gigabytes only, disko gets the size as a nix integer
+            MEM=$(free --giga | awk '/^Mem:/ {print $2}')
+            SWAP=("$MEM" "$((MEM / 2))" 2)
+            SWAP_CHOICE=$(printf "%s\n" "''${SWAP[@]}" \
+              | fzf --preview "echo 'setting the SWAP partition to {}G'") || true
+            if [[ -z "$SWAP_CHOICE" ]]; then
+              echo -e "SWAP is required. Using the default of $PURPLE'8G'$RESET"
+              SWAP_CHOICE="8"
+              sleep 3
+            fi
+
+            echo -e "Formatting device $PURPLE$DEVICE$RESET..."
+            # the disk layout comes from the same commit as this script, disko is pinned by flake.lock.
+            # no --yes-wipe-all-disks on purpose: disko asks for its own confirmation before destroying
+            sudo ${pkgs.disko}/bin/disko \
+              --mode destroy,format,mount ${./machines/disko-config.nix} --argstr disk "$DEVICE" --arg swap "$SWAP_CHOICE"
+
+            sudo nixos-generate-config --root /mnt
+            # /mnt is owned by root, clone as the current user (uid 1000, same as the installed user)
+            sudo mkdir -p "/mnt${userHome}"
+            sudo chown "$(id -u):$(id -g)" "/mnt${userHome}"
+            git clone --recurse-submodules -j8 https://github.com/sakuexe/Nixos "/mnt${userHome}/Nixos"
+
+            sudo mv /mnt/etc/nixos/hardware-configuration.nix "/mnt${userHome}/Nixos/machines/$CHOICE"
+
+            # the config reads the dotfiles from ${userHome}/Nixos (--impure),
+            # so make that path exist on the live system too
+            sudo mkdir -p "${userHome}"
+            sudo ln -sfn "/mnt${userHome}/Nixos" "${userHome}/Nixos"
+
+            sudo nixos-install --impure --flake "/mnt${userHome}/Nixos#$CHOICE"
+          '';
+        };
     };
 }

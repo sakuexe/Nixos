@@ -1,7 +1,7 @@
-# this was only used during the installation
+# only used during installation (by the freshinstall script in flake.nix),
 # so this does not need to be imported
-# set the disk to be formatted with:
-# ... github:sakuexe/Nixos#install --arg disk "/dev/sda1"
+# set the disk and swap size with:
+# disko --mode disko ./disko-config.nix --argstr disk "/dev/sda" --arg swap 16
 {
   disk ? "/dev/vda", # disk to format
   swap ? 8, # size of the swap partition
@@ -31,8 +31,8 @@
 
         swap = {
           name = "swap";
-          start = "513M";
-          end = "${toString swap}G";
+          # size instead of start/end, so the partition is the full chosen size
+          size = "${toString swap}G";
           content.type = "swap";
         };
 
