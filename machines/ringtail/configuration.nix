@@ -73,22 +73,13 @@
     wineWow64Packages.stable
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
   };
 
-  # hard link identical store files, on a timer instead of during every build
-  nix.optimise.automatic = true;
-
   # 512 MiB
   nix.settings.download-buffer-size = 512 * 1024 * 1024;
-
-  # Allows to run dynamically linked binaries
-  programs.nix-ld.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

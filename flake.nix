@@ -77,6 +77,9 @@
           inherit specialArgs;
           modules = extraModules ++ [
             ./machines/common.nix
+            # the config name is the hostname, so nh / nixos-rebuild pick the right config by default
+            # (on WSL this also sets wsl.wslConf.network.hostname)
+            { networking.hostName = hostname; }
             ./machines/${hostname}/configuration.nix
             ./modules
             (unstableOverlay unstable)

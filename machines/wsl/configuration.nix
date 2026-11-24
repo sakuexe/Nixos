@@ -14,7 +14,6 @@
   # wsl modules
   wsl.enable = true;
   wsl.defaultUser = userSettings.username;
-  wsl.wslConf.network.hostname = "wsl";
   networking.resolvconf.enable = false;
   wsl.usbip = {
     enable = true;
@@ -42,9 +41,6 @@
     yubikey-manager
   ];
 
-  programs.nix-ld.enable = true;
-
-  programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
@@ -58,9 +54,6 @@
       IdentityFile ~/.ssh/id_ed25519_sk_rk
       IdentitiesOnly yes
   '';
-
-  # hard link identical store files, on a timer instead of during every build
-  nix.optimise.automatic = true;
 
   nix.settings.download-buffer-size = 67108864 * 2;
 

@@ -4,12 +4,10 @@
   lib,
   pkgs,
   userSettings,
-  hostname,
   ...
 }:
 
 {
-  networking.hostName = hostname;
   networking.networkmanager.enable = true;
   users.users."${userSettings.username}".extraGroups = [ "networkmanager" ];
 

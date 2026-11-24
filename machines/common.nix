@@ -28,4 +28,13 @@
   # the user's configured neovim comes from home-manager (homemodules/dotfiles.nix)
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
+
+  # Allows to run dynamically linked binaries (for example LSPs downloaded by neovim)
+  programs.nix-ld.enable = true;
+
+  # traceroute + ping, the module adds the capability wrapper mtr needs
+  programs.mtr.enable = true;
+
+  # hard link identical store files, on a timer instead of during every build
+  nix.optimise.automatic = true;
 }
