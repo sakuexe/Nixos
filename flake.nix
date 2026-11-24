@@ -43,6 +43,23 @@
         description = "Saku Karttunen";
         email = "saku.karttunen@gmail.com";
       };
+
+      # pkgs.unstable for hosts on the stable branch, so single packages can be pulled from unstable
+      # hosts already on unstable just point it at their own pkgs (no second nixpkgs instance)
+      unstableOverlay = onUnstable: {
+        nixpkgs.overlays = [
+          (final: prev: {
+            unstable =
+              if onUnstable then
+                final
+              else
+                import nixpkgs-unstable {
+                  inherit (final.stdenv.hostPlatform) system;
+                  config = final.config;
+                };
+          })
+        ];
+      };
     in
     {
 
@@ -54,6 +71,7 @@
 
         modules = [
           ./machines/ringtail/configuration.nix
+          (unstableOverlay true)
 
           # home manager
           inputs.home-manager-unstable.nixosModules.home-manager
@@ -77,6 +95,7 @@
           inputs.nixos-wsl.nixosModules.default
           ./machines/wsl/configuration.nix
           ./modules
+          (unstableOverlay false)
 
           # home manager
           home-manager.nixosModules.home-manager
@@ -96,6 +115,7 @@
         modules = [
           ./machines/nixos-vm/configuration.nix
           ./modules
+          (unstableOverlay false)
 
           # home manager
           home-manager.nixosModules.home-manager

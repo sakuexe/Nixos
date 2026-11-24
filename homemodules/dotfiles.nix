@@ -3,12 +3,10 @@
   pkgs,
   lib,
   userSettings,
-  inputs,
   ...
 }:
 let
   dotfiles = "/home/${userSettings.username}/Nixos/dotfiles";
-  pkgs-unstable = import inputs.nixpkgs-unstable { inherit (pkgs) system config; };
 in
 {
   options.dotfiles = {
@@ -36,7 +34,7 @@ in
         opencode
       ]
 
-      ++ (with pkgs-unstable; [
+      ++ (with pkgs.unstable; [
         # kept on unstable for the latest versions
         claude-code
         pi-coding-agent
@@ -80,7 +78,7 @@ in
     }) (lib.filterAttrs (name: type: type == "directory" && name != "pi") (builtins.readDir dotfiles));
 
     # add .zshenv to home, it works as an entrypoint to zsh config
-    home.file.".zshenv".source = "${dotfiles}/zsh/.zshenv";
+    home.file.".zshenv".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/zsh/.zshenv";
 
     # pi does not support xdg conventions
     home.file.".pi" = {

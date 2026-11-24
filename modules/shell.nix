@@ -33,7 +33,7 @@ in
     # --impure is passed in the aliases, nh has no env var for it
     programs.nh.enable = true;
     programs.nh.flake = "/home/${userSettings.username}/Nixos";
-    # unlike --delete-older-than, this keeps at least 5 generations after a long break
+    # unlike --delete-older-than, this keeps at least 8 generations after a long break
     programs.nh.clean.enable = true;
     programs.nh.clean.extraArgs = "--keep-since 30d --keep 8";
 
