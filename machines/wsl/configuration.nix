@@ -82,11 +82,6 @@
     "flakes"
   ];
 
-  # Nix garbage collection - keep 10 generations
-  # https://nix.dev/manual/nix/2.18/command-ref/nix-env/delete-generations#generations-time
-  nix.gc.automatic = true;
-  nix.gc.dates = "daily";
-  nix.gc.options = "--delete-older-than +10";
   nix.settings.auto-optimise-store = true;
 
   nix.settings.download-buffer-size = 67108864 * 2;

@@ -1,10 +1,17 @@
 {
   config,
   lib,
-  pkgs,
+  userSettings,
   ...
 }:
 
+let
+  # nh does not tell when the new generation needs a reboot to take effect
+  rebootCheck = ''
+    if [[ "$(readlink /run/booted-system/{initrd,kernel,kernel-modules})" \
+      != "$(readlink /run/current-system/{initrd,kernel,kernel-modules})" ]]; \
+    then echo "Reboot required"; fi'';
+in
 {
   options.shell = {
     enable = lib.mkEnableOption "enables the zsh shell and all the tweaks for it";
@@ -22,23 +29,19 @@
     programs.zsh.syntaxHighlighting.enable = lib.mkDefault true;
     programs.zsh.autosuggestions.enable = lib.mkDefault true;
 
-    environment.systemPackages = with pkgs; [
-      nvd # nix cli tools
-    ];
+    # nh wraps nixos-rebuild, shows the generation diff and replaces nix.gc
+    # --impure is passed in the aliases, nh has no env var for it
+    programs.nh.enable = true;
+    programs.nh.flake = "/home/${userSettings.username}/Nixos";
+    # unlike --delete-older-than, this keeps at least 5 generations after a long break
+    programs.nh.clean.enable = true;
+    programs.nh.clean.extraArgs = "--keep-since 30d --keep 8";
 
     # aliases
     programs.zsh.shellAliases = {
       # nixos specific aliases
-      rebuild = ''
-        sudo nixos-rebuild --impure switch \
-          --flake ~/Nixos\?submodules=1 \
-          && nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link | tail -n 2) \
-          && if [[ "$(readlink /run/booted-system/{initrd,kernel,kernel-modules})" \
-            != "$(readlink /run/current-system/{initrd,kernel,kernel-modules})" ]]; \
-          then echo "Reboot required"; fi
-      '';
-      nixupdate = "sudo -v && nix flake update --flake ~/Nixos && rebuild";
-      nixdiff = "nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)";
+      rebuild = "nh os switch --impure && ${rebootCheck}";
+      nixupdate = "nh os switch --impure --update && ${rebootCheck}";
       nixdev = "nix develop --command zsh";
       openport = "sudo nixos-firewall-tool open tcp";
 
