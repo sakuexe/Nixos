@@ -5,7 +5,6 @@
 }:
 let
   cfg = config.wallpaper;
-  hasPlasmaManager = builtins.hasAttr "plasma" config.programs;
 
   filename = if cfg.ultrawide then "nixos_logo_ultrawide.svg" else "nixos_logo.svg";
   width = if cfg.ultrawide then 5120 else 2560;
@@ -123,11 +122,11 @@ in
         </svg>
       '';
 
-    # add the wallpaper to kde if plasma manager exists
-    programs = lib.optionalAttrs hasPlasmaManager {
-      plasma.enable = true;
-      plasma.workspace.wallpaper = "${config.xdg.configHome}/${filename}";
-      plasma.workspace.wallpaperBackground.blur = true;
+    # add the wallpaper to kde (plasma-manager is added to every host in flake.nix)
+    programs.plasma = {
+      enable = true;
+      workspace.wallpaper = "${config.xdg.configHome}/${filename}";
+      workspace.wallpaperBackground.blur = true;
     };
   };
 }

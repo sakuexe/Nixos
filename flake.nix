@@ -60,80 +60,61 @@
           })
         ];
       };
+
+      # unstable selects nixpkgs and home-manager together (they must match)
+      mkHost =
+        {
+          hostname,
+          unstable ? false,
+          extraModules ? [ ],
+        }:
+        let
+          nixpkgs' = if unstable then nixpkgs-unstable else nixpkgs;
+          home-manager' = if unstable then inputs.home-manager-unstable else home-manager;
+          specialArgs = { inherit inputs userSettings hostname; };
+        in
+        nixpkgs'.lib.nixosSystem {
+          inherit specialArgs;
+          modules = extraModules ++ [
+            ./machines/common.nix
+            ./machines/${hostname}/configuration.nix
+            ./modules
+            (unstableOverlay unstable)
+
+            # home manager
+            home-manager'.nixosModules.home-manager
+            {
+              home-manager.extraSpecialArgs = specialArgs;
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "hm-backup";
+              # plasma-manager does nothing unless programs.plasma.enable is set
+              home-manager.sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
+              home-manager.users.${userSettings.username} = import ./machines/${hostname}/home.nix;
+            }
+          ];
+        };
     in
     {
-
-      # the rec keyword makes the set into a recursive set - this means that the values can reference each other
-      # https://nix.dev/manual/nix/2.17/language/constructs
-      # desktop pc - using the unstable branch of nixos
-      nixosConfigurations.ringtail = nixpkgs-unstable.lib.nixosSystem rec {
-        specialArgs = { inherit inputs userSettings; };
-
-        modules = [
-          ./machines/ringtail/configuration.nix
-          (unstableOverlay true)
-
-          # home manager
-          inputs.home-manager-unstable.nixosModules.home-manager
-          {
-            home-manager.extraSpecialArgs = specialArgs;
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "hm-backup";
-            home-manager.sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
-            home-manager.users."${specialArgs.userSettings.username}" = import ./machines/ringtail/home.nix;
-          }
-        ];
+      nixosConfigurations = {
+        # desktop pc - using the unstable branch of nixos
+        ringtail = mkHost {
+          hostname = "ringtail";
+          unstable = true;
+        };
+        # virtual machine for testing
+        nixos-vm = mkHost { hostname = "nixos-vm"; };
+        # wsl (for the work windows laptop)
+        wsl = mkHost {
+          hostname = "wsl";
+          extraModules = [ inputs.nixos-wsl.nixosModules.default ];
+        };
       };
 
-      # wsl (for the work windows laptop)
-      nixosConfigurations.wsl = nixpkgs.lib.nixosSystem rec {
-        specialArgs = { inherit inputs userSettings; };
-        system = "x86_64-linux";
-
-        modules = [
-          inputs.nixos-wsl.nixosModules.default
-          ./machines/wsl/configuration.nix
-          ./modules
-          (unstableOverlay false)
-
-          # home manager
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.extraSpecialArgs = specialArgs;
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "hm-backup";
-            home-manager.users."${specialArgs.userSettings.username}" = import ./machines/wsl/home.nix;
-          }
-        ];
-      };
-      # virtual machines
-      nixosConfigurations.nixos-vm = nixpkgs.lib.nixosSystem rec {
-        specialArgs = { inherit inputs userSettings; };
-
-        modules = [
-          ./machines/nixos-vm/configuration.nix
-          ./modules
-          (unstableOverlay false)
-
-          # home manager
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.extraSpecialArgs = specialArgs;
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "hm-backup";
-            home-manager.sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
-            home-manager.users."${specialArgs.userSettings.username}" = import ./machines/nixos-vm/home.nix;
-          }
-        ];
-      };
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
 
       # installation script
       # https://ertt.ca/nix/shell-scripts/
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
-
       packages.x86_64-linux.install =
         let
           pkgs = nixpkgs.legacyPackages.x86_64-linux;

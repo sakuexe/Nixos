@@ -9,9 +9,7 @@
 
 {
   # the NixOS-WSL module is imported from the flake input (see flake.nix)
-  imports = [
-    ../../modules
-  ];
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   # wsl modules
   wsl.enable = true;
@@ -31,22 +29,7 @@
   keyboard.enable = false;
   docker.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users."${userSettings.username}" = {
-    isNormalUser = true;
-    description = userSettings.description;
-    extraGroups = [ "wheel" ];
-    shell = pkgs.zsh;
-  };
   users.groups.plugdev.members = [ userSettings.username ];
-
-  # system-wide neovim as $EDITOR, so root (sudo, systemctl edit) gets it too.
-  # the user's configured neovim comes from home-manager (homemodules/dotfiles.nix)
-  programs.neovim.enable = true;
-  programs.neovim.defaultEditor = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -75,12 +58,6 @@
       IdentityFile ~/.ssh/id_ed25519_sk_rk
       IdentitiesOnly yes
   '';
-
-  # Enable flakes
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
 
   # hard link identical store files, on a timer instead of during every build
   nix.optimise.automatic = true;
