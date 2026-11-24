@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  userSettings,
   ...
 }:
 
@@ -19,5 +20,7 @@
       virtiofsd
     ];
     programs.virt-manager.enable = true;
+
+    users.users."${userSettings.username}".extraGroups = [ "libvirtd" ];
   };
 }

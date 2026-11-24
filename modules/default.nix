@@ -14,7 +14,6 @@
     ./docker.nix
     ./virtualization.nix
     ./hyprland.nix
-    ./scheduler.nix
     ./flatpak.nix
     ./syncthing.nix
   ];
@@ -29,7 +28,6 @@
   docker.enable = lib.mkDefault false;
   virtualization.enable = lib.mkDefault false;
   hyprland.enable = lib.mkDefault false;
-  scheduler.enable = lib.mkDefault false;
   flatpak.enable = lib.mkDefault false;
   syncthing.enable = lib.mkDefault false;
 }

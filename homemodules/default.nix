@@ -2,6 +2,7 @@
   pkgs,
   lib,
   userSettings,
+  osConfig,
   ...
 }:
 {
@@ -47,7 +48,8 @@
   };
 
   # automatically start virt-manager network
-  dconf.settings = lib.mkDefault {
+  # (osConfig is the NixOS config of the host, passed in by the home-manager NixOS module)
+  dconf.settings = lib.mkIf (osConfig.virtualization.enable or false) {
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = [ "qemu:///system" ];
       uris = [ "qemu:///system" ];

@@ -18,19 +18,14 @@
 
     services.displayManager.defaultSession = lib.mkForce "hyprland-uwsm";
 
-    environment.sessionVariables = {
-      # hint electron apps to use Wayland
-      NIXOS_OZONE_WL = "1";
-      LIBVA_DRIVER_NAME = "nvidia";
-      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    };
+    # hint electron apps to use Wayland
+    environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
     # enable screensharing
+    # (programs.hyprland already adds xdg-desktop-portal-hyprland)
     xdg.portal = {
-      enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
-        xdg-desktop-portal-hyprland
         xdg-desktop-portal-gnome
       ];
       config.common = {
@@ -40,7 +35,6 @@
       };
     };
 
-    xdg.mime.enable = true;
     xdg.mime.defaultApplications = {
       "application/pdf" = "firefox.desktop";
       "image/svg+xml" = "firefox.desktop";
@@ -52,15 +46,8 @@
       # "video/webm" = "vlc.desktop";
     };
 
-    programs.dconf.enable = true;
-
     # gvfs provides the udisks2 volume monitor nautilus needs to list/mount drives
     # (normally enabled by the gnome desktop module, which isn't used here)
     services.gvfs.enable = true;
-
-    environment.pathsToLink = [
-      "/share/applications"
-      "/share/xdg-desktop-portal"
-    ];
   };
 }

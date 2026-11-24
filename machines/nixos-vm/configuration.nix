@@ -1,5 +1,4 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
+# Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 {
@@ -23,17 +22,9 @@
   boot.loader.grub.device = "nodev";
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos-vm"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
+  networking.hostName = "nixos-vm";
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
   time.timeZone = "Europe/Helsinki";
 
   # Select internationalisation properties.
@@ -54,54 +45,34 @@
   # Fonts
   # https://nixos.wiki/wiki/Fonts
   fonts.packages = with pkgs; [
-    fira-code-nerdfont
+    nerd-fonts.fira-code
   ];
 
   fonts.fontconfig.defaultFonts = {
     monospace = [ "Fira Code NF" ];
   };
 
-  # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
-
-  # Enable the KDE Plasma Desktop Environment.
+  # KDE Plasma 6 (wayland only, no X server)
   services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-  # Enable wayland on sddm
   services.displayManager.sddm.wayland.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
+  services.desktopManager.plasma6.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
   # Guest Agent - Paravirtualization
   services.qemuGuest.enable = true;
   services.spice-vdagentd.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."${userSettings.username}" = {
@@ -112,7 +83,6 @@
       "wheel"
     ];
     shell = pkgs.zsh;
-    useDefaultShell = true;
   };
 
   # Define custom groups
@@ -134,7 +104,8 @@
   # Install firefox.
   programs.firefox.enable = true;
 
-  # Install neovim and use it as the default editor
+  # system-wide neovim as $EDITOR, so root (sudo, systemctl edit) gets it too.
+  # the user's configured neovim comes from home-manager (homemodules/dotfiles.nix)
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
 
@@ -174,25 +145,6 @@
     fastfetch
     tmux
   ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # Enable flakes
   nix.settings.experimental-features = [

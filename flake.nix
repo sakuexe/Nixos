@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -69,6 +74,7 @@
         system = "x86_64-linux";
 
         modules = [
+          inputs.nixos-wsl.nixosModules.default
           ./machines/wsl/configuration.nix
           ./modules
 

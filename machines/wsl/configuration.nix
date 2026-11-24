@@ -8,8 +8,8 @@
 { pkgs, userSettings, ... }:
 
 {
+  # the NixOS-WSL module is imported from the flake input (see flake.nix)
   imports = [
-    <nixos-wsl/modules> # include NixOS-WSL modules
     ../../modules
   ];
 
@@ -35,18 +35,13 @@
   users.users."${userSettings.username}" = {
     isNormalUser = true;
     description = userSettings.description;
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "libvirtd"
-    ];
+    extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
-    useDefaultShell = true;
   };
-  users.groups.ringtails.members = [ userSettings.username ];
   users.groups.plugdev.members = [ userSettings.username ];
 
-  # Install neovim and use it as the default editor
+  # system-wide neovim as $EDITOR, so root (sudo, systemctl edit) gets it too.
+  # the user's configured neovim comes from home-manager (homemodules/dotfiles.nix)
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
 

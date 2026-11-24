@@ -26,16 +26,10 @@ in
     home.packages =
       with pkgs;
       [
-        # neovim
-        ripgrep
+        # neovim (ripgrep and wl-clipboard come from homemodules/default.nix)
         gcc15
         gnumake
-        xclip # xorg clipboard manager
-        wl-clipboard # wayland clipboard manager
         tree-sitter
-        # tmux plugins
-        tmuxPlugins.sensible
-        tmuxPlugins.yank
         # prompt (zsh/bash)
         oh-my-posh
         # ai tools (testing out)
@@ -64,8 +58,6 @@ in
         typescript-language-server
         gopls
       ];
-
-    nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
     programs.neovim.enable = true;
     # programs.neovim.extraPackages = with pkgs; [

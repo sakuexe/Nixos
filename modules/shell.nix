@@ -15,7 +15,10 @@
     programs.zsh.enable = lib.mkDefault true;
 
     # plugins
+    # completion files from packages are still linked, but compinit
+    # itself is left to the dotfiles' .zshrc (avoids running it twice)
     programs.zsh.enableCompletion = lib.mkDefault true;
+    programs.zsh.enableGlobalCompInit = lib.mkDefault false;
     programs.zsh.syntaxHighlighting.enable = lib.mkDefault true;
     programs.zsh.autosuggestions.enable = lib.mkDefault true;
 
@@ -30,7 +33,9 @@
         sudo nixos-rebuild --impure switch \
           --flake ~/Nixos\?submodules=1 \
           && nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link | tail -n 2) \
-          && if [[ -f /var/run/reboot-required ]]; then echo "Reboot required"; fi
+          && if [[ "$(readlink /run/booted-system/{initrd,kernel,kernel-modules})" \
+            != "$(readlink /run/current-system/{initrd,kernel,kernel-modules})" ]]; \
+          then echo "Reboot required"; fi
       '';
       nixupdate = "sudo -v && nix flake update --flake ~/Nixos && rebuild";
       nixdiff = "nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)";
@@ -49,8 +54,6 @@
       # https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-snapper.html#proc-snapper-restore-cmdl
       snapperls = "sudo snapper -c home list";
       snapperstatus = "sudo snapper -c home status $(sudo snapper -c home list | awk 'NR>2 {print $1}' | tail -n 1)..0";
-      # TODO: this one does not work yet, fix it later
-      recover = "sudo snapper -c home -v undochange $(echo $1)..0 $2";
     };
   };
 }
