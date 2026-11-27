@@ -37,4 +37,8 @@
 
   # hard link identical store files, on a timer instead of during every build
   nix.optimise.automatic = true;
+
+  # enable if nixdev still redownloads after nh clean; they keep the build-time closure of all GC roots, system-wide
+  # nix.settings.keep-outputs = true;
+  # nix.settings.keep-derivations = true;
 }

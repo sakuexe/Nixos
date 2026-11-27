@@ -41,7 +41,10 @@ in
       # nixos specific aliases
       rebuild = "nh os switch && ${rebootCheck}";
       nixupdate = "nh os switch --update && ${rebootCheck}";
-      nixdev = "nix develop --command zsh";
+      # the profile lives in .git so it is a gc root that nh clean keeps, without touching the work tree
+      nixdev = ''nix develop --profile "$(git rev-parse --absolute-git-dir 2>/dev/null || echo "$PWD")/.devshell" --command zsh'';
+      # drop old generations of every nixdev profile (found through the gc roots), the next nh clean frees them
+      nixdevclean = ''find /nix/var/nix/gcroots/auto -type l -printf '%l\n' | sed -n 's|/\.devshell-[0-9]*-link$|/.devshell|p' | sort -u | while read -r p; do [ -L "$p" ] && nix profile wipe-history --profile "$p"; done'';
       openport = "sudo nixos-firewall-tool open tcp";
 
       # reformat the task manager icons, if they cannot be found (KDE Plasma 6)
