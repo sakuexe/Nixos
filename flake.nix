@@ -1,6 +1,7 @@
 {
   description = "My Home Flake";
   inputs = {
+    self.submodules = true;
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -144,7 +145,7 @@
             git clone --recurse-submodules -j8 https://github.com/sakuexe/Nixos "${userHome}/Nixos"
             cp /etc/nixos/hardware-configuration.nix "${userHome}/Nixos/machines/$CHOICE"
             # rebuild
-            nixos-rebuild switch --impure --flake "${userHome}/Nixos#$CHOICE"
+            nixos-rebuild switch --flake "${userHome}/Nixos#$CHOICE"
             # change the owner of the directory recursively
             chown -R ${userSettings.username} "${userHome}/Nixos"
           '';
@@ -239,12 +240,12 @@
 
             sudo mv /mnt/etc/nixos/hardware-configuration.nix "/mnt${userHome}/Nixos/machines/$CHOICE"
 
-            # the config reads the dotfiles from ${userHome}/Nixos (--impure),
+            # the config reads the dotfiles from ${userHome}/Nixos,
             # so make that path exist on the live system too
             sudo mkdir -p "${userHome}"
             sudo ln -sfn "/mnt${userHome}/Nixos" "${userHome}/Nixos"
 
-            sudo nixos-install --impure --flake "/mnt${userHome}/Nixos#$CHOICE"
+            sudo nixos-install --flake "/mnt${userHome}/Nixos#$CHOICE"
           '';
         };
     };
