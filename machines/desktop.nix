@@ -40,7 +40,6 @@
 
   # KDE Plasma 6 (wayland only, no X server)
   services.displayManager.sddm.enable = lib.mkDefault true;
-  services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = lib.mkDefault true;
 
   # Enable automatic login for the user.
