@@ -77,7 +77,7 @@ in
     xdg.configFile = lib.mapAttrs (name: _: {
       source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/${name}";
       recursive = true;
-    }) (lib.filterAttrs (name: type: type == "directory" && name != "pi") (builtins.readDir dotfiles));
+    }) (lib.filterAttrs (name: type: type == "directory" && name != "pi") (builtins.readDir ../dotfiles));
 
     # add .zshenv to home, it works as an entrypoint to zsh config
     home.file.".zshenv".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/zsh/.zshenv";

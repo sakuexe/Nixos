@@ -30,7 +30,6 @@ in
     programs.zsh.autosuggestions.enable = lib.mkDefault true;
 
     # nh wraps nixos-rebuild, shows the generation diff and replaces nix.gc
-    # --impure is passed in the aliases, nh has no env var for it
     programs.nh.enable = true;
     programs.nh.flake = "/home/${userSettings.username}/Nixos";
     # unlike --delete-older-than, this keeps at least 8 generations after a long break
@@ -40,8 +39,8 @@ in
     # aliases
     programs.zsh.shellAliases = {
       # nixos specific aliases
-      rebuild = "nh os switch --impure && ${rebootCheck}";
-      nixupdate = "nh os switch --impure --update && ${rebootCheck}";
+      rebuild = "nh os switch && ${rebootCheck}";
+      nixupdate = "nh os switch --update && ${rebootCheck}";
       nixdev = "nix develop --command zsh";
       openport = "sudo nixos-firewall-tool open tcp";
 
