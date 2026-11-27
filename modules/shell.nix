@@ -11,6 +11,9 @@ let
     if [[ "$(readlink /run/booted-system/{initrd,kernel,kernel-modules})" \
       != "$(readlink /run/current-system/{initrd,kernel,kernel-modules})" ]]; \
     then echo "Reboot required"; fi'';
+
+  # drop old generations of every nixdev profile (found through the gc roots), the next nh clean frees them
+  devshellClean = ''find /nix/var/nix/gcroots/auto -type l -printf '%l\n' | sed -n 's|/\.devshell-[0-9]*-link$|/.devshell|p' | sort -u | while read -r p; do [ -L "$p" ] || continue; nix profile wipe-history --profile "$p"; done'';
 in
 {
   options.shell = {
@@ -36,6 +39,19 @@ in
     programs.nh.clean.enable = true;
     programs.nh.clean.extraArgs = "--keep-since 30d --keep 8";
 
+    # runs right before every nh clean, so the old nixdev generations are freed in the same pass
+    systemd.services.nixdev-clean = {
+      description = "Remove old nixdev profile generations";
+      wantedBy = [ "nh-clean.service" ];
+      before = [ "nh-clean.service" ];
+      path = [ config.nix.package ];
+      script = devshellClean;
+      serviceConfig = {
+        Type = "oneshot";
+        User = userSettings.username;
+      };
+    };
+
     # aliases
     programs.zsh.shellAliases = {
       # nixos specific aliases
@@ -43,8 +59,7 @@ in
       nixupdate = "nh os switch --update && ${rebootCheck}";
       # the profile lives in .git so it is a gc root that nh clean keeps, without touching the work tree
       nixdev = ''nix develop --profile "$(git rev-parse --absolute-git-dir 2>/dev/null || echo "$PWD")/.devshell" --command zsh'';
-      # drop old generations of every nixdev profile (found through the gc roots), the next nh clean frees them
-      nixdevclean = ''find /nix/var/nix/gcroots/auto -type l -printf '%l\n' | sed -n 's|/\.devshell-[0-9]*-link$|/.devshell|p' | sort -u | while read -r p; do [ -L "$p" ] && nix profile wipe-history --profile "$p"; done'';
+      nixdevclean = devshellClean;
       openport = "sudo nixos-firewall-tool open tcp";
 
       # reformat the task manager icons, if they cannot be found (KDE Plasma 6)
