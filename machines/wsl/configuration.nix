@@ -14,7 +14,6 @@
   # wsl modules
   wsl.enable = true;
   wsl.defaultUser = userSettings.username;
-  networking.resolvconf.enable = false;
   wsl.usbip = {
     enable = true;
     autoAttach = [
@@ -57,8 +56,6 @@
       IdentityFile ~/.ssh/id_ed25519_sk_rk
       IdentitiesOnly yes
   '';
-
-  nix.settings.download-buffer-size = 67108864 * 2;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
